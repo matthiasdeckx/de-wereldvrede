@@ -1,0 +1,21 @@
+title: Work
+
+options:
+  changeSlug: false
+
+tabs:
+  projects:
+    label: Projects
+    icon: folder
+    sections:
+      projects:
+        extends: sections/work
+        headline: Projects
+        help: Add, edit, and reorder all projects shown on the Work page.
+  display:
+    extends: tabs/display
+    fields:
+      page_theme:
+        default: light
+  seo:
+    extends: tabs/seo

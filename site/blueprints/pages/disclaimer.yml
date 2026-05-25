@@ -1,0 +1,18 @@
+title: Disclaimer
+
+tabs:
+  content:
+    label: Content
+    fields:
+      body:
+        label: Body
+        type: textarea
+        size: large
+        # buttons: false
+        help: Policy or legal disclaimer text.
+  display:
+    extends: tabs/display
+  files:
+    extends: tabs/files
+  seo:
+    extends: tabs/seo

@@ -1,0 +1,72 @@
+label: SEO & Sharing
+icon: search
+columns:
+  - width: 2/3
+    fields:
+      headline_seo:
+        label: SEO Settings
+        type: headline
+        numbered: false
+      info_seo:
+        label: false
+        type: info
+        theme: gray
+        text: |
+          Specify how the page's title and description look in search engine results.
+      seo_title:
+        label: Title tag
+        type: text
+        size: small
+        help: Recommended to keep it shorter than 60 characters. Falls back to the page title by default.
+      seo_description:
+        label: Meta description
+        type: textarea
+        size: small
+        buttons: false
+        help: Optimal description length is 155 to 300 characters. Please note that search engines will truncate long descriptions.
+      headline_og:
+        label: Open Graph Settings
+        type: headline
+        numbered: false
+      info_og:
+        label: false
+        type: info
+        theme: gray
+        text: |
+          The info that shows up when sharing content on social media (Facebook, Twitter, Pinterest...) and messaging apps (iMessage, WhatsApp...)
+      og_image:
+        label: Open Graph image
+        empty: Select image
+        type: files
+        multiple: false
+        layout: cards
+        size: medium
+        query: page.images
+        help: Image used when sharing on social media.
+      og_title_toggle:
+        label: Open Graph Title
+        type: toggle
+        default: true
+        text:
+            - Same as SEO title
+            - Same as SEO title
+      og_title:
+        when:
+          og_title_toggle: false
+        label: Title
+        type: text
+        size: small
+      og_description_toggle:
+        label: Open Graph Description
+        type: toggle
+        default: true
+        text:
+            - Same as SEO description
+            - Same as SEO description
+      og_description:
+        when:
+          og_description_toggle: false
+        label: Description
+        type: textarea
+        size: small
+        buttons: false

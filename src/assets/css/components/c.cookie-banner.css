@@ -1,0 +1,32 @@
+.c-cookie-banner {
+  position: fixed;
+  left: var(--page-gutter);
+  right: var(--page-gutter);
+  bottom: 2rem;
+  z-index: 150;
+  padding: 1.6rem 2rem;
+}
+
+.c-cookie-banner__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.c-cookie-banner__actions {
+  display: flex;
+  gap: 1.2rem;
+}
+
+.c-cookie-banner__actions button {
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+}
+
+.c-cookie-banner__actions button:first-child {
+  font-weight: 700;
+}

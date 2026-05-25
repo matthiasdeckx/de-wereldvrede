@@ -1,0 +1,28 @@
+.c-creators {
+  display: grid;
+  place-items: center;
+  padding: 0 var(--page-gutter);
+}
+
+.c-creators-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.c-creators-list__name {
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  display: block;
+  margin-inline: auto;
+  padding: 0;
+  text-align: center;
+  width: fit-content;
+  /* b.forms.css sets line-height: normal !important on all buttons */
+  line-height: var(--line-height--xxl) !important;
+}
+
+.c-creators-list__name:hover { opacity: 0.6; }

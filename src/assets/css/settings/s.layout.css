@@ -1,0 +1,43 @@
+:root {
+  --banner-height: 5.5rem;
+  --page-gutter: 4.8rem;
+  --column-gutter: 1.2rem;
+  --grid-columns-count: 12;
+  --max-header-width: 58.4rem;
+  --max-container-width: 100%;
+  --max-text-width: 72rem;
+
+  --margin: 1.2rem;
+  --margin-s: var(--margin);
+  --margin-m: calc(var(--margin) * 2);
+  --margin-l: calc(var(--margin) * 3);
+  --margin-outer: var(--page-gutter);
+
+  --grid-columns: repeat(var(--grid-columns-count), 1fr);
+
+  --floating-ui-height: 5.5rem;
+  --floating-header-height: var(--floating-ui-height);
+  --site-main-padding-top: calc(var(--margin-outer) * 2 + var(--floating-header-height));
+  --floating-ui-radius: 0.8rem;
+  --floating-ui-top: var(--margin-outer);
+  --floating-ui-blur: blur(10px);
+  --floating-ui-bg: var(--color-surface-floating);
+
+  --page-gutter: 1.2rem;
+  --floating-ui-top: 1.2rem;
+
+  @media (--s) {
+    --page-gutter: 2.7rem;
+    --floating-ui-top: 2.7rem;
+  }
+
+  @media (--s-m) {
+    --page-gutter: 3.6rem;
+    --floating-ui-top: 3.6rem;
+  }
+
+  @media (--m) {
+    --page-gutter: 4.8rem;
+    --floating-ui-top: 4.8rem;
+  }
+}

@@ -1,0 +1,129 @@
+title: Home
+
+tabs:
+  content:
+    label: Content
+    fields:
+      hero_title:
+        label: Hero title
+        type: text
+        default: HOME OF CREATORS
+      hero_video_source:
+        label: Hero video source
+        type: radio
+        default: file
+        options:
+          vimeo: Vimeo URL
+          file: Uploaded file
+      hero_vimeo_url:
+        label: Hero Vimeo URL
+        type: url
+        when:
+          hero_video_source: vimeo
+      hero_video:
+        label: Hero video (desktop)
+        type: files
+        multiple: false
+        accept:
+          mime: video/*
+        when:
+          hero_video_source: file
+      hero_video_mobile:
+        label: Hero video (mobile)
+        type: files
+        multiple: false
+        accept:
+          mime: video/*
+        when:
+          hero_video_source: file
+      features:
+        label: Feature slides
+        type: structure
+        fields:
+          feature_mode:
+            label: Slide source
+            type: radio
+            default: custom
+            options:
+              project: Project
+              custom: Custom
+          linked_project:
+            label: Project
+            type: pages
+            query: site.find('work').children.listed
+            max: 1
+            when:
+              feature_mode: project
+          background_image:
+            label: Background image
+            type: files
+            multiple: false
+            accept:
+              mime: image/*
+            when:
+              feature_mode: custom
+          category:
+            label: Category tag
+            type: text
+            when:
+              feature_mode: custom
+          title:
+            label: Title
+            type: text
+            when:
+              feature_mode: custom
+          credits_label:
+            label: Credits label
+            type: text
+            placeholder: Eg. Writer & director
+            when:
+              feature_mode: custom
+          credits:
+            label: Credits names
+            type: text
+            when:
+              feature_mode: custom
+          button_type:
+            label: Button
+            type: radio
+            default: url
+            options:
+              url: Button with URL
+              coming_soon: Button with no URL (Coming soon)
+            when:
+              feature_mode: custom
+          button_url:
+            label: Button URL
+            type: url
+            when:
+              feature_mode: custom
+              button_type: url
+          trailer_source:
+            label: Trailer source
+            type: radio
+            default: none
+            options:
+              none: None
+              vimeo: Vimeo
+              file: File
+            when:
+              feature_mode: custom
+          trailer_vimeo:
+            label: Trailer Vimeo URL
+            type: url
+            when:
+              feature_mode: custom
+              trailer_source: vimeo
+          trailer_file:
+            label: Trailer file
+            type: files
+            multiple: false
+            accept:
+              mime: video/*
+            when:
+              feature_mode: custom
+              trailer_source: file
+  display:
+    extends: tabs/display
+  seo:
+    extends: tabs/seo

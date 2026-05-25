@@ -1,0 +1,49 @@
+.u-gradient:before {
+  content: "";
+  position: absolute;
+  display: block;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 0;
+  height: 12.5em;
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity var(--anim-speed) var(--anim-ease);
+}
+
+.u-gradient--top:before {
+  top: 0;
+}
+
+.u-gradient--bottom:before {
+  bottom: 0;
+}
+
+.u-gradient--totop:before {
+  background: linear-gradient(
+    to top,
+    var(--color-gradient-from) 12.5%,
+    var(--color-gradient-to)
+  );
+}
+
+.u-gradient--tobottom:before {
+  background: linear-gradient(
+    to bottom,
+    var(--color-gradient-from) 12.5%,
+    var(--color-gradient-to)
+  );
+}
+
+.u-gradient--toggle:before {
+  opacity: 0;
+}
+
+.u-gradient--toggle.has-gradient:before {
+  opacity: 1;
+}
+
+.u-gradient--toggle.has-gradient--absolute:before {
+  position: absolute;
+}

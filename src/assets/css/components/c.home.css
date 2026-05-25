@@ -1,0 +1,210 @@
+.c-home {
+  height: 100dvh;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+}
+
+.c-home-section {
+  position: relative;
+  min-height: 100dvh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  overflow: hidden;
+}
+
+.c-home-hero__media,
+.c-home-hero__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.c-home-feature__bg {
+  position: absolute;
+  inset: 0;
+  top: -12%;
+  height: 124%;
+  z-index: 0;
+  background-image: var(--feature-bg);
+  background-size: cover;
+  background-position: var(--feature-bg-position, center);
+  background-repeat: no-repeat;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c-home-feature__bg {
+    top: 0;
+    height: 100%;
+    will-change: auto;
+  }
+}
+
+.c-home-hero__content,
+.c-home-feature__content {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  place-content: center;
+  min-height: 100dvh;
+  text-align: center;
+  gap: 1.2rem;
+  padding: 8rem var(--page-gutter) 4rem;
+}
+
+.c-home-feature__curtain {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+}
+
+.c-home-feature__content {
+  gap: 2.4rem;
+  padding-top: calc(var(--floating-ui-top) + var(--floating-ui-height) + 2rem);
+}
+
+.c-home-feature__category {
+  margin: 0;
+}
+
+.c-home-feature__title {
+  margin: 0;
+  max-width: min(90vw, 72rem);
+}
+
+.c-home-feature__logo {
+  display: block;
+  max-width: min(80vw, 48rem);
+  max-height: 14rem;
+  width: auto;
+  height: auto;
+  margin-inline: auto;
+  object-fit: contain;
+}
+
+.c-home-feature__credits {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.c-home-feature__credits-label,
+.c-home-feature__credits-names {
+  margin: 0;
+}
+
+.c-home-feature__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.8rem;
+  padding: 1.2rem 2.4rem;
+  border: 0;
+  border-radius: var(--floating-ui-radius);
+  background: rgba(0, 0, 0, 0.35);
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.c-home-feature__cta:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.c-home-feature__cta.is-disabled {
+  cursor: default;
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.c-home-feature.has-trailer {
+  cursor: pointer;
+}
+
+.c-home-feature__trailer-cursor {
+  position: absolute;
+  left: var(--trailer-cursor-x, 0);
+  top: var(--trailer-cursor-y, 0);
+  z-index: 3;
+  margin: 0;
+  padding: 0;
+  color: inherit;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.c-home-feature__trailer-cursor.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.c-home-feature__trailer-cursor.is-visible.is-over-content {
+  opacity: 0;
+}
+
+.c-home-hero__sound {
+  position: absolute;
+  right: var(--page-gutter);
+  bottom: 4rem;
+  z-index: 3;
+  background: var(--floating-ui-bg);
+  backdrop-filter: var(--floating-ui-blur);
+  border: 0;
+  border-radius: var(--floating-ui-radius);
+  color: inherit;
+  cursor: pointer;
+  padding: 1rem 1.4rem;
+}
+
+.c-home-hero { cursor: pointer; }
+.c-home-hero.is-paused { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='white'%3E%3Cpolygon points='8,5 19,12 8,19'/%3E%3C/svg%3E") 12 12, pointer; }
+
+.c-home-footer { min-height: auto; scroll-snap-align: end; }
+
+.c-home-scroll-indicator {
+  position: fixed;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: grid;
+  gap: 0.8rem;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+.c-home-scroll-indicator.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.c-home-scroll-indicator__dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.3);
+}
+
+.c-home-scroll-indicator__dot.is-active {
+  background: #fff;
+}
+
+.c-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-button-background);
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}

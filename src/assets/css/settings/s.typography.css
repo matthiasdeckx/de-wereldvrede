@@ -1,0 +1,56 @@
+:root {
+  --sans-serif-fallback: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+  --font-display: 'ABC Diatype Condensed', var(--sans-serif-fallback);
+  --font-body: 'ABC Diatype Regular', var(--sans-serif-fallback);
+  --font-mono: 'ABC Diatype Mono', ui-monospace, monospace;
+
+  --main-font: var(--font-body);
+  --title-font: var(--font-display);
+
+  --text-body: 1.6rem;
+  --leading-body: 2.2rem;
+  --text-body-lg: 2.4rem;
+  --leading-body-lg: 3rem;
+  --text-ui: 1.2rem;
+  --leading-ui: 1.5rem;
+
+  --font-size--s: var(--text-ui);
+  --line-height--s: var(--leading-ui);
+  --letter-spacing--s: 0.04em;
+
+  --font-size--m: var(--text-body);
+  --line-height--m: var(--leading-body);
+  --letter-spacing--m: 0;
+
+  --font-size--l: 2.7rem;
+  --line-height--l: 1.1;
+  --letter-spacing--l: 0;
+
+  --font-size--xl: 3.6rem;
+  --line-height--xl: 1;
+  --letter-spacing--xl: 0;
+
+  --font-size--xxl: 7.2rem;
+  --line-height--xxl: 0.95;
+  --letter-spacing--xxl: 0;
+
+  --font-size--body-lg: var(--text-body-lg);
+  --line-height--body-lg: var(--leading-body-lg);
+  --letter-spacing--body-lg: 0;
+
+  @media (--s-m) {
+    --font-size--l: 3.2rem;
+    --font-size--xl: 4.8rem;
+  }
+
+  @media (--l) {
+    --font-size--xl: 5.6rem;
+  }
+
+  @media (--xl) {
+    --font-size--l: 3.2rem;
+    --font-size--xl: 6.4rem;
+    --font-size--xxl: 9.6rem;
+  }
+}

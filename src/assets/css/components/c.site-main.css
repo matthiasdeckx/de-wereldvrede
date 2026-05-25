@@ -1,0 +1,32 @@
+#main {
+  width: 100%;
+}
+
+.c-site-main,
+.c-project {
+  width: 100%;
+  min-height: 100dvh;
+}
+
+.c-site-main {
+  z-index: 1;
+}
+
+.site-page .c-site-main {
+  padding-top: 16rem;
+}
+
+@media (--s) {
+  .site-page .c-site-main {
+    padding-top: var(--site-main-padding-top);
+  }
+}
+
+.site-page-home .c-site-main {
+  padding-top: 0;
+}
+
+.site-page-home .c-site-main,
+.site-page-home .c-project {
+  min-height: auto;
+}

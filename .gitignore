@@ -1,0 +1,77 @@
+# System files
+# ------------
+
+Icon
+.DS_Store
+
+# Temporary files
+# ---------------
+content/*
+content
+content copy/*
+content copy
+content_backup/*
+contentt_backup
+
+/media/*
+!/media/index.html
+
+# -------------SECURITY-------------
+# NEVER publish these files via Git!
+# -------------SECURITY-------------
+
+# Cache Files
+# ---------------
+
+/site/cache/*
+!/site/cache/index.html
+
+# Accounts
+# ---------------
+
+/site/accounts/*
+!/site/accounts/index.html
+
+# Sessions
+# ---------------
+
+/site/sessions/*
+!/site/sessions/index.html
+
+# License
+# ---------------
+/site/config/.license
+
+
+# Project files
+# ---------------
+
+node_modules/
+bower_components/
+.ftppass
+sftpCache.json
+.tmp
+.sass-cache
+/vendor
+# xCode noise
+# ---------------
+
+*.mode1
+*.mode1v3
+*.mode2v3
+*.perspective
+*.perspectivev3
+*.pbxuser
+*.xcworkspace
+xcuserdata
+
+# svn & cvs
+# ---------------
+
+.svn
+CVS
+
+# Ignore log files
+# ---------------
+
+/logs/*

@@ -1,0 +1,19 @@
+.c-section {
+  margin-bottom: calc(var(--margin) * 3);
+}
+
+.c-section__header {
+  margin-bottom: var(--margin);
+}
+
+.c-section-label,
+.c-section__title {
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.c-section-title,
+.c-section__title {
+  text-transform: uppercase;
+  margin-bottom: var(--margin);
+}

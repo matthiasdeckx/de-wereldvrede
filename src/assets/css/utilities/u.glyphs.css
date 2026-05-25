@@ -1,0 +1,160 @@
+.u-has-glyph,
+.u-has-glyph-before {
+  &:before {
+    font-size: 95%;
+    display:inline-block;
+    width: 0.7em;
+
+    transform: translateX(0em);
+    margin-right: 0.5em;
+    margin-top: auto;
+    margin-bottom: auto;
+
+    transition: transform var(--anim-speed) var(--anim-ease);
+    /* font-size: 100%;
+    display:inline-block;
+    width: 0.7em;
+    transform: translateX(-0.3em);
+    margin-right: 0.3em;
+    margin-top: 0px;
+    margin-bottom: auto; */
+  }
+  &--left {
+    &:before {
+      content: '←';
+    }
+  }
+  &--right {
+    &:before {
+      content: '→';
+    }
+  }
+  &--up {
+    &:before {
+      content: '↑';
+    }
+  }
+  &--down {
+    &:before {
+      content: '↓';
+    }
+  }
+  &--upper-left {
+    &:before {
+      content: '↖';
+    }
+  }
+  &--upper-right {
+    &:before {
+      content: '↗';
+    }
+  }
+  &--lower-right {
+    &:before {
+      content: '↘';
+    }
+  }
+  &--lower-left {
+    &:before {
+      content: '↙';
+    }
+  }
+  &--plus,
+  &--more, {
+    &:before {
+      content: '+';
+    	@include transform(rotate(0deg));
+      transform: rotate(0deg);
+    }
+    &:hover {
+  		&:before {
+          transform: rotate(90deg);
+  		}
+    }
+  }
+  &--minus,
+  &--less {
+    &:before {
+      content: '−';
+    }
+  }
+}
+
+.u-has-glyph-before:hover {
+  &:before {
+    /* transform: translateX(0.4em); */
+    transform: translateX(-0.2em);
+  }
+}
+
+.u-has-glyph-after {
+  &:after {
+    transition: transform var(--anim-speed) var(--anim-ease);
+    font-size: 95%;
+    display:inline-block;
+    width: 0.7em;
+
+    transform: translateX(0em);
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+  &--left {
+    &:after {
+      content: '←';
+    }
+  }
+  &--right {
+    &:after {
+      content: '→';
+    }
+  }
+  &--up {
+    &:after {
+      content: '↑';
+    }
+  }
+  &--down {
+    &:after {
+      content: '↓';
+    }
+  }
+  &--upper-left {
+    &:after {
+      content: '↖';
+    }
+  }
+  &--upper-right {
+    &:after {
+      content: '↗';
+    }
+  }
+  &--lower-right {
+    &:after {
+      content: '↘';
+    }
+  }
+  &--lower-left {
+    &:after {
+      content: '↙';
+    }
+  }
+  &--plus,
+  &--more, {
+    &:after {
+      content: '+';
+    }
+  }
+  &--minus,
+  &--less {
+    &:after {
+      content: '−';
+    }
+  }
+}
+
+
+.u-has-glyph-after:hover {
+  &:after {
+    transform: translateX(0.2em);
+  }
+}

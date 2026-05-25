@@ -1,0 +1,41 @@
+.c-collapsible {
+  max-height: var(--collapsible-max, 500px);
+  overflow: hidden;
+  position: relative;
+}
+
+.c-collapsible.is-expanded {
+  max-height: none;
+}
+
+.c-collapsible__toggle {
+  margin-top: var(--margin);
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  text-align: left;
+}
+
+.c-collapsible__toggle[hidden] {
+  display: none;
+}
+
+.c-collapsible::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 80px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, var(--color-background) 100%);
+  pointer-events: none;
+  opacity: 1;
+  transition: opacity var(--anim-speed-fast) var(--anim-ease);
+}
+
+.c-collapsible.is-expanded::after {
+  opacity: 0;
+}

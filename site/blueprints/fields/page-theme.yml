@@ -1,0 +1,7 @@
+type: radio
+label: Page style
+default: dark
+options:
+  dark: Dark — white on black
+  light: Light — black on white
+help: Controls the page background and text colours.

@@ -1,0 +1,18 @@
+title: News
+
+tabs:
+  articles:
+    label: Articles
+    icon: page
+    sections:
+      articles:
+        extends: sections/news
+        headline: Articles
+        help: Articles are sorted by published date (newest first). Set a published date on each article.
+  display:
+    extends: tabs/display
+    fields:
+      page_theme:
+        default: light
+  seo:
+    extends: tabs/seo

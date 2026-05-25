@@ -1,0 +1,149 @@
+title: Site
+unlisted: true
+
+tabs:
+  website:
+    label: Website
+    sections:
+      pages:
+        type: pages
+        template:
+          - home
+          - work
+          - creators
+          - about
+          - news
+          - disclaimer
+      work:
+        extends: sections/work
+        headline: Work
+        help: Shortcut to all projects. Manage them here or open the [Work page](/panel/pages/work).
+        parent: site.find("work")
+      news:
+        extends: sections/news
+        headline: News
+        help: Shortcut to all articles. Manage them here or open the [News page](/panel/pages/news).
+        parent: site.find("news")
+        limit: 15
+  settings:
+    icon: settings
+    label: Settings
+    fields:
+      headline_navigation:
+        label: Navigation
+        type: headline
+      navigation:
+        label: Main navigation
+        type: pages
+        help: Select and reorder pages shown in the header (Work, Creators, About, News).
+      headline_contact:
+        label: Contact & Footer
+        type: headline
+      contact_email_notation:
+        label: Email label
+        type: text
+        width: 1/2
+      contact_email_mailto:
+        label: Email address
+        type: email
+        width: 1/2
+      contact_address_notation:
+        label: Address label
+        type: text
+        width: 1/2
+      contact_address:
+        label: Address
+        type: textarea
+        width: 1/2
+      contact_address_url:
+        label: Address link
+        type: url
+      contact_vat:
+        label: VAT number
+        type: text
+      contact_phone:
+        label: Phone
+        type: tel
+      social_nav:
+        type: structure
+        label: Social links
+        fields:
+          title:
+            label: Title
+            type: text
+          label:
+            label: Screen reader label
+            type: text
+          link:
+            label: Link
+            type: link
+      footer_team:
+        type: structure
+        label: Footer team list
+        fields:
+          name:
+            label: Name
+            type: text
+      support_text:
+        label: Support text
+        type: text
+        default: Developed with the support of
+        width: 1/2
+      support_logo:
+        label: Support logo
+        type: files
+        multiple: false
+        accept:
+          mime: image/*
+        width: 1/2
+      disclaimer_url:
+        label: Disclaimer URL
+        type: url
+      headline_projects:
+        label: Project filters
+        type: headline
+      project_types:
+        label: Project types
+        type: tags
+        help: Used for Work page type filters (Film, Series, etc.)
+      project_statuses:
+        label: Project statuses
+        type: tags
+        help: Used for Work page status filters (Finished, In Development)
+      headline_cookie:
+        label: Cookie consent
+        type: headline
+      cookie_text:
+        label: Cookie banner text
+        type: textarea
+        size: small
+        buttons: false
+  seo:
+    label: SEO & Analytics
+    icon: search
+    fields:
+      seo_prefix:
+        label: Title prefix
+        type: text
+        width: 1/2
+      seo_suffix:
+        label: Title suffix
+        type: text
+        width: 1/2
+      seo_description:
+        label: Meta description
+        type: textarea
+        size: small
+        buttons: false
+      seo_image:
+        label: Open Graph image
+        type: files
+        multiple: false
+      google_analytics_id:
+        label: Google Analytics 4 ID
+        type: text
+      meta_pixel:
+        label: Meta Pixel ID
+        type: text
+  files:
+    extends: tabs/files

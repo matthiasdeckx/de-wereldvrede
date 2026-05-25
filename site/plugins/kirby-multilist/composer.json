@@ -1,0 +1,16 @@
+{
+    "name": "sylvainjule/kirby-multilist",
+    "description": "Quickly manage lists with multiple fields in Kirby",
+    "type": "kirby-plugin",
+    "license": "MIT",
+    "version": "1.1.0",
+    "authors": [
+        {
+            "name": "Sylvain Julé",
+            "email": "contact@sylvain-jule.fr"
+        }
+    ],
+    "require": {
+        "getkirby/composer-installer": "^1.1"
+    }
+}

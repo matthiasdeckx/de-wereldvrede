@@ -1,0 +1,208 @@
+title: Project
+
+status:
+  draft:
+    label: Draft
+    text: Not visible on the site. Only editors with Panel access can see it.
+  unlisted:
+    label: In review
+    text: Hidden from the Work overview. Still reachable via direct URL for preview.
+  listed:
+    label: Published
+    text: Visible on the Work overview and publicly accessible.
+
+tabs:
+  content:
+    label: Content
+    fields:
+      project_type:
+        label: Type
+        type: multiselect
+        options:
+          type: query
+          query: site.project_types.split
+        width: 2/5
+      project_status:
+        label: Status
+        type: multiselect
+        width: 2/5
+        options:
+          type: query
+          query: site.project_statuses.split
+      year:
+        label: Year
+        type: number
+        placeholder: YYYY
+        width: 1/5
+      subtitle:
+        label: Subtitle
+        type: text
+        placeholder: Eg. Writer, Director, Producer
+        help: Shown in the overview on the Work page, under the title.
+      cover:
+        label: Cover image
+        type: files
+        multiple: false
+        accept:
+          mime: image/*
+        help: Shown in the overview on the Work page.
+      hero_image:
+        label: Hero / feature image
+        type: files
+        multiple: false
+        accept:
+          mime: image/*
+      title_type:
+        label: Title display
+        type: radio
+        default: text
+        options:
+          text: Text
+          logo: Logo image
+      title_logo:
+        label: Title logo
+        type: files
+        multiple: false
+        help: Shown at the top of the project page and in feature. Please use a SVG or PNG with transparent background.
+        accept:
+          mime: image/*
+        when:
+          title_type: logo
+      writers_directors:
+        label: Writers & directors
+        type: text
+      intro:
+        label: Intro text
+        type: textarea
+        size: small
+        buttons: false
+      length:
+        label: Length
+        type: text
+        width: 1/2
+      trailer_source:
+        label: Trailer source
+        type: radio
+        default: none
+        options:
+          none: None
+          vimeo: Vimeo
+          file: File
+      trailer_vimeo:
+        label: Trailer Vimeo URL
+        type: url
+        when:
+          trailer_source: vimeo
+      trailer_file:
+        label: Trailer file
+        type: files
+        multiple: false
+        accept:
+          mime: video/*
+        when:
+          trailer_source: file
+      synopsis:
+        label: Synopsis
+        type: textarea
+        size: medium
+        buttons: false
+      credits:
+        label: Credits
+        type: structure
+        fields:
+          role:
+            label: Role
+            type: text
+            width: 1/3
+          names:
+            label: Names
+            type: textarea
+            buttons: false
+            width: 2/3
+      press:
+        label: Press links
+        type: structure
+        fields:
+          title:
+            label: Outlet
+            type: text
+          url:
+            label: URL
+            type: url
+      available_on:
+        label: Available on
+        type: structure
+        fields:
+          medium:
+            label: Medium
+            type: text
+          url:
+            label: URL
+            type: url
+      pull_quote:
+        label: Pull quote
+        type: textarea
+        buttons: false
+      pull_quote_source:
+        label: Quote source
+        type: text
+      featured_quote_heading:
+        label: Featured quote
+        type: headline
+        help: Single quote shown on the project page (above the gallery).
+      featured_quote_text:
+        label: Quote text
+        type: textarea
+        buttons: false
+      featured_quote_source:
+        label: Source / citation
+        type: text
+      featured_quote_stars:
+        label: Stars
+        type: select
+        default: "5"
+        options:
+          "1": "1"
+          "2": "2"
+          "3": "3"
+          "4": "4"
+          "5": "5"
+      featured_quotes_heading:
+        label: Quote carousel
+        type: headline
+        help: Optional. Additional quotes in a carousel below the featured quote. You can use both sections together.
+      featured_quotes:
+        label: Carousel quotes
+        type: structure
+        help: Optional. Add one or more quotes; each row appears in the carousel when filled in.
+        fields:
+          quote:
+            label: Quote text
+            type: textarea
+            buttons: false
+          source:
+            label: Source / citation
+            type: text
+          stars:
+            label: Stars
+            type: select
+            default: "5"
+            options:
+              "1": "1"
+              "2": "2"
+              "3": "3"
+              "4": "4"
+              "5": "5"
+      gallery:
+        label: Gallery images
+        type: files
+        layout: cards
+        multiple: true
+        accept:
+          mime: image/*
+  display:
+    extends: tabs/display
+  files:
+    extends: tabs/files
+  seo:
+    extends: tabs/seo

@@ -1,0 +1,47 @@
+.site-page {
+  background: var(--color-background);
+  color: var(--color-text);
+}
+
+/* Top offset: see c.site-main.css (--site-main-padding-top) */
+
+.site-page-home .c-site-header {
+  position: absolute;
+}
+
+.site-page-home .c-site-main {
+  padding: 0;
+  min-height: 100vh;
+}
+
+.c-page-title {
+  text-transform: uppercase;
+  margin-bottom: calc(var(--margin));
+}
+
+/* Error page: centered title and text */
+.c-error-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-height: 50vh;
+  padding: var(--margin);
+}
+
+.c-error-page__title::before {
+  content: "【";
+}
+
+.c-error-page__title::after {
+  content: "】";
+}
+
+.c-error-page__title {
+  margin-bottom: var(--margin);
+}
+
+.c-error-page__text {
+  max-width: 36em;
+}

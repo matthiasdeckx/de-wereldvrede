@@ -1,0 +1,343 @@
+/* Media
+Base selectors for images, video, audio... */
+
+/*
+1. Make replaced elements `display: block` by default. (https://github.com/mozdevs/cssremedy/issues/14)
+2. Add `vertical-align: middle` to align replaced elements more sensibly by default. (https://github.com/jensimmons/cssremedy/issues/14#issuecomment-634934210)
+   This can trigger a poorly considered lint error in some tools but is included by design.
+*/
+
+img,
+svg,
+video,
+canvas,
+audio,
+iframe,
+embed,
+object {
+  display: block; /* 1 */
+  vertical-align: middle; /* 2 */
+}
+
+/*
+Constrain images and videos to the parent width and preserve their intrinsic aspect ratio. (https://github.com/mozdevs/cssremedy/issues/14)
+*/
+
+/* purgecss start ignore */
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+video {
+  width: 100%;
+  overflow: visible;
+}
+
+figure {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: auto;
+}
+
+figure figcaption {
+  margin-top: 0.5em;
+  /* margin-bottom: var(--margin); */
+  width: 100%;
+  display: block;
+  text-align: left;
+  /* opacity: var(--opacity-text); */
+  font-size: var(--font-size--s);
+  line-height: var(--line-height--s);
+}
+
+img[data-sizes="auto"] {
+  display: block;
+  width: 100%;
+}
+
+img.lazyload,
+img.lazyloading,
+iframe.lazyload,
+iframe.lazyloading,
+video.lazyload,
+video.lazyloading {
+  opacity: 0;
+}
+
+img.lazyloaded,
+video.lazyloaded,
+iframe.lazyloaded {
+  opacity: 1;
+  transition: opacity var(--anim-speed) var(--anim-ease) var(--anim-delay-short), transform var(--anim-speed) var(--anim-ease) var(--anim-delay-medium);
+}
+
+.lazyscale {
+  transform: scale(1.05);
+  transform-origin: center center;
+}
+
+.lazyscale.lazyloaded {
+  transform: scale(1);
+}
+
+body:not(.is-touch) {
+  .has-hoverstate-opacity {
+    transition: opacity var(--anim-speed-fade) var(--anim-ease);
+    &:hover {
+      opacity: 0.6;
+    }
+  }
+}
+
+body:not(.is-touch) {
+  .has-hoverstate-grayscale {
+    transition: all var(--anim-speed-fade) var(--anim-ease);
+    &:hover {
+      filter: gray;
+      -webkit-filter: grayscale(1);
+    }
+  }
+}
+
+body:not(.is-touch) {
+  .has-hoverstate-scale {
+    img,
+    video,
+    embed,
+    iframe {
+      transition: all var(--anim-speed) var(--anim-ease);
+      transform: scale(1);
+    }
+    &:hover {
+      img,
+      video,
+      embed,
+      iframe {
+        transform: scale(1.02);
+      }
+    }
+  }
+
+  .has-hoverstate-gallery {
+      cursor: pointer;
+  }
+  
+}
+
+.m-image-blend-background > img {
+    mix-blend-mode: multiply;
+}
+
+.m-hoverstate-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity var(--anim-speed-fade) var(--anim-ease);
+
+  > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      font-family: "object-fit: cover";
+  }
+}
+
+body:not(.is-touch) {
+  .has-hoverstate-image:hover {
+    .m-hoverstate-image {
+      opacity: 1;
+    }
+  }
+}
+
+.m-image-container,
+.m-video-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.m-embed-video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+}
+
+/* Container for soundcloud embeds */
+.m-embed-container {
+  position: relative;
+  width: 100%;
+}
+
+.m-embed-container iframe {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.m-embed-video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+}
+
+.m-embed-video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+}
+
+.m-embed-video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Responsive iframe embeds with intrinsic aspect ratio (oEmbed width/height) */
+.m-embed-responsive {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--embed-aspect-ratio, 16 / 9);
+  background: #000;
+  overflow: hidden;
+}
+
+.m-embed-responsive iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background-color: #000;
+}
+
+
+.m-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  opacity: 1;
+  transition: opacity var(--anim-speed) var(--anim-ease);
+  object-fit: cover;
+}
+
+/* Ensure actual image is above placeholder - only when placeholder exists */
+.m-image-container:has(.m-placeholder) .o-image,
+.m-image-container:has(.m-placeholder) .o-video {
+  position: relative;
+  z-index: 2;
+}
+
+/* Hide placeholder when image is loaded - using :has() for modern browsers */
+.m-image-container:has(.lazyloaded) .m-placeholder {
+  opacity: 0;
+  pointer-events: none;
+}
+
+
+.m-image-container[data-fit="contain"] {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    object-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.m-image-container[data-fit="contain"] > img,
+.m-image-container[data-fit="contain"] > video,
+.m-image-container[data-fit="contain"] > iframe {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    padding: calc(var(--margin)*6);
+    @media(--m) {
+      max-width: 75%;
+    }
+}
+
+[data-crop] {
+  position: relative;
+  overflow: hidden;
+}
+
+[data-crop] > img,
+[data-crop] > video,
+[data-crop] > iframe,
+[data-crop] > .m-placeholder {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  font-family: "object-fit: cover";
+}
+
+[data-ratio="auto"] {
+  aspect-ratio: auto;
+}
+
+[data-ratio="2/3"],
+[data-ratio="portrait"] {
+  aspect-ratio: 2 / 3;
+}
+
+[data-ratio="3/2"],
+[data-ratio="landscape"] {
+  aspect-ratio: 3 / 2;
+}
+
+[data-ratio="3/4"] {
+  aspect-ratio: 3 / 4;
+}
+
+[data-ratio="4/3"] {
+  aspect-ratio: 4 / 3;
+}
+
+[data-ratio="1/1"],
+[data-ratio="square"] {
+  aspect-ratio: 1 / 1;
+}
+
+[data-ratio="16/9"] {
+  aspect-ratio: 16 / 9;
+}
+
+/* Ensure images fill containers with aspect ratios */
+[data-ratio]:not([data-ratio="auto"]) > img,
+[data-ratio]:not([data-ratio="auto"]) > video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  font-family: "object-fit: cover";
+}
+
+/* Use CSS aspect-ratio property for custom aspect ratios */
+[style*="--aspect-ratio"] {
+  aspect-ratio: var(--aspect-ratio);
+}
+
+[style*="--aspect-ratio"] > img,
+[style*="--aspect-ratio"] > video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  font-family: "object-fit: cover";
+}
+
+
+/* purgecss end ignore */

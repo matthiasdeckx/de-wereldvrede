@@ -1,0 +1,20 @@
+headline: Projects
+type: pages
+template: project
+status: all
+limit: 999
+sortable: true
+empty: No projects yet
+help: Draft, In review (unlisted), and Published (listed) projects are shown here.
+layout: cards
+image:
+  query: page.cover.toFile
+  cover: true
+  ratio: 16/9
+columns:
+  title:
+    label: Title
+  project_type:
+    label: Type
+  project_status:
+    label: Status

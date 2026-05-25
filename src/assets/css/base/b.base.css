@@ -1,0 +1,101 @@
+/* Base */
+
+html {
+	box-sizing: border-box;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	margin: 0 auto;
+	width: 100vw;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* 1rem = 10px — matches design tokens (1.6rem = 16px, 4.8rem = 48px, etc.) */
+  font-size: 62.5%;
+}
+
+::selection {
+  background-color: var(--accent, var(--color-selection));
+}
+
+html, body {
+	width: 100%;
+  min-height: 100dvh;
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+body {
+  font-family: var(--main-font);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  transition: background-color var(--anim-speed) var(--anim-ease), color var(--anim-speed) var(--anim-ease);
+}
+
+a,
+button {
+  transition: opacity var(--anim-speed) var(--anim-ease), color var(--anim-speed) var(--anim-ease), filter var(--anim-speed) var(--anim-ease);
+}
+
+*, *::before, *::after {
+	box-sizing: inherit;
+  -ms-touch-action: inherit;
+  touch-action: inherit;
+}
+
+body.no-scroll {
+	overflow: hidden;
+}
+
+
+/* The header curtain is used to hide elements when scrolling behind the offset of sticky elements, such as on the program page */
+.header-curtain {
+    background-color: var(--color-background);
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--sticky-offset);
+    z-index: 2;
+}
+
+/* Transition fade. Classes required for swup page transitions */
+#main.transition-fade,
+[data-transition="fade"],
+.transition-fade {
+  transition: opacity var(--anim-speed-page-transition) var(--anim-ease);
+  opacity: 1;
+}
+
+#main.transition-fade {
+  transition-duration: var(--anim-speed-page-transition);
+}
+
+[data-transition="fade-header"],
+.transition-fade-header {
+  transition: opacity var(--anim-speed-page-transition) var(--anim-ease);
+  opacity: 1;
+}
+
+html.is-animating #main.transition-fade,
+html.is-animating [data-transition="fade"],
+html.is-animating .transition-fade {
+  opacity: 0;
+}
+
+html.is-animating [data-transition="fade-header"],
+html.is-animating .transition-fade-header {
+  opacity: 0;
+}
+
+/* No JavaScript Styles */
+html.no-js .g-container,
+html.no-js .g-container .c-site-main,
+html.no-js .o-item__loader,
+html.no-js .o-image__loader,
+html.no-js .o-image,
+html.no-js .o-image img,
+html.no-js img,
+html.no-js img.lazyload,
+html.no-js .o-floating-thumb {
+  opacity: 1 !important;
+  display: none !important;
+}

@@ -1,0 +1,104 @@
+/* Utility classes */
+
+.u-hidden,
+.is-hidden {
+  display: none !important;
+}
+
+/* Visually hidden but accessible to screen readers */
+.u-visually-hidden,
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Visually hidden but visible on focus (for skip links) */
+.u-visually-hidden-focusable:focus {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0.5rem 1rem !important;
+  margin: 0 !important;
+  overflow: visible !important;
+  clip: auto !important;
+  white-space: normal !important;
+  background: var(--color-background, #fff) !important;
+  color: var(--color-text, #000) !important;
+  z-index: 9999 !important;
+}
+
+.u-visible,
+.is-visible {
+  display: block !important;
+}
+
+.u-visible-inline {
+  display: inline !important;
+}
+
+.u-visible-inline-block {
+  display: inline-block !important;
+}
+
+.u-visible-flex {
+  display: flex !important;
+}
+
+.u-visible-inline-flex {
+  display: inline-flex !important;
+}
+
+.u-visible-min-br-s {
+  @media(--s-max) {
+	display: none;
+  }
+}
+
+.u-visible-min-br-s-m {
+  @media(--s-m-max) {
+	display: none;
+  }
+}
+
+.u-visible-min-br-m {
+  @media(--m-max) {
+	display: none;
+  }
+}
+
+.u-visible-min-br-l {
+  @media(--l-max) {
+	display: none;
+  }
+}
+
+.u-hidden-max-br-s {
+  @media(--s) {
+	display: none;
+  }
+}
+
+.u-hidden-max-br-s-m {
+  @media(--s-m) {
+	display: none;
+  }
+}
+
+.u-hidden-max-br-m {
+  @media(--m) {
+	display: none;
+  }
+}
+
+.u-hidden-max-br-l {
+  @media(--l) {
+	display: none;
+  }
+}

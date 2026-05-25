@@ -1,0 +1,19 @@
+headline: News
+type: pages
+limit: 99
+template: news-article
+status: all
+paginate: true
+sortable: false
+sortBy: published_date desc
+empty: No articles yet
+help: Draft, In review (unlisted), and Published (listed) articles are shown here.
+layout: table
+columns:
+  published_date:
+    label: Published date
+    type: date
+  title:
+    label: Title
+    mobile: true
+    type: url

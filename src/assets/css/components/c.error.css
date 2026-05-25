@@ -1,0 +1,24 @@
+.c-site-main.c-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--margin-l);
+  text-align: center;
+}
+
+.c-error__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--margin-l);
+  max-width: 48rem;
+}
+
+.c-error__code {
+  margin: 0;
+}
+
+.c-error__message {
+  margin: 0;
+  max-width: 36em;
+}

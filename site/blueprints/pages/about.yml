@@ -1,0 +1,76 @@
+title: About
+
+tabs:
+  content:
+    label: Content
+    fields:
+      intro_text:
+        label: Intro
+        type: textarea
+        size: small
+        buttons: false
+      team:
+        label: Team members
+        type: structure
+        fields:
+          name:
+            label: Name
+            type: text
+          role:
+            label: Role
+            type: text
+          image:
+            label: Portrait
+            type: files
+            multiple: false
+            accept:
+              mime: image/*
+      about_label:
+        label: About section label
+        type: text
+        default: DE WERELDVREDE
+      about_body:
+        label: About body
+        type: textarea
+        size: large
+        buttons: false
+      awards_label:
+        label: Awards section label
+        type: text
+        default: AWARDS & NOMINATIONS
+      awards:
+        label: Awards & nominations
+        type: structure
+        fields:
+          title:
+            label: Award title
+            type: text
+          project_page:
+            label: Project page
+            type: pages
+            query: site.find('work').children.listed
+            max: 1
+            empty: No link
+          project:
+            label: Project name
+            type: text
+            help: Display name when no project page is selected. Falls back to the linked page title when empty.
+          year:
+            label: Year
+            type: number
+            placeholder: YYYY
+            min: 1900
+            max: 2100
+      gallery:
+        label: Gallery images
+        type: files
+        layout: cards
+        multiple: true
+        accept:
+          mime: image/*
+  display:
+    extends: tabs/display
+  files:
+    extends: tabs/files
+  seo:
+    extends: tabs/seo

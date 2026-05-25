@@ -1,0 +1,77 @@
+/* Blur-up LQIP image wrapper */
+
+.c-image {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  border-radius: inherit;
+}
+
+/* When inside card media, fill the container */
+.c-card__media .c-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.c-card__media .c-image__full {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.c-card__media .c-image__placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+.c-image__placeholder {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: blur(20px);
+  transform: scale(1.1);
+  transition: opacity var(--anim-speed-image) var(--anim-ease);
+  pointer-events: none;
+}
+
+.c-image__full {
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity var(--anim-speed-image) var(--anim-ease);
+}
+
+.c-image.is-loaded .c-image__full {
+  opacity: 1;
+}
+
+.c-image.is-loaded .c-image__placeholder {
+  opacity: 0;
+}
+
+body:not(.is-touch) {
+  [class$="-card__link"] .c-image__full,
+  [class$="-card__link"] .c-image__placeholder,
+  [class$="-card__link"] > [class$="-card__image"],
+  .c-card__media .c-image__full,
+  .c-card__media .c-image__placeholder {
+    transition:
+      opacity var(--anim-speed-image) var(--anim-ease),
+      transform var(--anim-speed) var(--anim-ease);
+  }
+
+  [class$="-card__link"]:hover .c-image__full,
+  [class$="-card__link"]:hover > [class$="-card__image"],
+  .c-card__media:hover .c-image__full {
+    transform: scale(var(--anim-scale-hover));
+  }
+
+  [class$="-card__link"]:hover .c-image__placeholder,
+  .c-card__media:hover .c-image__placeholder {
+    transform: scale(var(--anim-scale-hover-placeholder));
+  }
+}

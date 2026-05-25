@@ -1,0 +1,40 @@
+title: Creators
+
+tabs:
+  content:
+    label: Content
+    fields:
+      creators:
+        label: Creators
+        type: structure
+        fields:
+          name:
+            label: Name
+            type: text
+          role:
+            label: Role
+            type: text
+          bio:
+            label: Bio
+            type: textarea
+            buttons: false
+          portrait:
+            label: Portrait
+            type: files
+            multiple: false
+            accept:
+              mime: image/*
+          productions:
+            label: Productions
+            type: pages
+            query: site.find('work').children.listed
+            multiple: true
+  display:
+    extends: tabs/display
+    fields:
+      page_theme:
+        default: light
+  files:
+    extends: tabs/files
+  seo:
+    extends: tabs/seo

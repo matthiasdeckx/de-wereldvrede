@@ -1,0 +1,5 @@
+label: Display
+icon: palette
+fields:
+  page_theme:
+    extends: fields/page-theme

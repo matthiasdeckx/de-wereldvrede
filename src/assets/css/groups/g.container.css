@@ -1,0 +1,9 @@
+.g-container {
+  position: relative;
+  width: 100%;
+
+  z-index: 1;
+  max-width: var(--max-container-width);
+  margin: 0 auto;
+  padding: 0 var(--margin-outer);
+}
