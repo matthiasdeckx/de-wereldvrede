@@ -12,13 +12,14 @@
   z-index: 1;
 }
 
-.site-page .c-site-main {
+.site-page:not(.site-page-home):not(.site-page-project) .c-site-main {
   padding-top: 16rem;
+  padding-bottom: 16rem;
 }
 
 @media (--s) {
-  .site-page .c-site-main {
-    padding-top: var(--site-main-padding-top);
+  .site-page:not(.site-page-home):not(.site-page-project) .c-site-main {
+    padding-block: var(--site-main-padding-top);
   }
 }
 

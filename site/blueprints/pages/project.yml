@@ -119,6 +119,10 @@ tabs:
             type: textarea
             buttons: false
             width: 2/3
+      cast_crew_url:
+        label: Full cast & crew link
+        type: url
+        help: Optional. Shown as a link bar below credits on the project page.
       press:
         label: Press links
         type: structure
@@ -139,6 +143,29 @@ tabs:
           url:
             label: URL
             type: url
+      awards:
+        label: Awards & nominations
+        type: structure
+        fields:
+          title:
+            label: Award title
+            type: text
+          project_page:
+            label: Project page
+            type: pages
+            query: site.find('work').children.listed
+            max: 1
+            empty: No link
+          project:
+            label: Project name
+            type: text
+            help: Display name when no project page is selected. Falls back to the linked page title when empty.
+          year:
+            label: Year
+            type: number
+            placeholder: YYYY
+            min: 1900
+            max: 2100
       pull_quote:
         label: Pull quote
         type: textarea

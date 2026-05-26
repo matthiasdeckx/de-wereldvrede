@@ -19,16 +19,16 @@ const destroyHomeFeatureTrailerCursor = () => {
 export const initHomeFeatureTrailerCursor = () => {
   destroyHomeFeatureTrailerCursor();
 
-  const sections = [...document.querySelectorAll(".c-home-feature.has-trailer")].filter(
+  const sections = [...document.querySelectorAll(".c-hero-feature.has-trailer")].filter(
     hasTrailer
   );
   if (!sections.length) return;
 
   const cleanups = sections.map((section) => {
-    const label = section.querySelector("[data-home-feature-trailer-label]");
+    const label = section.querySelector("[data-hero-feature-trailer-label]");
     if (!label) return () => {};
 
-    const content = section.querySelector(".c-home-feature__content");
+    const content = section.querySelector(".c-hero-feature__content");
 
     const isOverContent = (target) =>
       content && content.contains(target) && target !== content;

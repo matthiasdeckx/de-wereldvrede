@@ -6,6 +6,7 @@
  */
 
 require dirname(__DIR__) . '/kirby/bootstrap.php';
+require __DIR__ . '/lib/legacy-credits.php';
 
 use Kirby\Cms\Url;
 
@@ -339,36 +340,6 @@ function mapProjectStatus(string $legacyStatus): string
     };
 }
 
-function parseCredits(string $html): array
-{
-    $credits = [];
-
-    if (!preg_match_all(
-        '#<p>\s*<strong>([^<]+)</strong>\s*([^<]*(?:<[^>]+>[^<]*)*)</p>#iu',
-        $html,
-        $matches,
-        PREG_SET_ORDER
-    )) {
-        return $credits;
-    }
-
-    foreach ($matches as $match) {
-        $role = trim(html_entity_decode(strip_tags($match[1]), ENT_QUOTES | ENT_HTML5, 'UTF-8'), " \t\n\r\0\x0B:&");
-        $names = htmlToPlainText($match[2]);
-
-        if ($role === '' || $names === '') {
-            continue;
-        }
-
-        $credits[] = [
-            'role' => $role,
-            'names' => $names,
-        ];
-    }
-
-    return $credits;
-}
-
 function parseQuotes(string $html): array
 {
     $quotes = [];
@@ -554,7 +525,7 @@ function parseProjectDetail(string $path, array $listing = []): array
             $section[1],
             $side
         )) {
-            $result['credits'] = parseCredits($side[1]);
+            $result['credits'] = parseLegacyCredits($side[1]);
         }
     }
 
@@ -866,6 +837,10 @@ foreach ($paths as $path) {
 
     if ($page->year()->isEmpty() && $data['year'] !== null) {
         $updates['year'] = $data['year'];
+    }
+
+    if (projectCreditsLookBundled($page->credits()) && !empty($data['credits'])) {
+        $updates['credits'] = $data['credits'];
     }
 
     if ($updates !== []) {

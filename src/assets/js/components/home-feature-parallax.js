@@ -24,7 +24,7 @@ export const initHomeFeatureParallax = () => {
   if (!root) return;
 
   const slides = [...root.querySelectorAll(".c-home-feature")].flatMap((section) => {
-    const bg = section.querySelector(".c-home-feature__bg");
+    const bg = section.querySelector(".c-hero-feature__bg");
     return bg ? [{ section, bg }] : [];
   });
 

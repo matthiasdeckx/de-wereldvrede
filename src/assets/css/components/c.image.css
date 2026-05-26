@@ -4,7 +4,7 @@
   position: relative;
   overflow: hidden;
   display: block;
-  border-radius: inherit;
+  border-radius: var(--image-radius);
 }
 
 /* When inside card media, fill the container */

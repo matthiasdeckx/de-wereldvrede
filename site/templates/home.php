@@ -24,7 +24,7 @@
       <?php endif ?>
     </div>
     <div class="c-home-hero__content">
-      <p class="c-home-hero__title t-display t-xxlarge t-uppercase"><?= $page->hero_title()->or('HOME OF CREATORS')->html() ?></p>
+      <p class="c-home-hero__title t-display t-xxxlarge t-uppercase"><?= $page->hero_title()->or('HOME OF CREATORS')->html() ?></p>
     </div>
     <button type="button" class="c-home-hero__sound t-mono t-uppercase" data-hero-sound aria-pressed="false"><?= ui_t('home.sound_on') ?></button>
   </section>

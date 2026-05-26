@@ -19,6 +19,7 @@
   --floating-header-height: var(--floating-ui-height);
   --site-main-padding-top: calc(var(--margin-outer) * 2 + var(--floating-header-height));
   --floating-ui-radius: 0.8rem;
+  --image-radius: 4px;
   --floating-ui-top: var(--margin-outer);
   --floating-ui-blur: blur(10px);
   --floating-ui-bg: var(--color-surface-floating);

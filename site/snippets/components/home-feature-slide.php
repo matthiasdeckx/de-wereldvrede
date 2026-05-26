@@ -14,7 +14,7 @@ if (!empty($slide['bg_url'])) {
 }
 ?>
 <section
-  class="c-home-section c-home-feature<?= !empty($slide['has_trailer']) ? ' has-trailer' : '' ?>"
+  class="c-home-section c-home-feature c-hero-feature<?= !empty($slide['has_trailer']) ? ' has-trailer' : '' ?>"
   data-home-section
   data-feature-index="<?= (int) $index ?>"
   <?php if ($bgStyle): ?> style="<?= esc(implode('; ', $bgStyle), 'attr') ?>"<?php endif ?>
@@ -24,45 +24,32 @@ if (!empty($slide['bg_url'])) {
   <?php endif ?>
 >
   <?php if (!empty($slide['bg_url'])): ?>
-    <div class="c-home-feature__bg" aria-hidden="true"></div>
+    <div class="c-hero-feature__bg" aria-hidden="true"></div>
   <?php endif ?>
-  <div class="c-home-feature__curtain" aria-hidden="true"></div>
-  <div class="c-home-feature__content">
-    <?php if (!empty($slide['category'])): ?>
-      <p class="c-home-feature__category t-mono t-uppercase"><?= esc($slide['category']) ?></p>
-    <?php endif ?>
-    <?php if (($slide['title_type'] ?? '') === 'logo' && !empty($slide['title_logo'])): ?>
-      <img
-        class="c-home-feature__logo"
-        src="<?= $slide['title_logo']->url() ?>"
-        alt="<?= esc($slide['title_text'] ?? '') ?>"
-      >
-    <?php elseif (!empty($slide['title_text'])): ?>
-      <h2 class="c-home-feature__title t-display t-xxlarge"><?= esc($slide['title_text']) ?></h2>
-    <?php endif ?>
-    <?php if (!empty($slide['credits_label']) || !empty($slide['credits_names'])): ?>
-      <div class="c-home-feature__credits">
-        <?php if (!empty($slide['credits_label'])): ?>
-          <p class="c-home-feature__credits-label t-mono t-uppercase"><?= esc($slide['credits_label']) ?></p>
-        <?php endif ?>
-        <?php if (!empty($slide['credits_names'])): ?>
-          <p class="c-home-feature__credits-names t-mono t-uppercase"><?= esc($slide['credits_names']) ?></p>
-        <?php endif ?>
-      </div>
-    <?php endif ?>
+  <div class="c-hero-feature__curtain" aria-hidden="true"></div>
+  <div class="c-hero-feature__content c-hero-feature__content--center">
+    <?php snippet('components/hero-feature-stack', [
+      'category' => $slide['category'] ?? null,
+      'title_type' => $slide['title_type'] ?? null,
+      'title_logo' => $slide['title_logo'] ?? null,
+      'title_text' => $slide['title_text'] ?? null,
+      'title_heading' => 'h2',
+      'credits_label' => $slide['credits_label'] ?? null,
+      'credits_names' => $slide['credits_names'] ?? null,
+    ]) ?>
     <?php $cta = $slide['cta'] ?? null; ?>
     <?php if ($cta): ?>
       <?php if (($cta['type'] ?? '') === 'coming_soon'): ?>
-        <span class="c-home-feature__cta t-mono t-uppercase is-disabled" aria-disabled="true"><?= esc($cta['label']) ?></span>
+        <span class="c-hero-feature__cta t-mono t-uppercase is-disabled" aria-disabled="true"><?= esc($cta['label']) ?></span>
       <?php else: ?>
-        <a class="c-home-feature__cta t-mono t-uppercase" href="<?= esc($cta['url']) ?>"><?= esc($cta['label']) ?></a>
+        <a class="c-hero-feature__cta t-mono t-uppercase" href="<?= esc($cta['url']) ?>"><?= esc($cta['label']) ?></a>
       <?php endif ?>
     <?php endif ?>
   </div>
   <?php if (!empty($slide['has_trailer'])): ?>
     <span
-      class="c-home-feature__trailer-cursor t-mono t-uppercase"
-      data-home-feature-trailer-label
+      class="c-hero-feature__trailer-cursor t-mono t-uppercase"
+      data-hero-feature-trailer-label
       hidden
       aria-hidden="true"
     ><?= ui_t('home.play_trailer') ?></span>

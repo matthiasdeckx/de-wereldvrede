@@ -32,7 +32,7 @@
 
 .c-about__team-portrait {
   aspect-ratio: 3 / 4;
-  border-radius: 4px;
+  border-radius: var(--image-radius);
   overflow: hidden;
   width: 100%;
 }

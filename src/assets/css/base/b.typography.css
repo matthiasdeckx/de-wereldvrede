@@ -37,6 +37,12 @@
   letter-spacing: var(--letter-spacing--xxl);
 }
 
+.t-xxxlarge {
+  font-size: var(--font-size--xxxl);
+  line-height: var(--line-height--xxxl);
+  letter-spacing: var(--letter-spacing--xxxl);
+}
+
 .t-body-lg {
   font-size: var(--font-size--body-lg);
   line-height: var(--line-height--body-lg);

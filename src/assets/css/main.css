@@ -22,6 +22,7 @@
 @import 'components/c.site-footer';
 @import 'components/c.overlay';
 @import 'components/c.home';
+@import 'components/c.hero-feature';
 @import 'components/c.work';
 @import 'components/c.project';
 @import 'components/c.creators';
