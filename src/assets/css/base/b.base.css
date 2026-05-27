@@ -19,15 +19,29 @@ html {
 html, body {
 	width: 100%;
   min-height: 100dvh;
-  background-color: var(--color-background);
+  background-color: transparent;
   color: var(--color-text);
+}
+
+/* Fixed layer for page bg — single surface to animate during Swup (see c.page-transition.css) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-color: #000000;
+  pointer-events: none;
+}
+
+body.is-light::before {
+  background-color: #ffffff;
 }
 
 body {
   font-family: var(--main-font);
   font-size: var(--text-body);
   line-height: var(--leading-body);
-  transition: background-color var(--anim-speed) var(--anim-ease), color var(--anim-speed) var(--anim-ease);
+  transition: color var(--anim-speed) var(--anim-ease);
 }
 
 a,
@@ -57,33 +71,13 @@ body.no-scroll {
     z-index: 2;
 }
 
-/* Transition fade. Classes required for swup page transitions */
+/* Swup transition targets — animation rules in c.page-transition.css */
 #main.transition-fade,
 [data-transition="fade"],
-.transition-fade {
-  transition: opacity var(--anim-speed-page-transition) var(--anim-ease);
-  opacity: 1;
-}
-
-#main.transition-fade {
-  transition-duration: var(--anim-speed-page-transition);
-}
-
+.transition-fade,
 [data-transition="fade-header"],
 .transition-fade-header {
-  transition: opacity var(--anim-speed-page-transition) var(--anim-ease);
   opacity: 1;
-}
-
-html.is-animating #main.transition-fade,
-html.is-animating [data-transition="fade"],
-html.is-animating .transition-fade {
-  opacity: 0;
-}
-
-html.is-animating [data-transition="fade-header"],
-html.is-animating .transition-fade-header {
-  opacity: 0;
 }
 
 /* No JavaScript Styles */

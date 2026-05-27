@@ -1,0 +1,86 @@
+/*
+ * Leave: 500ms ease, delay 0 — opacity 1→0
+ * Pause: 500ms — background/theme swap while content is invisible (awaited via is-animating enter rules)
+ * Enter: 500ms ease, delay 0 — opacity 0→1 (after is-animating removed; completed in animation:in:end)
+ */
+
+#main.transition-fade {
+  transition: opacity var(--page-transition-duration) var(--page-transition-easing);
+}
+
+html.is-changing #main.transition-fade,
+html.is-changing [data-transition="fade"],
+html.is-changing .transition-fade,
+html.is-changing [data-transition="fade-header"],
+html.is-changing .transition-fade-header {
+  opacity: 1;
+  transition: opacity var(--page-transition-duration) var(--page-transition-easing);
+  will-change: opacity;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* Leave */
+html.is-changing.is-animating.is-leaving #main.transition-fade,
+html.is-changing.is-animating.is-leaving [data-transition="fade"],
+html.is-changing.is-animating.is-leaving .transition-fade,
+html.is-changing.is-animating.is-leaving [data-transition="fade-header"],
+html.is-changing.is-animating.is-leaving .transition-fade-header {
+  opacity: 0;
+  transition-delay: 0s;
+}
+
+/*
+ * Enter (pre-fade): keep opacity 0; delay+duration define the pause Swup awaits
+ * before animation:in:start removes is-animating.
+ */
+html.is-changing.is-animating.is-rendering #main.transition-fade,
+html.is-changing.is-animating.is-rendering [data-transition="fade"],
+html.is-changing.is-animating.is-rendering .transition-fade,
+html.is-changing.is-animating.is-rendering [data-transition="fade-header"],
+html.is-changing.is-animating.is-rendering .transition-fade-header {
+  opacity: 0;
+  transition: opacity var(--page-transition-duration) var(--page-transition-easing)
+    var(--page-transition-enter-delay);
+}
+
+/* Enter — fade in when is-animating is removed (no extra delay; pause already elapsed) */
+html.is-changing.is-rendering:not(.is-animating) #main.transition-fade,
+html.is-changing.is-rendering:not(.is-animating) [data-transition="fade"],
+html.is-changing.is-rendering:not(.is-animating) .transition-fade,
+html.is-changing.is-rendering:not(.is-animating) [data-transition="fade-header"],
+html.is-changing.is-rendering:not(.is-animating) .transition-fade-header {
+  opacity: 1;
+  transition: opacity var(--page-transition-duration) var(--page-transition-easing);
+  transition-delay: 0s;
+}
+
+/*
+ * Theme background — one fixed pseudo (not html+body) so Safari does not repaint
+ * two root backgrounds while #main opacity animates. Text color swaps instantly.
+ */
+html.is-changing body::before {
+  transition: background-color var(--page-transition-duration) var(--page-transition-easing);
+}
+
+@supports (-webkit-touch-callout: none) {
+  html.is-changing body::before {
+    transition-duration: 400ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #main.transition-fade,
+  html.is-changing #main.transition-fade,
+  html.is-changing [data-transition="fade"],
+  html.is-changing .transition-fade,
+  html.is-changing [data-transition="fade-header"],
+  html.is-changing .transition-fade-header {
+    transition: none !important;
+    will-change: auto;
+  }
+
+  html.is-changing body::before {
+    transition: none !important;
+  }
+}

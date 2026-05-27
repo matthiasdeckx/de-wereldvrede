@@ -27,6 +27,7 @@ return [
       'small' => [
         '480w' => ['width' => 480, 'quality' => 90],
         '960w' => ['width' => 960, 'quality' => 90],
+        '1440w' => ['width' => 1440, 'quality' => 90],
       ],
       'max' => [
         '480w' => ['width' => 480, 'quality' => 90],

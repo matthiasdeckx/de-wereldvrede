@@ -12,22 +12,24 @@
 			$seoTitle = $page->title();
 		}
 
-		if ($page->seo_description()->isNotEmpty() ) {
+		if ($page->seo_description()->isNotEmpty()) {
 			$seoDescription = $page->seo_description()->value();
+		} elseif ($page->intendedTemplate()->name() === 'project' && $page->intro()->isNotEmpty()) {
+			$seoDescription = $page->intro()->excerpt(300)->value();
 		} elseif ($page->text()->isNotEmpty()) {
 			$seoDescription = $page->text()->excerpt(160)->value();
 		} else {
 			$seoDescription = $site->seo_description()->value();
 		}
 
-		if ($page->og_title_toggle() == 'false') {
+		if ($page->og_title_toggle() == 'false' && $page->og_title()->isNotEmpty()) {
 			$ogTitle = $page->og_title();
 		} else {
 			$ogTitle = $seoTitle;
 		}
 
-		if ($page->og_description_toggle() == 'false') {
-			$ogDescription = $page->og_description();
+		if ($page->og_description_toggle() == 'false' && $page->og_description()->isNotEmpty()) {
+			$ogDescription = $page->og_description()->value();
 		} else {
 			$ogDescription = $seoDescription;
 		}

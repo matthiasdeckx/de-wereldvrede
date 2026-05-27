@@ -32,6 +32,8 @@ return [
     'home.coming_soon' => 'Coming soon',
     'home.watch_trailer' => 'Watch trailer',
     'home.play_trailer' => 'Play trailer',
+    'home.play' => 'Play',
+    'home.pause' => 'Pause',
     'home.sound_on' => 'Unmute',
     'home.sound_off' => 'Mute',
     'project.view_more' => 'View more',

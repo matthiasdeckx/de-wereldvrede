@@ -44,9 +44,12 @@
               <?php snippet('objects/image', [
                 'image' => $cover,
                 'class' => 'c-work-card__image',
+                'srcset' => 'small',
                 'sizes' => '(min-width: 900px) 33vw, 100vw',
                 'crop' => true,
               ]) ?>
+            <?php else: ?>
+              <?php snippet('objects/image-placeholder') ?>
             <?php endif ?>
             <h2 class="c-work-card__title t-display t-uppercase"><?= $project->title()->html() ?></h2>
             <?php if ($project->subtitle()->isNotEmpty()): ?>

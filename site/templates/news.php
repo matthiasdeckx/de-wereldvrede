@@ -27,6 +27,7 @@ $perPage = 12;
               <?php snippet('objects/image', [
                 'image' => $image,
                 'class' => 'c-news-card__image',
+                'srcset' => 'small',
                 'sizes' => '(min-width: 900px) 33vw, 100vw',
                 'crop' => false,
               ]) ?>

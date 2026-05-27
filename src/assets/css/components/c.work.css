@@ -62,7 +62,11 @@
   margin-bottom: var(--margin);
 }
 
-.c-work-card__subtitle { opacity: var(--opacity-text); margin-top: 0.4rem; }
+.c-work-card__subtitle { margin-top: calc(var(--margin) / 2); }
+
+.c-work-card.is-work-card-pending {
+  display: none;
+}
 
 @media (--m-max) {
   .c-work-grid { grid-template-columns: repeat(2, 1fr); }

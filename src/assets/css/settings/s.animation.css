@@ -3,7 +3,12 @@
   --anim-speed-fast: 0.24s;
   --anim-speed: 0.36s;
   --anim-speed-fade: var(--anim-speed);
-  --anim-speed-page-transition: 0.22s;
+
+  --anim-speed-page-transition: 0.5s;
+
+  --page-transition-duration: 500ms;
+  --page-transition-enter-delay: 500ms;
+  --page-transition-easing: ease;
   --anim-speed-slow: 0.6s;
   --anim-speed-image: 0.75s;
   --anim-speed-pulse: 1.5s;

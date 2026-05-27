@@ -8,15 +8,6 @@
       <section class="c-about__intro t-display t-xlarge t-uppercase"><?= $page->intro_text()->kti() ?></section>
     <?php endif ?>
 
-    <?php if ($page->about_body()->isNotEmpty()): ?>
-      <section class="c-about__section">
-        <div class="c-split-section">
-          <p class="c-split-section__label t-mono t-uppercase"><?= $page->about_label()->or('DE WERELDVREDE')->html() ?></p>
-          <div class="c-split-section__content t-rich-text"><?= $page->about_body()->kt() ?></div>
-        </div>
-      </section>
-    <?php endif ?>
-
     <?php if ($page->team()->isNotEmpty()): ?>
       <?php
         $teamGrid = [
@@ -61,6 +52,15 @@
               </figcaption>
             </figure>
           <?php endforeach ?>
+        </div>
+      </section>
+    <?php endif ?>
+
+    <?php if ($page->about_body()->isNotEmpty()): ?>
+      <section class="c-about__section">
+        <div class="c-split-section">
+          <p class="c-split-section__label t-mono t-uppercase"><?= $page->about_label()->or('DE WERELDVREDE')->html() ?></p>
+          <div class="c-split-section__content t-rich-text"><?= $page->about_body()->kt() ?></div>
         </div>
       </section>
     <?php endif ?>

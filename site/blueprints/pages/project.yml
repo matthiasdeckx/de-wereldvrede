@@ -52,6 +52,16 @@ tabs:
         multiple: false
         accept:
           mime: image/*
+      hero_curtain_opacity:
+        label: Hero darken
+        type: select
+        empty: Default (subtle)
+        width: 1/2
+        options:
+          "0.1": Soft
+          "0.2": Medium
+          "0.3": Strong
+        help: Darkens the hero image so titles stay readable. Soft is lightest, Strong is darkest. Leave on default for a subtle overlay.
       title_type:
         label: Title display
         type: radio

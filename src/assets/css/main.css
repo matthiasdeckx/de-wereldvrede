@@ -9,6 +9,7 @@
 /* Base */
 @import "base/b.reset";
 @import 'base/b.base';
+@import 'components/c.page-transition';
 @import 'base/b.typography';
 @import 'base/b.media';
 @import 'base/b.forms';
@@ -18,6 +19,7 @@
 
 /* Components */
 @import 'components/c.floating-header';
+@import 'components/c.floating-btn';
 @import 'components/c.site-main';
 @import 'components/c.site-footer';
 @import 'components/c.overlay';

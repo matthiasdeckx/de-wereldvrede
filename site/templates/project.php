@@ -18,6 +18,10 @@
         $bgStyle[] = '--feature-bg-position: ' . $bg['bg_position'];
       }
     }
+    $curtainOpacity = hero_curtain_opacity($page->hero_curtain_opacity()->value());
+    if ($curtainOpacity !== null) {
+      $bgStyle[] = '--hero-curtain-opacity: ' . $curtainOpacity;
+    }
   ?>
 
   <section
@@ -31,19 +35,22 @@
   >
     <?php if (!empty($bg['bg_url'])): ?>
       <div class="c-hero-feature__bg c-project-hero__bg" aria-hidden="true"></div>
+    <?php else: ?>
+      <div class="c-hero-feature__bg c-project-hero__bg c-hero-feature__bg--empty" aria-hidden="true"></div>
     <?php endif ?>
     <div class="c-hero-feature__curtain" aria-hidden="true"></div>
     <div class="c-hero-feature__content c-hero-feature__content--left g-container">
       <?php snippet('components/hero-feature-stack', [
-        'category' => $category,
+        'show_intro' => true,
         'title_type' => $titleType,
         'title_logo' => $titleType === 'logo' ? $page->title_logo()->toFile() : null,
         'title_text' => $page->title()->value(),
         'title_heading' => 'h1',
         'credits_label' => $creditsNames ? ui_t('home.writer_director') : null,
         'credits_names' => $creditsNames,
+        'intro' => $page->intro()->isNotEmpty() ? $page->intro()->value() : null,
       ]) ?>
-      <button type="button" class="c-btn c-project-hero__more" data-project-scroll-down><?= ui_t('project.view_more') ?></button>
+      <button type="button" class="c-floating-btn c-project-hero__more t-mono t-uppercase" data-project-scroll-down><?= ui_t('project.view_more') ?></button>
     </div>
     <?php if ($hasTrailer): ?>
       <span

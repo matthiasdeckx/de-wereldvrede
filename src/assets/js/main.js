@@ -14,10 +14,15 @@ import { initHomeFeatureTrailerCursor } from "./components/home-feature-trailer-
 import { initFeaturedQuoteCarousel } from "./components/featured-quote-carousel";
 import { initProjectScroll } from "./components/project-scroll";
 import { initWorkFilters } from "./components/work-filters";
+import { destroyWorkProgressiveReveal, initWorkProgressiveReveal } from "./components/work-progressive-reveal";
 import { initNewsLoadMore } from "./components/news-load-more";
 import { initCookieConsent } from "./components/cookie-consent";
 import { initBlurUp } from "./components/blur-up";
-import { syncPageStyle } from "./components/page-style";
+import {
+  syncPageBrowserChrome,
+  syncPageStyle,
+  syncPageThemeClasses,
+} from "./components/page-style";
 
 const SWUP_TRANSITION_CLASSES = [
   "is-changing",
@@ -32,6 +37,7 @@ const clearSwupTransitionState = () => {
 };
 
 const initPage = () => {
+  destroyWorkProgressiveReveal();
   syncPageStyle();
   closeOverlays();
   closeMobileNav();
@@ -46,15 +52,19 @@ const initPage = () => {
   initProjectScroll();
   initFeaturedQuoteCarousel();
   initWorkFilters();
+  initWorkProgressiveReveal();
   initNewsLoadMore();
   initBlurUp();
 };
+
+const prefersReducedMotion = () =>
+  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const initSwup = () => {
   const swup = new Swup({
     containers: ["#main"],
     animateHistoryBrowsing: true,
-    animationSelector: "#main",
+    animationSelector: '[class*="transition-fade"]',
     linkSelector: 'a[href^="' + window.location.origin + '"]:not([data-no-swup]), a[href^="/"]:not([data-no-swup])',
     plugins: [
       new SwupScrollPlugin({ animateScroll: false }),
@@ -63,18 +73,27 @@ const initSwup = () => {
   });
   window.swup = swup;
 
-  swup.hooks?.on("content:replace", () => syncPageStyle());
-  swup.hooks?.on("page:view", () => syncPageStyle());
+  swup.hooks?.on("visit:start", (visit) => {
+    if (prefersReducedMotion()) {
+      visit.animation.animate = false;
+    }
+  });
+
+  // During pause: theme classes + bg pseudo only; defer meta/color-scheme until fade-in ends (Safari)
+  swup.hooks?.on("content:replace", () => syncPageThemeClasses());
+
+  // Swup already waits for CSS transitions; init on the next frame
   swup.hooks?.on("animation:in:end", () => {
-    clearSwupTransitionState();
+    syncPageBrowserChrome();
     requestAnimationFrame(initPage);
   });
+
   swup.hooks?.on("animation:skip", () => {
-    clearSwupTransitionState();
+    syncPageBrowserChrome();
     requestAnimationFrame(initPage);
   });
+
   swup.hooks?.on("visit:abort", clearSwupTransitionState);
-  swup.hooks?.on("visit:end", clearSwupTransitionState);
 };
 
 document.addEventListener("DOMContentLoaded", () => {

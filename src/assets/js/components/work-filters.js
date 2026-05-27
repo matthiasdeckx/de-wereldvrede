@@ -1,3 +1,5 @@
+import { revealAllPendingWorkCards, revealWorkCard } from "./work-progressive-reveal";
+
 const splitValues = (value) =>
   (value || "")
     .split(",")
@@ -33,13 +35,27 @@ export const initWorkFilters = () => {
     });
   };
 
+  const isFilterActive = () => activeType !== "all" || activeStatus !== null;
+
   const apply = () => {
+    const filterActive = isFilterActive();
+
+    if (filterActive) {
+      revealAllPendingWorkCards(cards);
+    }
+
     cards.forEach((card) => {
       const types = splitValues(card.dataset.type);
       const statuses = splitValues(card.dataset.status);
       const typeMatch = activeType === "all" || types.includes(activeType);
       const statusMatch = !activeStatus || statuses.includes(activeStatus);
-      card.hidden = !(typeMatch && statusMatch);
+      const matches = typeMatch && statusMatch;
+
+      if (matches && filterActive && card.dataset.workPending === "true") {
+        revealWorkCard(card);
+      }
+
+      card.hidden = !matches;
     });
   };
 

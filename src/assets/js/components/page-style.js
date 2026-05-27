@@ -1,4 +1,4 @@
-const syncPageStyle = () => {
+const syncPageThemeClasses = () => {
   const meta = document.querySelector("#main [data-page-meta]");
   if (!meta) return;
 
@@ -7,6 +7,13 @@ const syncPageStyle = () => {
 
   document.body.classList.toggle("is-light", isLight);
   document.body.classList.toggle("site-page-home", isHome);
+};
+
+const syncPageBrowserChrome = () => {
+  const meta = document.querySelector("#main [data-page-meta]");
+  if (!meta) return;
+
+  const isLight = meta.dataset.pageTheme === "light";
 
   const themeColor = document.querySelector('meta[name="theme-color"]');
   if (themeColor) {
@@ -16,4 +23,11 @@ const syncPageStyle = () => {
   document.documentElement.style.colorScheme = isLight ? "light" : "dark";
 };
 
-export { syncPageStyle };
+const syncPageStyle = ({ syncBrowserChrome = true } = {}) => {
+  syncPageThemeClasses();
+  if (syncBrowserChrome) {
+    syncPageBrowserChrome();
+  }
+};
+
+export { syncPageStyle, syncPageThemeClasses, syncPageBrowserChrome };

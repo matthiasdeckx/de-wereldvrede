@@ -1,7 +1,12 @@
 .c-home {
   height: 100dvh;
   overflow-y: scroll;
+  scroll-behavior: auto;
   scroll-snap-type: y mandatory;
+}
+
+.c-home.is-scroll-animating {
+  scroll-snap-type: none;
 }
 
 .c-home-section {
@@ -12,13 +17,62 @@
   overflow: hidden;
 }
 
-.c-home-hero__media,
+.c-home-hero__media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-color: var(--color-background);
+}
+
+.c-home-hero {
+  --home-hero-reveal-delay: 0.2s;
+  --home-hero-blur-amount: 96px;
+  --home-hero-blur-duration: 2s;
+  --home-hero-blur-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer;
+}
+
 .c-home-hero__video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  opacity: 0;
+  transition:
+    opacity var(--home-hero-blur-duration) var(--home-hero-blur-ease);
+  transition-delay: 0s;
+}
+
+.c-home-hero.is-video-ready .c-home-hero__video {
+  opacity: 1;
+}
+
+.c-home-hero__curtain {
+  z-index: 1;
+  background-color: rgba(0, 0, 0, var(--hero-curtain-opacity, 0.15));
+  backdrop-filter: blur(var(--home-hero-blur-amount));
+  -webkit-backdrop-filter: blur(var(--home-hero-blur-amount));
+  transition:
+    backdrop-filter var(--home-hero-blur-duration) var(--home-hero-blur-ease),
+    -webkit-backdrop-filter var(--home-hero-blur-duration) var(--home-hero-blur-ease),
+    background-color var(--home-hero-blur-duration) var(--home-hero-blur-ease);
+  transition-delay: 0s;
+}
+
+.c-home-hero.is-hero-revealed .c-home-hero__curtain {
+  background-color: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(0);
+  -webkit-backdrop-filter: blur(0);
+  transition-delay: var(--home-hero-reveal-delay);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c-home-hero__video,
+  .c-home-hero__curtain {
+    transition-duration: 0.01ms;
+    transition-delay: 0s;
+  }
 }
 
 .c-home-hero__content {
@@ -27,14 +81,17 @@
   display: grid;
   place-content: center;
   min-height: 100dvh;
+  margin-inline: auto;
+  max-width: 15ch;
   text-align: center;
   gap: 1.2rem;
   padding: 8rem var(--page-gutter) 4rem;
 }
 
 .c-home-hero__title {
-  margin-inline: auto;
-  max-width: 15ch;
+  user-select: none;
+  outline: none;
+  cursor: pointer;
 }
 
 .c-home-hero__sound {
@@ -50,9 +107,6 @@
   cursor: pointer;
   padding: 1rem 1.4rem;
 }
-
-.c-home-hero { cursor: pointer; }
-.c-home-hero.is-paused { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='white'%3E%3Cpolygon points='8,5 19,12 8,19'/%3E%3C/svg%3E") 12 12, pointer; }
 
 .c-home-footer { min-height: auto; scroll-snap-align: end; }
 

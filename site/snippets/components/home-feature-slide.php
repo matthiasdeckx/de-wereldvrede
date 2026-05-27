@@ -12,6 +12,9 @@ if (!empty($slide['bg_url'])) {
     $bgStyle[] = '--feature-bg-position: ' . $slide['bg_position'];
   }
 }
+if (!empty($slide['curtain_opacity'])) {
+  $bgStyle[] = '--hero-curtain-opacity: ' . $slide['curtain_opacity'];
+}
 ?>
 <section
   class="c-home-section c-home-feature c-hero-feature<?= !empty($slide['has_trailer']) ? ' has-trailer' : '' ?>"
@@ -25,10 +28,13 @@ if (!empty($slide['bg_url'])) {
 >
   <?php if (!empty($slide['bg_url'])): ?>
     <div class="c-hero-feature__bg" aria-hidden="true"></div>
+  <?php else: ?>
+    <div class="c-hero-feature__bg c-hero-feature__bg--empty" aria-hidden="true"></div>
   <?php endif ?>
   <div class="c-hero-feature__curtain" aria-hidden="true"></div>
   <div class="c-hero-feature__content c-hero-feature__content--center">
     <?php snippet('components/hero-feature-stack', [
+      'show_category' => true,
       'category' => $slide['category'] ?? null,
       'title_type' => $slide['title_type'] ?? null,
       'title_logo' => $slide['title_logo'] ?? null,
@@ -40,9 +46,9 @@ if (!empty($slide['bg_url'])) {
     <?php $cta = $slide['cta'] ?? null; ?>
     <?php if ($cta): ?>
       <?php if (($cta['type'] ?? '') === 'coming_soon'): ?>
-        <span class="c-hero-feature__cta t-mono t-uppercase is-disabled" aria-disabled="true"><?= esc($cta['label']) ?></span>
+        <span class="c-floating-btn t-mono t-uppercase is-disabled" aria-disabled="true"><?= esc($cta['label']) ?></span>
       <?php else: ?>
-        <a class="c-hero-feature__cta t-mono t-uppercase" href="<?= esc($cta['url']) ?>"><?= esc($cta['label']) ?></a>
+        <a class="c-floating-btn t-mono t-uppercase" href="<?= esc($cta['url']) ?>"><?= esc($cta['label']) ?></a>
       <?php endif ?>
     <?php endif ?>
   </div>

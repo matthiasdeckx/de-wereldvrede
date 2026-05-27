@@ -4,6 +4,18 @@ use Kirby\Cms\File;
 use Kirby\Cms\Page;
 use Kirby\Cms\StructureObject;
 
+if (!function_exists('hero_curtain_opacity')) {
+    /**
+     * Resolve a validated hero curtain opacity value for CSS custom properties.
+     */
+    function hero_curtain_opacity(?string $value): ?string
+    {
+        $value = trim((string) $value);
+
+        return in_array($value, ['0.1', '0.2', '0.3'], true) ? $value : null;
+    }
+}
+
 if (!function_exists('home_feature_bg')) {
     /**
      * @return array{bg_url: string|null, bg_position: string|null}
@@ -39,6 +51,7 @@ if (!function_exists('home_feature_slide')) {
      *   has_trailer: bool,
      *   trailer_vimeo: string,
      *   trailer_file_url: string|null,
+     *   curtain_opacity: string|null,
      *   cta: array{type: string, url?: string, label?: string}|null
      * }
      */
@@ -62,6 +75,7 @@ if (!function_exists('home_feature_slide')) {
             'has_trailer' => false,
             'trailer_vimeo' => '',
             'trailer_file_url' => null,
+            'curtain_opacity' => null,
             'cta' => null,
         ];
 
@@ -76,11 +90,11 @@ if (!function_exists('home_feature_slide')) {
             $hasTrailer = $trailerSource !== 'none' && $trailerSource !== '';
             $titleType = $project->title_type()->or('text')->value();
             $titleLogo = $titleType === 'logo' ? $project->title_logo()->toFile() : null;
-            $types = $project->project_type()->split(',');
-            $category = !empty($types) ? strtoupper(trim($types[0])) : null;
             $creditsNames = $project->writers_directors()->isNotEmpty()
                 ? $project->writers_directors()->value()
                 : null;
+            $types = $project->project_type()->split(',');
+            $category = !empty($types) ? strtoupper(trim($types[0])) : null;
 
             return array_merge([
                 'mode' => 'project',
@@ -94,6 +108,7 @@ if (!function_exists('home_feature_slide')) {
                 'has_trailer' => $hasTrailer,
                 'trailer_vimeo' => $hasTrailer ? $project->trailer_vimeo()->value() : '',
                 'trailer_file_url' => $hasTrailer ? $project->trailer_file()->toFile()?->url() : null,
+                'curtain_opacity' => hero_curtain_opacity($project->hero_curtain_opacity()->value()),
                 'cta' => [
                     'type' => 'project',
                     'url' => $project->url(),
@@ -136,6 +151,7 @@ if (!function_exists('home_feature_slide')) {
             'has_trailer' => $hasTrailer,
             'trailer_vimeo' => $hasTrailer ? $feature->trailer_vimeo()->value() : '',
             'trailer_file_url' => $hasTrailer ? $feature->trailer_file()->toFile()?->url() : null,
+            'curtain_opacity' => hero_curtain_opacity($feature->hero_curtain_opacity()->value()),
             'cta' => $cta,
         ], home_feature_bg($bg));
     }

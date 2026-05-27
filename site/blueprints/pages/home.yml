@@ -36,6 +36,16 @@ tabs:
           mime: video/*
         when:
           hero_video_source: file
+      hero_curtain_opacity:
+        label: Hero darken
+        type: select
+        empty: Default (subtle)
+        width: 1/2
+        options:
+          "0.1": Soft
+          "0.2": Medium
+          "0.3": Strong
+        help: Darkens the opening hero video so the title stays readable. Soft is lightest, Strong is darkest. Leave on default for a subtle overlay.
       features:
         label: Feature slides
         type: structure
@@ -62,6 +72,16 @@ tabs:
               mime: image/*
             when:
               feature_mode: custom
+          hero_curtain_opacity:
+            label: Hero darken
+            type: select
+            empty: Default (subtle)
+            width: 1/2
+            options:
+              "0.1": Soft
+              "0.2": Medium
+              "0.3": Strong
+            help: Darkens the slide background so text stays readable. Soft is lightest, Strong is darkest. Project slides use the project’s hero darken setting when left on default.
           category:
             label: Category tag
             type: text
@@ -70,6 +90,13 @@ tabs:
           title:
             label: Title
             type: text
+            when:
+              feature_mode: custom
+          intro:
+            label: Intro text
+            type: textarea
+            size: small
+            buttons: false
             when:
               feature_mode: custom
           credits_label:
