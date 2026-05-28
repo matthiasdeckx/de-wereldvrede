@@ -4,6 +4,9 @@
 @custom-media --s (min-width: 520px);
 @custom-media --s-max (max-width: 520px);
 
+@custom-media --s-640 (min-width: 640px);
+@custom-media --s-640-max (max-width: 639px);
+
 @custom-media --s-m (min-width: 768px);
 @custom-media --s-m-max (max-width: 768px);
 

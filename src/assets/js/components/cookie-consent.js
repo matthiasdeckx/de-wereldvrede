@@ -37,8 +37,4 @@ export const initCookieConsent = () => {
     localStorage.setItem(STORAGE_KEY, "denied");
     banner.hidden = true;
   });
-  banner.querySelector("[data-cookie-preferences]")?.addEventListener("click", () => {
-    localStorage.setItem(STORAGE_KEY, "denied");
-    banner.hidden = true;
-  });
 };

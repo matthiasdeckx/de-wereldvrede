@@ -1,14 +1,27 @@
 import { openOverlay, closeOverlays } from "./overlay";
 
+const wrapTrailerMedia = (html) =>
+  html ? `<div class="c-trailer-overlay__embed">${html}</div>` : "";
+
 const buildTrailerHtml = (vimeo, file) => {
   if (vimeo) {
     const id = vimeo.match(/vimeo\.com\/(?:video\/)?(\d+)/)?.[1];
     if (id) {
-      return `<iframe src="https://player.vimeo.com/video/${id}?autoplay=1" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+      const params = new URLSearchParams({
+        autoplay: "1",
+        transparent: "1",
+        title: "0",
+        byline: "0",
+        portrait: "0",
+      });
+      const iframe = `<iframe src="https://player.vimeo.com/video/${id}?${params}" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+      return wrapTrailerMedia(iframe);
     }
   }
   if (file) {
-    return `<video src="${file}" autoplay controls playsinline></video>`;
+    return wrapTrailerMedia(
+      `<video src="${file}" autoplay controls playsinline></video>`
+    );
   }
   return "";
 };

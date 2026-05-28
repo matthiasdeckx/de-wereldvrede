@@ -1,0 +1,22 @@
+name: Quote
+icon: quote
+preview: quote
+fields:
+  text:
+    label: Quote text
+    type: textarea
+    buttons: false
+  source:
+    label: Source / citation
+    type: text
+  stars:
+    label: Stars
+    type: select
+    default: "5"
+    options:
+      "0": "None"
+      "1": "1"
+      "2": "2"
+      "3": "3"
+      "4": "4"
+      "5": "5"

@@ -6,30 +6,47 @@
 
     <?php
       $projects = $page->children()->listed();
-      $types = $site->project_types()->split(',');
-      $statuses = $site->project_statuses()->split(',');
+
+      $projectCountForType = function (string $type) use ($projects): int {
+        return $projects->filter(
+          fn ($p) => in_array($type, $p->project_type()->split(','), true)
+        )->count();
+      };
+
+      $projectCountForStatus = function (string $status) use ($projects): int {
+        return $projects->filter(
+          fn ($p) => in_array($status, $p->project_status()->split(','), true)
+        )->count();
+      };
+
+      $types = array_values(array_filter(
+        array_map('trim', $site->project_types()->split(',')),
+        fn (string $type) => $type !== '' && $projectCountForType($type) > 0
+      ));
+
+      $statuses = array_values(array_filter(
+        array_map('trim', $site->project_statuses()->split(',')),
+        fn (string $status) => $status !== '' && $projectCountForStatus($status) > 0
+      ));
     ?>
 
+    <?php if ($projects->isNotEmpty()): ?>
     <div class="c-work-filters">
       <div class="c-work-filters__group" role="group" aria-label="<?= esc(ui_t('work.filter.type'), 'attr') ?>">
         <button type="button" class="c-work-filters__btn is-active t-mono t-uppercase" data-filter-type="all">All (<?= $projects->count() ?>)</button>
         <?php foreach ($types as $type): ?>
-          <?php $type = trim($type); if (!$type) continue; ?>
-          <?php $count = $projects->filter(fn($p) => in_array($type, $p->project_type()->split(','), true))->count(); ?>
-          <button type="button" class="c-work-filters__btn t-mono t-uppercase" data-filter-type="<?= esc($type, 'attr') ?>"><?= esc($type) ?> (<?= $count ?>)</button>
+          <button type="button" class="c-work-filters__btn t-mono t-uppercase" data-filter-type="<?= esc($type, 'attr') ?>"><?= esc($type) ?> (<?= $projectCountForType($type) ?>)</button>
         <?php endforeach ?>
       </div>
+      <?php if ($statuses !== []): ?>
       <div class="c-work-filters__group" role="group" aria-label="<?= esc(ui_t('work.filter.status'), 'attr') ?>">
         <?php foreach ($statuses as $status): ?>
-          <?php
-            $status = trim($status);
-            if (!$status) continue;
-            $count = $projects->filter(fn($p) => in_array($status, $p->project_status()->split(','), true))->count();
-          ?>
-          <button type="button" class="c-work-filters__btn t-mono t-uppercase" data-filter-status="<?= esc($status, 'attr') ?>" data-filter-label="<?= esc($status, 'attr') ?>"><?= esc($status) ?> (<?= $count ?>)</button>
+          <button type="button" class="c-work-filters__btn t-mono t-uppercase" data-filter-status="<?= esc($status, 'attr') ?>" data-filter-label="<?= esc($status, 'attr') ?>"><?= esc($status) ?> (<?= $projectCountForStatus($status) ?>)</button>
         <?php endforeach ?>
       </div>
+      <?php endif ?>
     </div>
+    <?php endif ?>
 
     <div class="c-work-grid" data-work-grid>
       <?php foreach ($projects as $project): ?>

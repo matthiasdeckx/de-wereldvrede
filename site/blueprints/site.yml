@@ -113,6 +113,13 @@ tabs:
       headline_cookie:
         label: Cookie consent
         type: headline
+      cookie_banner:
+        label: Show cookie banner
+        type: toggle
+        default: true
+        text:
+          - Hidden
+          - Visible
       cookie_text:
         label: Cookie banner text
         type: textarea

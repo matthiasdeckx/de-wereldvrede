@@ -95,6 +95,8 @@
         </div>
       </section>
     <?php endif ?>
+
+    <?php snippet('components/project-gallery', ['gallery' => $page->gallery()]) ?>
   </div>
 </main>
 

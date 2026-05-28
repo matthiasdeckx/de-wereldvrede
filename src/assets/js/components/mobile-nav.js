@@ -1,23 +1,77 @@
-export const initMobileNav = () => {
-  const toggle = document.querySelector("[data-mobile-nav-toggle]");
-  const nav = document.getElementById("mobile-nav");
-  if (!toggle || !nav) return;
+let mobileNavListenersBound = false;
 
-  toggle.addEventListener("click", () => {
-    const open = nav.hidden;
-    nav.hidden = !open;
-    nav.setAttribute("aria-hidden", String(!open));
-    toggle.setAttribute("aria-expanded", String(open));
-    document.body.classList.toggle("is-mobile-nav-open", open);
+const getMobileNavEls = () => {
+  const header = document.querySelector("[data-floating-header]");
+  const nav = document.getElementById("mobile-nav");
+  const toggle = document.querySelector("[data-mobile-nav-toggle]");
+  const closeBtns = header?.querySelectorAll(".c-floating-header__slot-action--close") ?? [];
+  return { header, nav, toggle, closeBtns };
+};
+
+export const syncHeaderCloseButton = () => {
+  const { closeBtns, nav } = getMobileNavEls();
+  if (!closeBtns.length || !nav) return;
+
+  const navOpen = !nav.hidden;
+  const overlayOpen = document.body.classList.contains("is-overlay-open");
+  const showClose = navOpen || overlayOpen;
+
+  closeBtns.forEach((closeBtn) => {
+    closeBtn.setAttribute("aria-hidden", showClose ? "false" : "true");
+    closeBtn.setAttribute("tabindex", showClose ? "0" : "-1");
   });
 };
 
 export const closeMobileNav = () => {
-  const nav = document.getElementById("mobile-nav");
-  const toggle = document.querySelector("[data-mobile-nav-toggle]");
+  const { header, nav, toggle } = getMobileNavEls();
   if (!nav || !toggle) return;
+
   nav.hidden = true;
   nav.setAttribute("aria-hidden", "true");
   toggle.setAttribute("aria-expanded", "false");
+  header?.classList.remove("is-mobile-nav-open");
   document.body.classList.remove("is-mobile-nav-open");
+  syncHeaderCloseButton();
+};
+
+const openMobileNav = () => {
+  const { header, nav, toggle } = getMobileNavEls();
+  if (!nav || !toggle) return;
+
+  nav.hidden = false;
+  nav.setAttribute("aria-hidden", "false");
+  toggle.setAttribute("aria-expanded", "true");
+  header?.classList.add("is-mobile-nav-open");
+  document.body.classList.add("is-mobile-nav-open");
+  syncHeaderCloseButton();
+};
+
+const toggleMobileNav = () => {
+  const { nav } = getMobileNavEls();
+  if (!nav) return;
+
+  if (nav.hidden) {
+    openMobileNav();
+  } else {
+    closeMobileNav();
+  }
+};
+
+export const initMobileNav = () => {
+  if (mobileNavListenersBound) return;
+  mobileNavListenersBound = true;
+
+  document.addEventListener("click", (event) => {
+    if (event.target.closest("[data-mobile-nav-toggle]")) {
+      event.preventDefault();
+      toggleMobileNav();
+      return;
+    }
+
+    const nav = document.getElementById("mobile-nav");
+    if (nav && !nav.hidden && event.target.closest("#mobile-nav a[href]")) {
+      closeMobileNav();
+    }
+  });
+
 };

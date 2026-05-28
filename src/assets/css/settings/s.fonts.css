@@ -15,6 +15,14 @@
 }
 
 @font-face {
+  font-family: 'ABC Diatype Regular';
+  src: url('/assets/fonts/ABCDiatype-RegularItalic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'ABC Diatype Mono';
   src: url('/assets/fonts/ABCDiatypeMono-Regular.woff2') format('woff2');
   font-weight: 400;

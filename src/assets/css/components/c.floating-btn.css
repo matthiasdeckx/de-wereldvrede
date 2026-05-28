@@ -9,6 +9,7 @@
   backdrop-filter: var(--floating-ui-blur);
   -webkit-backdrop-filter: var(--floating-ui-blur);
   color: inherit;
+  line-height: 1;
   text-decoration: none;
   cursor: pointer;
 }

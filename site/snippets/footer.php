@@ -6,7 +6,9 @@
   <?php snippet('overlays/contact') ?>
   <?php snippet('overlays/trailer') ?>
   <?php snippet('overlays/creator') ?>
-  <?php snippet('components/cookie-banner') ?>
+  <?php if ($site->cookie_banner()->toBool(true)): ?>
+    <?php snippet('components/cookie-banner') ?>
+  <?php endif ?>
 
   <script src="<?= url('assets/js/main.js') ?>" defer></script>
 </body>

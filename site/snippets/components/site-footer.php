@@ -1,4 +1,4 @@
-<footer class="c-site-footer">
+<footer class="c-site-footer t-mono t-uppercase">
   <div class="g-container c-site-footer__grid">
     <section class="c-site-footer__col c-site-footer__col--contact">
       <h2 class="c-site-footer__heading"><?= ui_t('footer.contact') ?></h2>

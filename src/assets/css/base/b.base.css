@@ -41,6 +41,7 @@ body {
   font-family: var(--main-font);
   font-size: var(--text-body);
   line-height: var(--leading-body);
+  font-synthesis: none;
   transition: color var(--anim-speed) var(--anim-ease);
 }
 

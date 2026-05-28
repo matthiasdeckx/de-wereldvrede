@@ -1,5 +1,6 @@
 .t-display {
   font-family: var(--font-display);
+  font-weight: 700;
   text-transform: uppercase;
 }
 
@@ -52,8 +53,19 @@
 .t-mono {
   font-family: var(--font-mono);
   font-size: var(--font-size--s);
+  font-weight: 400;
   line-height: var(--line-height--s);
   letter-spacing: var(--letter-spacing--s);
+}
+
+/* b.forms.css sets line-height: 1 on buttons; keep readable line-height on text fields */
+:is(input, textarea, select).t-mono {
+  line-height: var(--line-height--s) !important;
+}
+
+button.t-mono,
+[type="submit"].t-mono {
+  line-height: 1 !important;
 }
 
 .t-rich-text {
@@ -65,6 +77,10 @@
 
 .t-rich-text > * + * {
   margin-top: var(--margin-m);
+}
+
+.t-rich-text :is(h1, h2, h3, h4) {
+  font-weight: 400;
 }
 
 .t-rich-text h1 {
@@ -130,8 +146,8 @@
   border-left: 1px solid var(--color-border);
 }
 
-.t-rich-text strong {
-  font-weight: bolder;
+.t-rich-text :is(strong, b) {
+  font-weight: 400;
 }
 
 .t-rich-text em {

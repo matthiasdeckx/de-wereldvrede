@@ -133,16 +133,6 @@ tabs:
         label: Full cast & crew link
         type: url
         help: Optional. Shown as a link bar below credits on the project page.
-      press:
-        label: Press links
-        type: structure
-        fields:
-          title:
-            label: Outlet
-            type: text
-          url:
-            label: URL
-            type: url
       available_on:
         label: Available on
         type: structure

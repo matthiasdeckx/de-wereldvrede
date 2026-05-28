@@ -43,6 +43,22 @@
   transition: opacity var(--anim-speed-slow) var(--anim-ease) var(--anim-delay-short);
 }
 
+.c-overlay--contact .c-overlay__panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 100dvh;
+  box-sizing: border-box;
+  padding-block: calc(var(--floating-ui-top) + var(--floating-ui-height) + var(--page-gutter));
+  padding-inline: var(--page-gutter);
+  /* Panel opacity is animated globally with delay; skip here so link hovers fade immediately */
+  transition: none;
+}
+
+.c-overlay--contact.is-open .c-overlay__panel {
+  opacity: 1;
+}
+
 .c-overlay.is-open .c-overlay__panel {
   opacity: 1;
 }
@@ -106,25 +122,44 @@
 .c-overlay--contact .c-contact-overlay a {
   color: inherit;
   text-decoration: none;
-  text-underline-offset: 0.2em;
+  opacity: 1;
+  transition: opacity var(--anim-speed) var(--anim-ease);
+  transition-delay: 0s;
 }
 
 .c-overlay--contact .c-contact-overlay a:hover,
 .c-overlay--contact .c-contact-overlay a:focus-visible {
-  text-decoration: underline;
-}
-
-.c-trailer-overlay__content iframe,
-.c-trailer-overlay__content video {
-  width: min(90vw, 120rem);
-  aspect-ratio: 16 / 9;
-  border: 0;
+  opacity: var(--opacity-text);
+  text-decoration: none;
 }
 
 .c-trailer-overlay__content {
   display: grid;
   place-items: center;
   min-height: 60vh;
+}
+
+.c-trailer-overlay__embed {
+  width: min(90vw, 120rem);
+  aspect-ratio: 16 / 9;
+  border-radius: var(--image-radius);
+  overflow: hidden;
+  background: var(--color-bg);
+}
+
+.c-trailer-overlay__embed iframe,
+.c-trailer-overlay__embed video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+}
+
+.c-trailer-overlay__embed iframe {
+  /* Crop sub-pixel letterbox seams from Vimeo’s player chrome */
+  transform: scale(1.02);
+  transform-origin: center;
 }
 
 body.is-overlay-open {

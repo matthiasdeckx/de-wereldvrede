@@ -11,6 +11,11 @@
   outline: none;
 }
 
+.c-floating-header__unit {
+  border-radius: var(--floating-ui-radius);
+  overflow: hidden;
+}
+
 .c-floating-header__inner {
   display: flex;
   align-items: center;
@@ -21,6 +26,19 @@
   background: var(--floating-ui-bg);
   backdrop-filter: var(--floating-ui-blur);
   -webkit-backdrop-filter: var(--floating-ui-blur);
+}
+
+.c-floating-header.is-mobile-nav-open .c-floating-header__unit {
+  background: var(--floating-ui-bg);
+  backdrop-filter: var(--floating-ui-blur);
+  -webkit-backdrop-filter: var(--floating-ui-blur);
+}
+
+.c-floating-header.is-mobile-nav-open .c-floating-header__inner {
+  border-radius: 0;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .c-floating-header__brand {
@@ -39,111 +57,162 @@
 }
 
 .c-floating-header__actions {
-  display: grid;
-  align-items: center;
-  justify-items: end;
-}
-
-.c-floating-header__nav--desktop,
-.c-floating-header__menu,
-.c-floating-header__close {
-  grid-area: 1 / 1;
-  transition:
-    opacity var(--anim-speed) var(--anim-ease),
-    visibility var(--anim-speed) var(--anim-ease);
-}
-
-.c-floating-header__list {
-  --nav-gap: 2.4rem;
   display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.c-floating-header__nav--desktop .c-floating-header__list {
+  --nav-gap: 2.4rem;
+  --nav-item-bg: hsl(0 0% 20% / 0.9);
+  display: flex;
+  align-items: center;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.c-floating-header__list a,
-.c-floating-header__list button {
+.c-floating-header__nav--desktop .c-floating-header__list > li:not(.c-floating-header__slot) {
+  transition:
+    opacity var(--header-action-fade) var(--anim-ease),
+    visibility var(--header-action-fade) var(--anim-ease);
+  transition-delay: var(--header-action-swap-delay);
+}
+
+.c-floating-header__nav--desktop .c-floating-header__list a,
+.c-floating-header__slot-action {
   background: none;
   border: 0;
+  border-radius: var(--floating-ui-radius-sm);
+  box-sizing: border-box;
   color: inherit;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  min-height: var(--floating-ui-height);
-  padding-inline: calc(var(--nav-gap) / 2);
+  justify-content: center;
+  height: 32px;
+  line-height: 1;
+  padding: 0 1.2rem;
   text-decoration: none;
+  transition:
+    background-color var(--anim-speed) var(--anim-ease),
+    opacity var(--header-action-fade) var(--anim-ease),
+    visibility var(--header-action-fade) var(--anim-ease);
 }
 
-.c-floating-header__list > li:last-child a,
-.c-floating-header__list > li:last-child button {
+.c-floating-header__nav--desktop .c-floating-header__list > li:last-child .c-floating-header__slot-action {
   padding-inline-end: var(--nav-gap);
 }
 
-.c-floating-header__list a:hover,
-.c-floating-header__list button:hover {
-  opacity: 0.6;
+.c-floating-header__nav--desktop .c-floating-header__list a:hover,
+.c-floating-header__nav--desktop .c-floating-header__list a:focus-visible,
+.c-floating-header__slot-action:hover,
+.c-floating-header__slot-action:focus-visible {
+  background: var(--nav-item-bg);
 }
 
-.c-floating-header__menu,
-.c-floating-header__close {
-  background: none;
-  border: 0;
-  color: inherit;
-  cursor: pointer;
+.c-floating-header__slot {
+  display: grid;
+  align-items: center;
+  justify-items: end;
 }
 
-.c-floating-header__menu { display: none; }
+.c-floating-header__slot-action {
+  grid-area: 1 / 1;
+}
 
-.c-floating-header__close {
+.c-floating-header__slot-action--default {
+  transition-delay: var(--header-action-swap-delay);
+}
+
+.c-floating-header__slot-action--close {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  transition-delay: 0s;
 }
 
-.c-floating-header.is-overlay-mode .c-floating-header__nav--desktop,
-.c-floating-header.is-overlay-mode .c-floating-header__menu {
+.c-floating-header__slot--mobile {
+  display: none;
+}
+
+.c-floating-header.is-overlay-mode .c-floating-header__nav--desktop .c-floating-header__list > li:not(.c-floating-header__slot),
+.c-floating-header.is-mobile-nav-open .c-floating-header__slot--mobile .c-floating-header__slot-action--default {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  transition-delay: 0s;
 }
 
-.c-floating-header.is-overlay-mode .c-floating-header__close {
+.c-floating-header.is-overlay-mode .c-floating-header__slot-action--close,
+.c-floating-header.is-mobile-nav-open .c-floating-header__slot-action--close {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+  transition-delay: var(--header-action-swap-delay);
 }
 
-@media (--s-max) {
+.c-floating-header.is-overlay-mode .c-floating-header__slot-action--default,
+.c-floating-header.is-mobile-nav-open .c-floating-header__slot-action--default {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition-delay: 0s;
+}
+
+.c-floating-header.is-overlay-mode .c-floating-header__nav--desktop .c-floating-header__list > li:not(.c-floating-header__slot) {
+  transition-delay: 0s;
+}
+
+@media (--s-m-max) {
   .c-floating-header__nav--desktop { display: none; }
-  .c-floating-header__menu { display: block; }
+  .c-floating-header__slot--mobile { display: grid; }
 }
 
 .c-mobile-nav {
-  position: fixed;
-  inset: 0;
-  z-index: var(--z-sticky-nav);
-  background: var(--color-overlay-backdrop);
-  backdrop-filter: blur(20px);
-  padding: 12rem var(--page-gutter) var(--page-gutter);
   color: #ffffff;
+}
+
+.c-mobile-nav[hidden] {
+  display: none;
 }
 
 .c-mobile-nav__list {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: grid;
-  gap: 3.2rem;
+}
+
+.c-mobile-nav__list > li {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .c-mobile-nav__list a,
 .c-mobile-nav__list button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 5.6rem;
+  padding: 1.6rem;
   background: none;
   border: 0;
   color: inherit;
   cursor: pointer;
-  font: inherit;
-  padding: 0;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+}
+
+.c-mobile-nav__list a:hover,
+.c-mobile-nav__list button:hover {
+  opacity: 0.6;
+}
+
+@media (--s-m) {
+  .c-mobile-nav {
+    display: none !important;
+  }
 }
 
 .c-floating-surface {

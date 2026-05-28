@@ -42,19 +42,42 @@ if ($page->isHomePage()) {
 
 <body class="<?= implode(' ', $bodyClasses) ?>">
   <header class="c-floating-header" data-floating-header>
-    <div class="c-floating-header__inner">
-      <a class="c-floating-header__brand" href="<?= $site->url() ?>" aria-label="<?= $site->title()->escape() ?>">
-        <img
-          class="c-floating-header__logo"
-          src="<?= url('assets/images/dw-logo--white.svg') ?>"
-          alt=""
-          width="1920"
-          height="311"
-        >
-      </a>
-      <div class="c-floating-header__actions">
-        <nav class="c-floating-header__nav c-floating-header__nav--desktop" aria-label="<?= ui_t('aria.nav_primary') ?>">
-          <ul class="c-floating-header__list">
+    <div class="c-floating-header__unit">
+      <div class="c-floating-header__inner">
+        <a class="c-floating-header__brand" href="<?= $site->url() ?>" aria-label="<?= $site->title()->escape() ?>">
+          <img
+            class="c-floating-header__logo"
+            src="<?= url('assets/images/dw-logo--white.svg') ?>"
+            alt=""
+            width="1920"
+            height="311"
+          >
+        </a>
+        <div class="c-floating-header__actions">
+          <nav class="c-floating-header__nav c-floating-header__nav--desktop" aria-label="<?= ui_t('aria.nav_primary') ?>">
+            <ul class="c-floating-header__list">
+              <?php foreach ($navItems as $item): ?>
+                <li>
+                  <a href="<?= $item->url() ?>" <?= e($item->isOpen(), 'aria-current="page"') ?> class="t-mono t-uppercase"><?= $item->title()->html() ?></a>
+                </li>
+              <?php endforeach ?>
+              <li class="c-floating-header__slot">
+                <button type="button" class="c-floating-header__slot-action c-floating-header__slot-action--default t-mono t-uppercase" data-contact-open><?= ui_t('nav.contact') ?></button>
+                <button type="button" class="c-floating-header__slot-action c-floating-header__slot-action--close t-mono t-uppercase" data-overlay-close aria-hidden="true" tabindex="-1"><?= ui_t('nav.close') ?></button>
+              </li>
+            </ul>
+          </nav>
+          <div class="c-floating-header__slot c-floating-header__slot--mobile">
+            <button type="button" class="c-floating-header__slot-action c-floating-header__slot-action--default t-mono t-uppercase" data-mobile-nav-toggle aria-expanded="false" aria-controls="mobile-nav">
+              <?= ui_t('nav.menu') ?>
+            </button>
+            <button type="button" class="c-floating-header__slot-action c-floating-header__slot-action--close t-mono t-uppercase" data-overlay-close aria-hidden="true" tabindex="-1"><?= ui_t('nav.close') ?></button>
+          </div>
+        </div>
+      </div>
+      <div class="c-mobile-nav" id="mobile-nav" hidden aria-hidden="true">
+        <nav aria-label="<?= ui_t('aria.nav_mobile') ?>">
+          <ul class="c-mobile-nav__list">
             <?php foreach ($navItems as $item): ?>
               <li>
                 <a href="<?= $item->url() ?>" <?= e($item->isOpen(), 'aria-current="page"') ?> class="t-mono t-uppercase"><?= $item->title()->html() ?></a>
@@ -65,26 +88,9 @@ if ($page->isHomePage()) {
             </li>
           </ul>
         </nav>
-        <button type="button" class="c-floating-header__menu t-mono t-uppercase" data-mobile-nav-toggle aria-expanded="false" aria-controls="mobile-nav">
-          <?= ui_t('nav.menu') ?>
-        </button>
-        <button type="button" class="c-floating-header__close t-mono t-uppercase" data-overlay-close aria-hidden="true" tabindex="-1">
-          <?= ui_t('nav.close') ?>
-        </button>
       </div>
     </div>
   </header>
-
-  <div class="c-mobile-nav" id="mobile-nav" hidden aria-hidden="true">
-    <nav aria-label="<?= ui_t('aria.nav_mobile') ?>">
-      <ul class="c-mobile-nav__list">
-        <?php foreach ($navItems as $item): ?>
-          <li><a href="<?= $item->url() ?>" class="t-display t-uppercase"><?= $item->title()->html() ?></a></li>
-        <?php endforeach ?>
-        <li><button type="button" class="t-display t-uppercase" data-contact-open><?= ui_t('nav.contact') ?></button></li>
-      </ul>
-    </nav>
-  </div>
 
   <a href="#main" class="u-visually-hidden u-visually-hidden-focusable"><?= ui_t('aria.skip_to_content') ?></a>
 

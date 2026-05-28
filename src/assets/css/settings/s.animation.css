@@ -15,6 +15,8 @@
   --anim-speed-pulse-slow: 5s;
   --anim-delay-short: 0.15s;
   --anim-delay-medium: 0.35s;
+  --header-action-fade: var(--anim-speed-fast);
+  --header-action-swap-delay: var(--anim-delay-short);
   --anim-ease: cubic-bezier(0.12, 0.67, 0.53, 1);
   --anim-scale-hover: 1.02;
   --anim-scale-hover-placeholder: 1.122;

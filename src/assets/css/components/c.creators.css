@@ -21,8 +21,50 @@
   padding: 0;
   text-align: center;
   width: fit-content;
-  /* b.forms.css sets line-height: normal !important on all buttons */
+  transition: opacity var(--anim-speed) var(--anim-ease);
+  /* Override b.forms button line-height: 1 for large display names */
   line-height: var(--line-height--xxl) !important;
 }
 
-.c-creators-list__name:hover { opacity: 0.6; }
+.c-creators-list:has(.c-creators-list__name:is(:hover, :focus-visible)) .c-creators-list__name {
+  opacity: var(--opacity-text);
+}
+
+.c-creators-list:has(.c-creators-list__name:is(:hover, :focus-visible)) .c-creators-list__name:is(:hover, :focus-visible) {
+  opacity: 1;
+}
+
+.c-creators-portrait {
+  position: fixed;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--anim-speed-fast) var(--anim-ease),
+    visibility 0s linear var(--anim-speed-fast);
+}
+
+.c-creators-portrait.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity var(--anim-speed-fast) var(--anim-ease),
+    visibility 0s;
+}
+
+.c-creators-portrait img {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: min(28rem, 42vw);
+  max-height: min(36rem, 52vh);
+  border-radius: var(--image-radius);
+  box-shadow: 0 0.4rem 2.4rem rgb(0 0 0 / 0.12);
+}
+
+@media (hover: hover) {
+  .c-creators-list__name[data-portrait]:hover {
+    cursor: pointer;
+  }
+}

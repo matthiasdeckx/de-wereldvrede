@@ -50,7 +50,10 @@
         'credits_names' => $creditsNames,
         'intro' => $page->intro()->isNotEmpty() ? $page->intro()->value() : null,
       ]) ?>
-      <button type="button" class="c-floating-btn c-project-hero__more t-mono t-uppercase" data-project-scroll-down><?= ui_t('project.view_more') ?></button>
+      <button type="button" class="c-project-hero__more t-mono t-uppercase" data-project-scroll-down>
+        <?php snippet('objects/icon-arrow-down') ?>
+        <span><?= ui_t('project.view_more') ?></span>
+      </button>
     </div>
     <?php if ($hasTrailer): ?>
       <span
@@ -113,23 +116,14 @@
           rel="noopener"
         >
           <span><?= ui_t('project.full_cast_crew') ?></span>
-          <svg class="c-project-detail__cast-crew-icon" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-            <path d="M3.5 8.5L8.5 3.5M8.5 3.5H4.5M8.5 3.5V7.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+          <?php snippet('objects/icon-external') ?>
           <span class="u-visually-hidden"><?= ui_t('ui.opens_in_new_window') ?></span>
         </a>
-      <?php endif ?>
-      <?php if ($page->press()->isNotEmpty()): ?>
-        <ul class="c-project-detail__press">
-          <?php foreach ($page->press()->toStructure() as $item): ?>
-            <li><a class="t-mono t-uppercase" href="<?= $item->url()->toUrl() ?>" target="_blank" rel="noopener"><?= $item->title()->html() ?> →</a></li>
-          <?php endforeach ?>
-        </ul>
       <?php endif ?>
       <?php if ($page->available_on()->isNotEmpty()): ?>
         <ul class="c-project-detail__available-on">
           <?php foreach ($page->available_on()->toStructure() as $item): ?>
-            <li><a class="t-mono t-uppercase" href="<?= $item->url()->toUrl() ?>" target="_blank" rel="noopener"><?= $item->medium()->html() ?> →</a></li>
+            <li><a class="t-mono t-uppercase" href="<?= $item->url()->toUrl() ?>" target="_blank" rel="noopener"><?= $item->medium()->html() ?> <?php snippet('objects/icon-external') ?></a></li>
           <?php endforeach ?>
         </ul>
       <?php endif ?>
@@ -169,15 +163,11 @@
           <cite class="t-mono t-uppercase"><?= $page->pull_quote_source()->html() ?></cite>
         <?php endif ?>
       <?php endif ?>
-      <?php if ($page->featured_quote_text()->isNotEmpty()): ?>
-        <section class="c-project-featured-quote c-project-featured-quote--single" aria-label="Featured quote">
-          <?php snippet('components/featured-quote', [
-            'quote' => $page->featured_quote_text(),
-            'source' => $page->featured_quote_source(),
-            'stars' => (int) $page->featured_quote_stars()->or('0')->value(),
-          ]) ?>
-        </section>
-      <?php endif ?>
+      <?php snippet('components/featured-quote-block', [
+        'quote' => $page->featured_quote_text(),
+        'source' => $page->featured_quote_source(),
+        'stars' => (int) $page->featured_quote_stars()->or('0')->value(),
+      ]) ?>
     </div>
     <?php
       $carouselQuotes = [];
@@ -192,42 +182,8 @@
         }
       }
 
-      $galleryPattern = [
-        ['span' => 5, 'start' => 6],
-        ['span' => 5, 'start' => 8],
-        ['span' => 9, 'start' => 1],
-        ['span' => 5, 'start' => 2],
-        ['span' => 7, 'start' => 5],
-      ];
     ?>
-    <?php if ($page->gallery()->isNotEmpty()): ?>
-      <div class="c-project-detail__gallery">
-        <?php $galleryIndex = 0; foreach ($page->gallery()->toFiles() as $image): ?>
-          <?php
-            if ($galleryIndex === 0) {
-              $galleryItemClass = 'c-project-detail__gallery-item c-project-detail__gallery-item--full';
-              $galleryItemStyle = '';
-            } else {
-              $slot = ($galleryIndex - 1) % count($galleryPattern);
-              $placement = $galleryPattern[$slot];
-              $galleryItemClass = 'c-project-detail__gallery-item';
-              $galleryItemStyle = '--gallery-col-start: ' . $placement['start'] . '; --gallery-col-span: ' . $placement['span'];
-            }
-          ?>
-          <div
-            class="<?= $galleryItemClass ?>"
-            <?php if ($galleryItemStyle): ?> style="<?= esc($galleryItemStyle, 'attr') ?>"<?php endif ?>
-          >
-            <?php snippet('objects/image', [
-              'image' => $image,
-              'sizes' => $galleryIndex === 0 ? '(min-width: 1024px) 100vw, 100vw' : '(min-width: 1024px) 50vw, 100vw',
-              'crop' => false,
-            ]) ?>
-          </div>
-          <?php $galleryIndex++; ?>
-        <?php endforeach ?>
-      </div>
-    <?php endif ?>
+    <?php snippet('components/project-gallery', ['gallery' => $page->gallery()]) ?>
     <?php if (!empty($carouselQuotes)): ?>
       <?php $carouselCount = count($carouselQuotes); ?>
       <section
@@ -259,8 +215,8 @@
         </div>
         <?php if ($carouselCount > 1): ?>
           <div class="c-project-featured-quote__controls">
-            <button type="button" class="c-project-featured-quote__nav" data-featured-quote-prev aria-label="Previous quote">←</button>
-            <button type="button" class="c-project-featured-quote__nav" data-featured-quote-next aria-label="Next quote">→</button>
+            <button type="button" class="c-project-featured-quote__nav t-mono t-uppercase" data-featured-quote-prev aria-label="Previous quote">←</button>
+            <button type="button" class="c-project-featured-quote__nav t-mono t-uppercase" data-featured-quote-next aria-label="Next quote">→</button>
           </div>
         <?php endif ?>
       </section>

@@ -17,7 +17,7 @@
 
   --font-size--s: var(--text-ui);
   --line-height--s: var(--leading-ui);
-  --letter-spacing--s: 0.04em;
+  --letter-spacing--s: 0.066em;
 
   --font-size--m: var(--text-body);
   --line-height--m: var(--leading-body);

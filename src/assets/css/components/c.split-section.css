@@ -9,6 +9,8 @@
 
 .c-split-section__label {
   margin: 0;
+  font-weight: 400;
+  opacity: var(--opacity-text);
 }
 
 .c-split-section__content {

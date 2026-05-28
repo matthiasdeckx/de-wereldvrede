@@ -7,9 +7,11 @@
   max-width: 240rem;
 }
 
-.c-about__section--team {
-  border-top: 1px solid var(--color-border);
+.c-about__section {
   margin-top: calc(var(--margin-l) * 1.5);
+}
+
+.c-about__section--team {
   padding-top: var(--margin);
 }
 
@@ -107,7 +109,6 @@
 
 .c-about__section--awards {
   border-top: 1px solid var(--color-border);
-  margin-top: calc(var(--margin-l) * 1.5);
   padding-top: var(--margin);
 }
 
@@ -188,4 +189,8 @@
   .c-about__section--awards .c-about__awards {
     grid-template-columns: 1fr;
   }
+}
+
+.c-about .c-project-detail__gallery {
+  margin-top: calc(var(--margin-l) * 1.5);
 }

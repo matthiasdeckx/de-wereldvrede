@@ -6,7 +6,9 @@
 
 	if (isset($page)) {
 
-		if ($page->seo_title()->isNotEmpty()) {
+		if ($page->isHomePage()) {
+			$seoTitle = $site->title();
+		} elseif ($page->seo_title()->isNotEmpty()) {
 			$seoTitle = $page->seo_title();
 		} else {
 			$seoTitle = $page->title();
@@ -52,11 +54,11 @@
 
 ?>
 
-<title><?php if($page->isHomePage()): ?><?= $site->seo_prefix() ?> <?= $seoTitle ?><?php else: ?><?= $seoTitle ?> <?= $site->seo_suffix() ?><?php endif ?></title>
+<title><?php if($page->isHomePage()): ?><?= $seoTitle ?><?php else: ?><?= $seoTitle ?> <?= $site->seo_suffix() ?><?php endif ?></title>
 
 <meta name="description" content="<?= $seoDescription; ?>">
 
-<meta property="og:title" content="<?php if($page->isHomePage()): ?><?= $site->seo_prefix() ?> <?= $ogTitle ?><?php else: ?><?= $ogTitle ?><?php endif ?>" />
+<meta property="og:title" content="<?= $ogTitle ?>" />
 <meta property="og:type" content="website" >
 <meta property="og:site_name" content="<?= $siteTitle; ?>" />
 <meta property="og:description" content="<?= $ogDescription; ?>" />

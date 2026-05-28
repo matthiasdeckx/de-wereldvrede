@@ -1,4 +1,39 @@
 <?php
+$formatNewsPublishedLabel = static function ($field): string {
+  if ($field->isEmpty()) {
+    return '';
+  }
+
+  $published = $field->toDate('Y-m-d');
+  $publishedTs = strtotime($published . ' 00:00:00');
+  $todayTs = strtotime('today');
+  $days = max(0, (int) floor(($todayTs - $publishedTs) / 86400));
+
+  if ($days === 0) {
+    return (string) ui_t('news.published.today');
+  }
+
+  if ($days === 1) {
+    return (string) ui_t('news.published.yesterday');
+  }
+
+  if ($days < 7) {
+    return (string) ui_tt('news.published.days_ago', ['count' => $days]);
+  }
+
+  if ($days < 14) {
+    return (string) ui_t('news.published.week_ago');
+  }
+
+  if ($days < 60) {
+    $weeks = (int) floor($days / 7);
+
+    return (string) ui_tt('news.published.weeks_ago', ['count' => $weeks]);
+  }
+
+  return strtoupper($field->toDate('j F Y'));
+};
+
 $formatNewsInfoValue = static function ($value): string {
   $value = trim((string)$value);
   if ($value === '') {
@@ -17,7 +52,9 @@ $formatNewsInfoValue = static function ($value): string {
   ) {
     $href = str_starts_with($value, 'mailto:') ? $value : $value;
 
-    return '<a href="' . esc($href) . '" target="_blank" rel="noopener">' . esc($value) . '</a>';
+    $icon = snippet('objects/icon-external', [], true);
+
+    return '<a href="' . esc($href) . '" target="_blank" rel="noopener">' . esc($value) . ' ' . $icon . '</a>';
   }
 
   return esc($value);
@@ -29,7 +66,7 @@ $formatNewsInfoValue = static function ($value): string {
 <main class="c-site-main c-news-article">
   <article class="g-container c-news-article__layout">
     <header class="c-news-article__header">
-      <h1 class="c-news-article__title t-display t-uppercase"><?= $page->title()->html() ?></h1>
+      <h1 class="c-news-article__title t-display t-xlarge t-uppercase"><?= $page->title()->html() ?></h1>
       <?php if ($page->info()->isNotEmpty()): ?>
         <dl class="c-news-article__meta t-mono t-uppercase">
           <?php foreach ($page->info()->toStructure() as $item): ?>
@@ -48,11 +85,19 @@ $formatNewsInfoValue = static function ($value): string {
         <?php snippet('objects/image', ['image' => $image, 'sizes' => '66vw', 'crop' => false]) ?>
       <?php endif ?>
       <?php if ($page->published_date()->isNotEmpty()): ?>
-        <time class="t-mono t-uppercase" datetime="<?= $page->published_date()->toDate('Y-m-d') ?>"><?= $page->published_date()->toDate('j F Y') ?></time>
+        <time
+          class="c-news-article__date t-mono t-uppercase"
+          datetime="<?= $page->published_date()->toDate('Y-m-d') ?>"
+        ><?= $formatNewsPublishedLabel($page->published_date()) ?></time>
       <?php endif ?>
-      <div class="c-news-article__body"><?= $page->body()->kti() ?></div>
+      <div class="c-news-article__body t-body-lg t-rich-text"><?= $page->body()->kti() ?></div>
+      <?php if ($page->content_blocks()->isNotEmpty()): ?>
+        <div class="c-news-article__blocks">
+          <?php snippet('components/content-blocks', ['blocks' => $page->content_blocks()]) ?>
+        </div>
+      <?php endif ?>
       <?php if ($page->external_url()->isNotEmpty()): ?>
-        <a class="c-btn t-mono t-uppercase" href="<?= $page->external_url()->toUrl() ?>" target="_blank" rel="noopener"><?= ui_t('project.external_link') ?> →</a>
+        <a class="c-btn t-mono t-uppercase" href="<?= $page->external_url()->toUrl() ?>" target="_blank" rel="noopener"><?= ui_t('project.external_link') ?> <?php snippet('objects/icon-external') ?></a>
       <?php endif ?>
     </div>
     <aside class="c-news-article__aside">

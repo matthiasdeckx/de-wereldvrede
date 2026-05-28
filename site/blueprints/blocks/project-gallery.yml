@@ -1,0 +1,12 @@
+name: Gallery
+icon: dashboard
+preview: gallery
+fields:
+  images:
+    label: Gallery images
+    type: files
+    query: model.images
+    multiple: true
+    layout: cards
+    accept:
+      mime: image/*

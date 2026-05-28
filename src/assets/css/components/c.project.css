@@ -33,8 +33,27 @@
 }
 
 .c-project-hero__more {
-  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
   margin-top: 0.8rem;
+  padding: 1.2rem 2.4rem;
+  border: 0;
+  border-radius: var(--floating-ui-radius-sm);
+  background: #191919;
+  color: var(--color-text);
+  cursor: pointer;
+  justify-self: start;
+  transition: color 0.2s ease;
+}
+
+.c-project-hero__more:hover {
+  color: #888888;
+}
+
+.c-project-hero__more .c-icon-arrow-down {
+  flex-shrink: 0;
 }
 
 /* Scroll layer: offset by hero height, slides over fixed hero */
@@ -83,7 +102,6 @@
   margin-bottom: calc(var(--margin-l)*2);
 }
 
-.c-project-detail__press,
 .c-project-detail__available-on {
   margin-bottom: calc(var(--margin-l)*2);
 }
@@ -215,14 +233,6 @@
   opacity: var(--opacity-text);
 }
 
-.c-project-detail__credit-names a::after {
-  content: "↗";
-  display: inline-block;
-  font-size: 0.85em;
-  margin-left: 0.25em;
-  opacity: var(--opacity-text);
-}
-
 .c-project-detail__cast-crew {
   align-items: center;
   background: rgba(35, 35, 35, 0.8);
@@ -240,10 +250,6 @@
 .c-project-detail__cast-crew:hover,
 .c-project-detail__cast-crew:focus-visible {
   background: rgba(35, 35, 35, 1);
-}
-
-.c-project-detail__cast-crew-icon {
-  flex-shrink: 0;
 }
 
 @media (--s-max) {
@@ -485,11 +491,11 @@
   cursor: pointer;
   display: inline-flex;
   flex-shrink: 0;
-  font-family: var(--font-mono);
-  font-size: calc(var(--text-ui) * 1.5);
+  font-size: calc(var(--font-size--s) * 1.5);
   height: 32px;
   justify-content: center;
-  line-height: 1;
+  letter-spacing: var(--letter-spacing--s);
+  line-height: 1; /* compact icon control */
   padding: 0.4rem;
   transition: background-color var(--anim-speed) var(--anim-ease);
   width: 32px;
@@ -515,8 +521,9 @@
 
 .c-project-nav__link {
   flex: 0 1 auto;
-  font-size: var(--text-ui);
+  font-size: var(--font-size--s);
   gap: 0.8rem;
+  letter-spacing: var(--letter-spacing--s);
   max-width: min(45vw, 32rem);
   padding-inline: 1rem;
   text-decoration: none;
@@ -530,13 +537,15 @@
 
 .c-project-nav__arrow {
   flex-shrink: 0;
-  font-size: calc(var(--text-ui) * 1.5);
-  line-height: 1;
+  font-size: calc(var(--font-size--s) * 1.5);
+  letter-spacing: var(--letter-spacing--s);
+  line-height: 1; /* align arrow with compact nav control */
 }
 
 .c-project-nav__label {
-  font-size: var(--text-ui);
-  line-height: 1;
+  font-size: var(--font-size--s);
+  letter-spacing: var(--letter-spacing--s);
+  line-height: 1; /* single-line ellipsis */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

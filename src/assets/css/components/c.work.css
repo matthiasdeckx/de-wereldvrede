@@ -72,6 +72,6 @@
   .c-work-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-@media (--s-max) {
+@media (--s-640-max) {
   .c-work-grid { grid-template-columns: 1fr; }
 }

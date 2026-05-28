@@ -49,6 +49,17 @@ tabs:
         type: textarea
         size: large
         buttons: false
+      content_blocks:
+        label: Content blocks
+        type: blocks
+        help: Optional gallery and quote blocks shown below the article body.
+        fieldsets:
+          project-gallery:
+            label: Gallery
+            icon: dashboard
+          featured-quote:
+            label: Quote
+            icon: quote
       external_url:
         label: External link
         type: url

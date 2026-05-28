@@ -464,7 +464,6 @@ function parseProjectDetail(string $path, array $listing = []): array
         'project_type' => [],
         'project_status' => [],
         'credits' => [],
-        'press' => [],
         'trailer_vimeo' => '',
         'quotes' => [],
         'gallery_urls' => [],

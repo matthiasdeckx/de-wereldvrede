@@ -17,6 +17,9 @@
 /* Group */
 @import 'groups/g.container';
 
+/* Objects */
+@import 'objects/o.icon-external';
+
 /* Components */
 @import 'components/c.floating-header';
 @import 'components/c.floating-btn';

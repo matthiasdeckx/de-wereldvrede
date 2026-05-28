@@ -1,4 +1,4 @@
-import { closeMobileNav } from "./mobile-nav";
+import { closeMobileNav, syncHeaderCloseButton } from "./mobile-nav";
 
 const OVERLAY_ATTR = "data-overlay";
 const OVERLAY_OPEN_CLASS = "is-open";
@@ -10,12 +10,10 @@ const getOverlays = () => document.querySelectorAll(`[${OVERLAY_ATTR}]`);
 
 const setHeaderOverlayMode = (open) => {
   const header = document.querySelector("[data-floating-header]");
-  const closeBtn = header?.querySelector(".c-floating-header__close");
   if (!header) return;
 
   header.classList.toggle("is-overlay-mode", open);
-  closeBtn?.setAttribute("aria-hidden", open ? "false" : "true");
-  closeBtn?.setAttribute("tabindex", open ? "0" : "-1");
+  syncHeaderCloseButton();
 };
 
 const closeOverlay = (overlay) =>
@@ -100,12 +98,14 @@ export const initOverlays = () => {
 
   document.addEventListener("click", (event) => {
     if (event.target.closest("[data-overlay-close]")) {
+      closeMobileNav();
       closeOverlays();
     }
   });
 
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
+      closeMobileNav();
       closeOverlays();
     }
   });

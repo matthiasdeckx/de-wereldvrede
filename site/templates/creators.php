@@ -4,12 +4,19 @@
   <h1 class="u-visually-hidden"><?= $page->title()->html() ?></h1>
   <ul class="c-creators-list">
     <?php foreach ($page->creators()->toStructure() as $index => $creator): ?>
+      <?php
+      $portraitFile = $creator->portrait()->toFile();
+      $portraitUrl = $portraitFile
+        ? $portraitFile->thumb(['width' => 480, 'quality' => 80])->url()
+        : null;
+      ?>
       <li>
         <button
           type="button"
           class="c-creators-list__name t-display t-xxlarge t-uppercase"
           data-creator-open
           data-creator-index="<?= $index ?>"
+          <?php if ($portraitUrl): ?>data-portrait="<?= esc($portraitUrl, 'attr') ?>"<?php endif ?>
         ><?= $creator->name()->html() ?></button>
       </li>
     <?php endforeach ?>

@@ -22,7 +22,7 @@
   --floating-ui-radius-sm: var(--image-radius);
   --image-radius: 4px;
   --floating-ui-top: var(--margin-outer);
-  --floating-ui-blur: blur(10px);
+  --floating-ui-blur: blur(30px);
   --floating-ui-bg: var(--color-surface-floating);
 
   --page-gutter: 1.2rem;

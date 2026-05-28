@@ -7,6 +7,7 @@ import { initOverlays, closeOverlays } from "./components/overlay";
 import { initContactOverlay } from "./components/contact-overlay";
 import { initTrailerOverlay } from "./components/trailer-overlay";
 import { initCreatorOverlay } from "./components/creator-overlay";
+import { initCreatorsListPortrait } from "./components/creators-list-portrait";
 import { initHeroVideo } from "./components/hero-video";
 import { initHomeSnap } from "./components/home-snap";
 import { initHomeFeatureParallax } from "./components/home-feature-parallax";
@@ -45,6 +46,7 @@ const initPage = () => {
   initContactOverlay();
   initTrailerOverlay();
   initCreatorOverlay();
+  initCreatorsListPortrait();
   initHeroVideo();
   initHomeSnap();
   initHomeFeatureParallax();
@@ -98,7 +100,9 @@ const initSwup = () => {
 
 document.addEventListener("DOMContentLoaded", () => {
   initMobileNav();
-  initCookieConsent();
+  if (document.querySelector("[data-cookie-banner]")) {
+    initCookieConsent();
+  }
   initPage();
   initSwup();
 
