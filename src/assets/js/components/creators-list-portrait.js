@@ -2,7 +2,7 @@ const HOVER_MEDIA = "(hover: hover)";
 const OFFSET_X = 12;
 const OFFSET_Y = 12;
 const PORTRAIT_FADE_MS = 240;
-const PORTRAIT_SELECTOR = ".c-creators-list__name[data-portrait]";
+const PORTRAIT_SELECTOR = ".c-creators-list__name[data-portrait-src]";
 
 let teardown = null;
 let preview = null;
@@ -27,6 +27,8 @@ export const initCreatorsListPortrait = () => {
 
   const img = document.createElement("img");
   img.alt = "";
+  img.loading = "lazy";
+  img.decoding = "async";
   preview.appendChild(img);
   document.body.appendChild(preview);
 
@@ -44,6 +46,8 @@ export const initCreatorsListPortrait = () => {
     if (preview.classList.contains("is-visible")) return;
     preview.hidden = true;
     img.removeAttribute("src");
+    img.removeAttribute("srcset");
+    img.removeAttribute("sizes");
   };
 
   const hide = (immediate = false) => {
@@ -69,7 +73,8 @@ export const initCreatorsListPortrait = () => {
 
   const onEnter = (event) => {
     const button = event.currentTarget;
-    const url = button.dataset.portrait;
+    const { portraitSrc: url, portraitSrcset: srcset, portraitSizes: sizes } =
+      button.dataset;
     if (!url) return;
 
     cancelHide();
@@ -77,6 +82,16 @@ export const initCreatorsListPortrait = () => {
 
     if (img.getAttribute("src") !== url) {
       img.src = url;
+      if (srcset) {
+        img.srcset = srcset;
+      } else {
+        img.removeAttribute("srcset");
+      }
+      if (sizes) {
+        img.sizes = sizes;
+      } else {
+        img.removeAttribute("sizes");
+      }
     }
 
     preview.hidden = false;

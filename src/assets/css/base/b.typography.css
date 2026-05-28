@@ -44,6 +44,12 @@
   letter-spacing: var(--letter-spacing--xxxl);
 }
 
+.t-body {
+  font-size: var(--font-size--body);
+  line-height: var(--line-height--body);
+  letter-spacing: var(--letter-spacing--m);
+}
+
 .t-body-lg {
   font-size: var(--font-size--body-lg);
   line-height: var(--line-height--body-lg);
@@ -70,8 +76,8 @@ button.t-mono,
 
 .t-rich-text {
   font-family: var(--font-body);
-  font-size: var(--font-size--m);
-  line-height: var(--line-height--m);
+  font-size: var(--font-size--body);
+  line-height: var(--line-height--body);
   letter-spacing: var(--letter-spacing--m);
 }
 

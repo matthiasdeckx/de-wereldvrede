@@ -36,6 +36,11 @@ return [
         '2160w' => ['width' => 2160, 'quality' => 90],
         '3240w' => ['width' => 3240, 'quality' => 90],
       ],
+      'portrait' => [
+        '160w' => ['width' => 160, 'quality' => 80],
+        '240w' => ['width' => 240, 'quality' => 80],
+        '320w' => ['width' => 320, 'quality' => 80],
+      ],
     ],
   ],
   'session' => [

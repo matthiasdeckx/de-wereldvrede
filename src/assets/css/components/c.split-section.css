@@ -3,7 +3,7 @@
   padding-top: var(--margin);
   display: grid;
   grid-template-columns: 1fr 2fr;
-  gap: 4rem;
+  gap: var(--margin-l) var(--column-gutter);
   align-items: start;
 }
 
@@ -35,7 +35,7 @@
 @media (--s-m-max) {
   .c-split-section {
     grid-template-columns: 1fr;
-    gap: 2.4rem;
+    gap: var(--margin-l);
   }
 
   .c-split-section__label,

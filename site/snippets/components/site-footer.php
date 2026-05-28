@@ -54,6 +54,7 @@
               'class' => 'c-site-footer__support-logo',
               'sizes' => '160px',
               'crop' => false,
+              'blurUp' => false,
             ]) ?>
           <?php endif ?>
         </div>

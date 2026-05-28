@@ -115,7 +115,7 @@
 .c-about__section--awards .c-about__layout {
   display: grid;
   grid-template-columns: 1fr 2fr;
-  gap: 4rem;
+  gap: var(--margin-l) var(--column-gutter);
   align-items: start;
 }
 
@@ -172,7 +172,7 @@
 
   .c-about__section--awards .c-about__awards {
     grid-column: 1 / -1;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .c-about__section--awards .c-about__award {
@@ -180,10 +180,16 @@
   }
 }
 
+@media (--s-m-max) {
+  .c-about__section--awards .c-about__awards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (--s-max) {
   .c-about__section--awards .c-about__layout {
     grid-template-columns: 1fr;
-    gap: 2.4rem;
+    gap: var(--margin-l);
   }
 
   .c-about__section--awards .c-about__awards {

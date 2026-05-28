@@ -168,6 +168,11 @@
         'source' => $page->featured_quote_source(),
         'stars' => (int) $page->featured_quote_stars()->or('0')->value(),
       ]) ?>
+      <div
+        class="c-project-detail__content-sentinel"
+        data-project-detail-sentinel
+        aria-hidden="true"
+      ></div>
     </div>
     <?php
       $carouselQuotes = [];

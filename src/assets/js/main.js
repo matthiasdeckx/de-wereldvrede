@@ -13,7 +13,10 @@ import { initHomeSnap } from "./components/home-snap";
 import { initHomeFeatureParallax } from "./components/home-feature-parallax";
 import { initHomeFeatureTrailerCursor } from "./components/home-feature-trailer-cursor";
 import { initFeaturedQuoteCarousel } from "./components/featured-quote-carousel";
-import { initProjectScroll } from "./components/project-scroll";
+import {
+  destroyProjectScroll,
+  initProjectScroll,
+} from "./components/project-scroll";
 import { initWorkFilters } from "./components/work-filters";
 import { destroyWorkProgressiveReveal, initWorkProgressiveReveal } from "./components/work-progressive-reveal";
 import { initNewsLoadMore } from "./components/news-load-more";
@@ -51,6 +54,7 @@ const initPage = () => {
   initHomeSnap();
   initHomeFeatureParallax();
   initHomeFeatureTrailerCursor();
+  destroyProjectScroll();
   initProjectScroll();
   initFeaturedQuoteCarousel();
   initWorkFilters();

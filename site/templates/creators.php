@@ -6,9 +6,13 @@
     <?php foreach ($page->creators()->toStructure() as $index => $creator): ?>
       <?php
       $portraitFile = $creator->portrait()->toFile();
-      $portraitUrl = $portraitFile
-        ? $portraitFile->thumb(['width' => 480, 'quality' => 80])->url()
-        : null;
+      $portraitSrc = null;
+      $portraitSrcset = null;
+      $portraitSizes = 'min(28rem, 42vw)';
+      if ($portraitFile) {
+        $portraitSrc = $portraitFile->thumb(['width' => 240, 'quality' => 80])->url();
+        $portraitSrcset = $portraitFile->srcset('portrait');
+      }
       ?>
       <li>
         <button
@@ -16,7 +20,11 @@
           class="c-creators-list__name t-display t-xxlarge t-uppercase"
           data-creator-open
           data-creator-index="<?= $index ?>"
-          <?php if ($portraitUrl): ?>data-portrait="<?= esc($portraitUrl, 'attr') ?>"<?php endif ?>
+          <?php if ($portraitSrc): ?>
+          data-portrait-src="<?= esc($portraitSrc, 'attr') ?>"
+          data-portrait-srcset="<?= esc($portraitSrcset, 'attr') ?>"
+          data-portrait-sizes="<?= esc($portraitSizes, 'attr') ?>"
+          <?php endif ?>
         ><?= $creator->name()->html() ?></button>
       </li>
     <?php endforeach ?>

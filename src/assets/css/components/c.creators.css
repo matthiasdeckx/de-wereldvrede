@@ -64,7 +64,7 @@
 }
 
 @media (hover: hover) {
-  .c-creators-list__name[data-portrait]:hover {
+  .c-creators-list__name[data-portrait-src]:hover {
     cursor: pointer;
   }
 }
