@@ -22,6 +22,7 @@
 
 /* Components */
 @import 'components/c.floating-header';
+@import 'components/c.contact-panel';
 @import 'components/c.floating-btn';
 @import 'components/c.site-main';
 @import 'components/c.site-footer';
@@ -31,6 +32,7 @@
 @import 'components/c.work';
 @import 'components/c.project';
 @import 'components/c.creators';
+@import 'components/c.creator-overlay';
 @import 'components/c.split-section';
 @import 'components/c.about';
 @import 'components/c.disclaimer';

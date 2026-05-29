@@ -80,6 +80,7 @@
 }
 
 .c-floating-header__nav--desktop .c-floating-header__list a,
+.c-floating-header__nav--desktop .c-floating-header__list [data-contact-open],
 .c-floating-header__slot-action {
   background: none;
   border: 0;
@@ -106,6 +107,8 @@
 
 .c-floating-header__nav--desktop .c-floating-header__list a:hover,
 .c-floating-header__nav--desktop .c-floating-header__list a:focus-visible,
+.c-floating-header__nav--desktop .c-floating-header__list [data-contact-open]:hover,
+.c-floating-header__nav--desktop .c-floating-header__list [data-contact-open]:focus-visible,
 .c-floating-header__slot-action:hover,
 .c-floating-header__slot-action:focus-visible {
   background: var(--nav-item-bg);
@@ -164,6 +167,10 @@
   transition-delay: 0s;
 }
 
+.c-floating-header.is-contact-open .c-floating-header__nav--desktop [data-contact-open] {
+  background: var(--nav-item-bg);
+}
+
 @media (--s-m-max) {
   .c-floating-header__nav--desktop { display: none; }
   .c-floating-header__slot--mobile { display: grid; }
@@ -187,11 +194,11 @@
   border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-.c-mobile-nav__list a,
-.c-mobile-nav__list button {
+.c-mobile-nav__link {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 1.6rem;
   width: 100%;
   min-height: 5.6rem;
   padding: 1.6rem;
@@ -200,12 +207,37 @@
   color: inherit;
   cursor: pointer;
   line-height: 1;
-  text-align: center;
+  text-align: left;
   text-decoration: none;
 }
 
-.c-mobile-nav__list a:hover,
-.c-mobile-nav__list button:hover {
+.c-mobile-nav__label {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.c-mobile-nav__arrow,
+.c-mobile-nav__toggle {
+  flex-shrink: 0;
+  font-size: calc(var(--font-size--s) * 1.5);
+  letter-spacing: var(--letter-spacing--s);
+  line-height: 1;
+}
+
+.c-mobile-nav__toggle-icon--close {
+  display: none;
+}
+
+.c-mobile-nav__link--contact[aria-expanded="true"] .c-mobile-nav__toggle-icon--open {
+  display: none;
+}
+
+.c-mobile-nav__link--contact[aria-expanded="true"] .c-mobile-nav__toggle-icon--close {
+  display: inline;
+}
+
+.c-mobile-nav__link:hover,
+.c-mobile-nav__link:focus-visible {
   opacity: 0.6;
 }
 

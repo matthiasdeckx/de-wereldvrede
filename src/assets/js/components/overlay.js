@@ -1,4 +1,5 @@
 import { closeMobileNav, syncHeaderCloseButton } from "./mobile-nav";
+import { closeContactPanel } from "./contact-panel";
 
 const OVERLAY_ATTR = "data-overlay";
 const OVERLAY_OPEN_CLASS = "is-open";
@@ -99,6 +100,7 @@ export const initOverlays = () => {
   document.addEventListener("click", (event) => {
     if (event.target.closest("[data-overlay-close]")) {
       closeMobileNav();
+      closeContactPanel();
       closeOverlays();
     }
   });
@@ -106,6 +108,7 @@ export const initOverlays = () => {
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") {
       closeMobileNav();
+      closeContactPanel();
       closeOverlays();
     }
   });

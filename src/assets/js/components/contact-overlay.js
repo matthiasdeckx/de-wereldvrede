@@ -1,3 +1,4 @@
+/** @deprecated Backup — replaced by contact-panel.js. Overlay open path kept for reference. */
 import { openOverlay } from "./overlay";
 
 let contactListenersBound = false;

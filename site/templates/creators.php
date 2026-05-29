@@ -36,7 +36,11 @@
         'name' => $c->name()->value(),
         'role' => $c->role()->value(),
         'bio' => $c->bio()->value(),
-        'portrait' => $c->portrait()->toFile()?->url(),
+        'portrait' => ($file = $c->portrait()->toFile()) ? [
+          'src' => $file->thumb(['width' => 480, 'quality' => 85])->url(),
+          'srcset' => $file->srcset('portrait'),
+          'sizes' => 'min(28rem, 42vw)',
+        ] : null,
         'productions' => $c->productions()->toPages()->map(fn($p) => [
           'title' => $p->title()->value(),
           'url' => $p->url(),

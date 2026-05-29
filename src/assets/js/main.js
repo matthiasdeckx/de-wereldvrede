@@ -4,7 +4,7 @@ import SwupBodyClassPlugin from "@swup/body-class-plugin";
 
 import { initMobileNav, closeMobileNav } from "./components/mobile-nav";
 import { initOverlays, closeOverlays } from "./components/overlay";
-import { initContactOverlay } from "./components/contact-overlay";
+import { closeContactPanel, initContactPanel } from "./components/contact-panel";
 import { initTrailerOverlay } from "./components/trailer-overlay";
 import { initCreatorOverlay } from "./components/creator-overlay";
 import { initCreatorsListPortrait } from "./components/creators-list-portrait";
@@ -44,9 +44,10 @@ const initPage = () => {
   destroyWorkProgressiveReveal();
   syncPageStyle();
   closeOverlays();
+  closeContactPanel();
   closeMobileNav();
   initOverlays();
-  initContactOverlay();
+  initContactPanel();
   initTrailerOverlay();
   initCreatorOverlay();
   initCreatorsListPortrait();

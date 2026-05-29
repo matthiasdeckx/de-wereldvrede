@@ -9,7 +9,7 @@ const getMobileNavEls = () => {
 };
 
 export const syncHeaderCloseButton = () => {
-  const { closeBtns, nav } = getMobileNavEls();
+  const { header, closeBtns, nav } = getMobileNavEls();
   if (!closeBtns.length || !nav) return;
 
   const navOpen = !nav.hidden;
@@ -26,12 +26,18 @@ export const closeMobileNav = () => {
   const { header, nav, toggle } = getMobileNavEls();
   if (!nav || !toggle) return;
 
+  const wasOpen = !nav.hidden;
+
   nav.hidden = true;
   nav.setAttribute("aria-hidden", "true");
   toggle.setAttribute("aria-expanded", "false");
   header?.classList.remove("is-mobile-nav-open");
   document.body.classList.remove("is-mobile-nav-open");
   syncHeaderCloseButton();
+
+  if (wasOpen) {
+    document.dispatchEvent(new CustomEvent("mobile-nav:close"));
+  }
 };
 
 const openMobileNav = () => {

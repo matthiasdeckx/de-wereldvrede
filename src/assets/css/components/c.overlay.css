@@ -43,6 +43,7 @@
   transition: opacity var(--anim-speed-slow) var(--anim-ease) var(--anim-delay-short);
 }
 
+/* Backup: full-screen contact overlay styles preserved for contact.backup.php */
 .c-overlay--contact .c-overlay__panel {
   display: flex;
   flex-direction: column;

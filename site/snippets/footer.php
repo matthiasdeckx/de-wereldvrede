@@ -3,7 +3,7 @@
   <?php endif ?>
   </div>
 
-  <?php snippet('overlays/contact') ?>
+  <?php /* Contact overlay backup: site/snippets/overlays/contact.backup.php */ ?>
   <?php snippet('overlays/trailer') ?>
   <?php snippet('overlays/creator') ?>
   <?php if ($site->cookie_banner()->toBool(true)): ?>

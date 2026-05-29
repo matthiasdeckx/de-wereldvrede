@@ -62,7 +62,13 @@ if ($page->isHomePage()) {
                 </li>
               <?php endforeach ?>
               <li class="c-floating-header__slot">
-                <button type="button" class="c-floating-header__slot-action c-floating-header__slot-action--default t-mono t-uppercase" data-contact-open><?= ui_t('nav.contact') ?></button>
+                <button
+                  type="button"
+                  class="c-floating-header__slot-action c-floating-header__slot-action--default t-mono t-uppercase"
+                  data-contact-open
+                  aria-expanded="false"
+                  aria-controls="contact-panel"
+                ><?= ui_t('nav.contact') ?></button>
                 <button type="button" class="c-floating-header__slot-action c-floating-header__slot-action--close t-mono t-uppercase" data-overlay-close aria-hidden="true" tabindex="-1"><?= ui_t('nav.close') ?></button>
               </li>
             </ul>
@@ -80,15 +86,31 @@ if ($page->isHomePage()) {
           <ul class="c-mobile-nav__list">
             <?php foreach ($navItems as $item): ?>
               <li>
-                <a href="<?= $item->url() ?>" <?= e($item->isOpen(), 'aria-current="page"') ?> class="t-mono t-uppercase"><?= $item->title()->html() ?></a>
+                <a href="<?= $item->url() ?>" <?= e($item->isOpen(), 'aria-current="page"') ?> class="c-mobile-nav__link t-mono t-uppercase">
+                  <span class="c-mobile-nav__label"><?= $item->title()->html() ?></span>
+                  <span class="c-mobile-nav__arrow" aria-hidden="true">→</span>
+                </a>
               </li>
             <?php endforeach ?>
             <li>
-              <button type="button" class="t-mono t-uppercase" data-contact-open><?= ui_t('nav.contact') ?></button>
+              <button
+                type="button"
+                class="c-mobile-nav__link c-mobile-nav__link--contact t-mono t-uppercase"
+                data-contact-open
+                aria-expanded="false"
+                aria-controls="contact-panel"
+              >
+                <span class="c-mobile-nav__label"><?= ui_t('nav.contact') ?></span>
+                <span class="c-mobile-nav__toggle" aria-hidden="true">
+                  <span class="c-mobile-nav__toggle-icon c-mobile-nav__toggle-icon--open">+</span>
+                  <span class="c-mobile-nav__toggle-icon c-mobile-nav__toggle-icon--close">×</span>
+                </span>
+              </button>
             </li>
           </ul>
         </nav>
       </div>
+      <?php snippet('components/contact-panel') ?>
     </div>
   </header>
 
