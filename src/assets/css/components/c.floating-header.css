@@ -21,6 +21,14 @@ html.is-home-intro-active .c-floating-header {
   transition: none;
 }
 
+/* Intro reveal: fade the header as one unit (no staggered nav item opacity). */
+html.is-home-intro-active .c-floating-header__nav--desktop .c-floating-header__list > li:not(.c-floating-header__slot),
+html.is-home-intro-active .c-floating-header__nav--desktop .c-floating-header__list a,
+html.is-home-intro-active .c-floating-header__nav--desktop .c-floating-header__list [data-contact-open],
+html.is-home-intro-active .c-floating-header__slot-action {
+  transition: none;
+}
+
 .c-floating-header__unit {
   border-radius: var(--floating-ui-radius);
   overflow: hidden;
@@ -77,16 +85,10 @@ html.is-home-intro-active .c-floating-header {
   --nav-item-bg: hsl(0 0% 20% / 0.9);
   display: flex;
   align-items: center;
+  gap: 4px;
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-.c-floating-header__nav--desktop .c-floating-header__list > li:not(.c-floating-header__slot) {
-  transition:
-    opacity var(--header-action-fade) var(--anim-ease),
-    visibility var(--header-action-fade) var(--anim-ease);
-  transition-delay: var(--header-action-swap-delay);
 }
 
 .c-floating-header__nav--desktop .c-floating-header__list a,
@@ -105,6 +107,11 @@ html.is-home-intro-active .c-floating-header {
   line-height: 1;
   padding: 0 1.2rem;
   text-decoration: none;
+  transition: background-color var(--anim-speed) var(--anim-ease);
+}
+
+.c-floating-header__nav--desktop .c-floating-header__list [data-contact-open],
+.c-floating-header__slot-action {
   transition:
     background-color var(--anim-speed) var(--anim-ease),
     opacity var(--header-action-fade) var(--anim-ease),
@@ -154,6 +161,9 @@ html.is-home-intro-active .c-floating-header {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+  transition:
+    opacity var(--header-action-fade) var(--anim-ease),
+    visibility var(--header-action-fade) var(--anim-ease);
   transition-delay: 0s;
 }
 
@@ -170,10 +180,6 @@ html.is-home-intro-active .c-floating-header {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition-delay: 0s;
-}
-
-.c-floating-header.is-overlay-mode .c-floating-header__nav--desktop .c-floating-header__list > li:not(.c-floating-header__slot) {
   transition-delay: 0s;
 }
 

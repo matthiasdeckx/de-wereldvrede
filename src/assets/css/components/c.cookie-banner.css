@@ -26,17 +26,19 @@ html.is-home-intro-active .c-cookie-banner {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 2.4rem;
-  padding: 3.2rem;
+  gap: var(--margin-m);
+  padding: var(--margin-m);
 }
 
 .c-cookie-banner__text {
   margin: 0;
   font-family: var(--font-body);
-  font-size: var(--font-size--m);
-  line-height: var(--line-height--m);
-  letter-spacing: var(--letter-spacing--m);
   text-align: left;
+}
+
+.c-cookie-banner__text :is(p, ul, ol) {
+  margin: 0;
+  font: inherit;
 }
 
 .c-cookie-banner__text a {
@@ -52,7 +54,7 @@ html.is-home-intro-active .c-cookie-banner {
 .c-cookie-banner__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 2.4rem;
+  gap: var(--margin-m);
 }
 
 .c-cookie-banner__btn {
@@ -85,7 +87,7 @@ html.is-home-intro-active .c-cookie-banner {
 @media (--s-m) {
   .c-cookie-banner {
     right: auto;
-    max-width: 56rem;
+    max-width: 44rem;
   }
 }
 

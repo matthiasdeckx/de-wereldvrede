@@ -1,12 +1,17 @@
 {
-  "_readme": "Add preloader.webm (VP9 alpha) and preloader.mov (HEVC alpha for Safari) to src/assets/preloader/, then run npm run development to copy them to assets/preloader/. Disable with enabled: false.",
+  "_readme": "Config manifest for the homepage intro. Animation: leader.json (Lottie). Video fallback: preloader.webm + preloader.mov. Run npm run development to copy assets to assets/preloader/. Set enabled: false to disable entirely.",
   "_encodeSafari": "Safari <video> needs HEVC with alpha (hvc1), NOT ProRes 4444. From ProRes source: ffmpeg -y -i preloader-prores.mov -vf format=yuva420p -c:v hevc_videotoolbox -b:v 8M -alpha_quality 1 -tag:v hvc1 -an preloader.mov. Verify: ffprobe shows codec_name=hevc, codec_tag_string=hvc1.",
   "_encodeWebm": "Chrome/Firefox: ffmpeg -y -i source.mov -c:v libvpx-vp9 -pix_fmt yuva420p -b:v 2M -an preloader.webm",
   "enabled": true,
+  "type": "lottie",
+  "fallback": "video",
   "showOncePerSession": false,
   "background": "transparent",
   "width": 480,
   "height": null,
+  "lottie": {
+    "path": "/assets/preloader/leader.json"
+  },
   "sources": {
     "webm": "/assets/preloader/preloader.webm",
     "mov": "/assets/preloader/preloader.mov"

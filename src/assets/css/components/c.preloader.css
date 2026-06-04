@@ -51,6 +51,7 @@ html.is-home-intro-active .c-preloader--skippable:not(.is-dismissed):not(.is-hid
   max-height: min(80vh, 100%);
 }
 
+.c-preloader__lottie,
 .c-preloader__video,
 .c-preloader__poster {
   display: block;
@@ -60,6 +61,15 @@ html.is-home-intro-active .c-preloader--skippable:not(.is-dismissed):not(.is-hid
   object-fit: contain;
   background: transparent;
   pointer-events: none;
+}
+
+.c-preloader__lottie {
+  aspect-ratio: 1;
+}
+
+.c-preloader__lottie[hidden],
+.c-preloader__video[hidden] {
+  display: none;
 }
 
 .c-preloader__media {

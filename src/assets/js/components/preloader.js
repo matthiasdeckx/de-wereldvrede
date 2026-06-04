@@ -1,3 +1,5 @@
+import lottie from "lottie-web";
+
 const INTRO_ACTIVE_CLASS = "is-home-intro-active";
 
 const prefersReducedMotion = () =>
@@ -63,7 +65,43 @@ const waitForVideoEnd = (video, timeoutMs) =>
     const timer = window.setTimeout(finish, timeoutMs);
   });
 
-const dismissIntro = (root, video, fadeOutMs) => {
+const waitForLottieEnd = (animation, timeoutMs) =>
+  new Promise((resolve, reject) => {
+    if (!animation) {
+      reject(new Error("no lottie animation"));
+      return;
+    }
+
+    let settled = false;
+    const finish = () => {
+      if (settled) return;
+      settled = true;
+      animation.removeEventListener("complete", finish);
+      animation.removeEventListener("data_failed", onError);
+      animation.removeEventListener("error", onError);
+      window.clearTimeout(timer);
+      resolve();
+    };
+
+    const onError = () => {
+      if (settled) return;
+      settled = true;
+      animation.removeEventListener("complete", finish);
+      animation.removeEventListener("data_failed", onError);
+      animation.removeEventListener("error", onError);
+      window.clearTimeout(timer);
+      reject(new Error("lottie failed"));
+    };
+
+    animation.addEventListener("complete", finish);
+    animation.addEventListener("data_failed", onError);
+    animation.addEventListener("error", onError);
+
+    const timer = window.setTimeout(finish, timeoutMs);
+  });
+
+const dismissIntro = (root, video, fadeOutMs, animation) => {
+  animation?.destroy();
   root.classList.add("is-hiding");
   window.setTimeout(() => {
     root.classList.add("is-dismissed");
@@ -71,6 +109,48 @@ const dismissIntro = (root, video, fadeOutMs) => {
     setIntroActive(false);
     video?.pause();
   }, fadeOutMs);
+};
+
+const playVideoIntro = (video, maxDurationMs) =>
+  new Promise((resolve) => {
+    if (!video) {
+      resolve();
+      return;
+    }
+
+    video.removeAttribute("hidden");
+    video.muted = true;
+    video.playsInline = true;
+    video.currentTime = 0;
+
+    const playPromise = video.play();
+    if (playPromise?.catch) {
+      playPromise.catch(() => resolve());
+    }
+
+    waitForVideoEnd(video, maxDurationMs).then(resolve);
+  });
+
+const playLottieIntro = (container, path) => {
+  const animation = lottie.loadAnimation({
+    container,
+    renderer: "svg",
+    loop: false,
+    autoplay: true,
+    path,
+  });
+
+  return animation;
+};
+
+const switchToVideoFallback = (root) => {
+  const lottieEl = root.querySelector("[data-preloader-lottie]");
+  const video = root.querySelector("[data-preloader-video]");
+
+  lottieEl?.setAttribute("hidden", "");
+  video?.removeAttribute("hidden");
+
+  return video;
 };
 
 export const initPreloader = () => {
@@ -91,17 +171,23 @@ export const initPreloader = () => {
   const fadeOutMs = config.fadeOutMs ?? 500;
   const maxDurationMs = config.maxDurationMs ?? 12000;
   const video = root.querySelector("[data-preloader-video]");
+  const lottieContainer = root.querySelector("[data-preloader-lottie]");
   const poster = root.querySelector("[data-preloader-poster]");
   const skipHint = root.querySelector("[data-preloader-skip-hint]");
   const allowSkip = config.allowSkip !== false;
+  const introType = config.type ?? "video";
+  const lottiePath = config.lottie?.path;
   let finished = false;
+  let animation = null;
+  let maxTimer = null;
 
   const finish = () => {
     if (finished) return;
     finished = true;
     root.dataset.introRunning = "false";
+    if (maxTimer) window.clearTimeout(maxTimer);
 
-    dismissIntro(root, video, fadeOutMs);
+    dismissIntro(root, video, fadeOutMs, animation);
     document.dispatchEvent(new CustomEvent("dw:intro-complete"));
   };
 
@@ -134,11 +220,19 @@ export const initPreloader = () => {
     root.addEventListener("keydown", onSkipKeydown);
   }
 
+  maxTimer = window.setTimeout(finish, maxDurationMs);
+
+  const runVideoIntro = async () => {
+    const activeVideo = switchToVideoFallback(root) ?? video;
+    await playVideoIntro(activeVideo, maxDurationMs);
+    finish();
+  };
+
   if (prefersReducedMotion()) {
     if (config.reducedMotion === "poster" && poster) {
       poster.hidden = false;
+      lottieContainer?.setAttribute("hidden", "");
       video?.setAttribute("hidden", "");
-      window.setTimeout(finish, maxDurationMs);
       return;
     }
 
@@ -146,24 +240,37 @@ export const initPreloader = () => {
     return;
   }
 
-  if (!video) {
-    finish();
+  if (introType === "lottie" && lottieContainer && lottiePath) {
+    try {
+      animation = playLottieIntro(lottieContainer, lottiePath);
+      waitForLottieEnd(animation, maxDurationMs)
+        .then(finish)
+        .catch(() => {
+          if (config.fallback === "video" && video) {
+            animation?.destroy();
+            animation = null;
+            runVideoIntro();
+            return;
+          }
+
+          finish();
+        });
+      return;
+    } catch {
+      if (config.fallback === "video" && video) {
+        runVideoIntro();
+        return;
+      }
+
+      finish();
+      return;
+    }
+  }
+
+  if (video) {
+    playVideoIntro(video, maxDurationMs).then(finish);
     return;
   }
 
-  video.muted = true;
-  video.playsInline = true;
-  video.currentTime = 0;
-
-  const playPromise = video.play();
-  if (playPromise?.catch) {
-    playPromise.catch(() => finish());
-  }
-
-  const maxTimer = window.setTimeout(finish, maxDurationMs);
-
-  waitForVideoEnd(video, maxDurationMs).then(() => {
-    window.clearTimeout(maxTimer);
-    finish();
-  });
+  finish();
 };

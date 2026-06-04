@@ -1,8 +1,7 @@
 <?php
 
-// Homepage intro animation: add video files to src/assets/preloader/ (see preloader.json), then npm run development.
-// Renders any sources that exist on disk (webm, mov, and/or mp4). For alpha: WebM (VP9) for Chrome/Firefox, HEVC (hvc1) .mov for Safari.
-// Safari does NOT support ProRes 4444 alpha in <video> — re-encode with preloader.json _encodeSafari command.
+// Homepage intro animation: Lottie (leader.json) with optional video fallback.
+// Add files to src/assets/preloader/, configure preloader.json, then npm run development.
 
 $configPath = kirby()->root('index') . '/assets/preloader/preloader.json';
 $config = is_file($configPath) ? json_decode(file_get_contents($configPath), true) : null;
@@ -25,6 +24,7 @@ $width = (int) ($config['width'] ?? 320);
 $height = isset($config['height']) ? (int) $config['height'] : null;
 $poster = $config['poster'] ?? null;
 $allowSkip = ($config['allowSkip'] ?? true) === true;
+$type = $config['type'] ?? 'video';
 $style = '--preloader-width: ' . $width . 'px';
 
 if ($height) {
@@ -37,12 +37,17 @@ $sources = array_filter([
   'mp4' => $assetExists($sources['mp4'] ?? null) ? ($sources['mp4'] ?? null) : null,
 ]);
 
+$lottiePath = $config['lottie']['path'] ?? null;
+$hasLottie = $type === 'lottie' && $assetExists($lottiePath);
 $hasVideo = $sources !== [];
-$hasIntroMedia = $hasVideo || $assetExists($poster);
+$hasIntroMedia = $hasLottie || $hasVideo || $assetExists($poster);
 
 if (!$hasIntroMedia) {
   return;
 }
+
+$useLottiePrimary = $hasLottie;
+$videoHidden = $useLottiePrimary;
 
 ?>
 <div
@@ -54,6 +59,14 @@ if (!$hasIntroMedia) {
   style="<?= esc($style, 'attr') ?>"
 >
   <div class="c-preloader__media">
+    <?php if ($useLottiePrimary): ?>
+      <div
+        class="c-preloader__lottie"
+        data-preloader-lottie
+        aria-hidden="true"
+      ></div>
+    <?php endif ?>
+
     <?php if (!empty($poster)): ?>
       <img
         class="c-preloader__poster"
@@ -73,6 +86,7 @@ if (!$hasIntroMedia) {
         muted
         playsinline
         preload="auto"
+        <?= $videoHidden ? 'hidden' : '' ?>
         <?= !empty($poster) ? 'poster="' . url($poster) . '"' : '' ?>
       >
         <?php if (!empty($sources['webm'])): ?>

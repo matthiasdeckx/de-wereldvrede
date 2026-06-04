@@ -15,7 +15,12 @@ $assetExists = static function (?string $publicPath): bool {
   return is_file(kirby()->root('index') . '/' . ltrim($publicPath, '/'));
 };
 
+$type = $config['type'] ?? 'video';
 $hasIntroMedia = $assetExists($config['poster'] ?? null);
+
+if (!$hasIntroMedia && $type === 'lottie') {
+  $hasIntroMedia = $assetExists($config['lottie']['path'] ?? null);
+}
 
 if (!$hasIntroMedia) {
   foreach ($config['sources'] ?? [] as $sourcePath) {

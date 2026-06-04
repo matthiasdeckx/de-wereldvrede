@@ -56,6 +56,12 @@
   letter-spacing: var(--letter-spacing--body-lg);
 }
 
+.t-caption {
+  font-size: var(--font-size--caption);
+  line-height: var(--line-height--caption);
+  letter-spacing: var(--letter-spacing--m);
+}
+
 .t-mono {
   font-family: var(--font-mono);
   font-size: var(--font-size--s);
