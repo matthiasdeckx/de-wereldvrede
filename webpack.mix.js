@@ -19,4 +19,5 @@ mix
   })
   .copyDirectory("src/assets/images", "assets/images")
   .copyDirectory("src/assets/fonts", "assets/fonts")
+  .copyDirectory("src/assets/preloader", "assets/preloader")
   .version();

@@ -9,6 +9,16 @@
   color: #ffffff;
   user-select: none;
   outline: none;
+  transition:
+    opacity var(--anim-speed-slow) var(--anim-ease),
+    visibility var(--anim-speed-slow) var(--anim-ease);
+}
+
+html.is-home-intro-active .c-floating-header {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: none;
 }
 
 .c-floating-header__unit {
@@ -244,6 +254,12 @@
 @media (--s-m) {
   .c-mobile-nav {
     display: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c-floating-header {
+    transition-duration: 0.01ms;
   }
 }
 

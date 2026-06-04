@@ -10,6 +10,7 @@
 @import "base/b.reset";
 @import 'base/b.base';
 @import 'components/c.page-transition';
+@import 'components/c.preloader';
 @import 'base/b.typography';
 @import 'base/b.media';
 @import 'base/b.forms';

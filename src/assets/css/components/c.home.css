@@ -89,9 +89,16 @@
 }
 
 .c-home-hero__title {
+  opacity: 1;
+  transition: opacity var(--anim-speed-slow) var(--anim-ease);
   user-select: none;
   outline: none;
   cursor: pointer;
+}
+
+html.is-home-intro-active .c-home-hero__title {
+  opacity: 0;
+  transition: none;
 }
 
 .c-home-hero__sound {
@@ -106,6 +113,35 @@
   color: inherit;
   cursor: pointer;
   padding: 1rem 1.4rem;
+  opacity: 1;
+  transition: opacity var(--anim-speed-slow) var(--anim-ease);
+}
+
+html.is-home-intro-active .c-home-hero__sound {
+  opacity: 0;
+  pointer-events: none;
+  transition: none;
+}
+
+.c-home-hero .c-hero-feature__trailer-cursor {
+  transition:
+    opacity var(--anim-speed-slow) var(--anim-ease),
+    visibility var(--anim-speed-slow) var(--anim-ease);
+}
+
+html.is-home-intro-active .c-home-hero .c-hero-feature__trailer-cursor {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c-home-hero__title,
+  .c-home-hero__sound,
+  .c-home-hero .c-hero-feature__trailer-cursor {
+    transition-duration: 0.01ms;
+  }
 }
 
 .c-home-footer { min-height: auto; scroll-snap-align: end; }

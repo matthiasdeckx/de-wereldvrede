@@ -1,0 +1,77 @@
+.c-preloader {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-preloader);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity var(--anim-speed-slow) var(--anim-ease),
+    visibility var(--anim-speed-slow) var(--anim-ease);
+}
+
+html.is-home-intro-active .c-preloader:not(.is-dismissed):not(.is-hiding) {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+html.is-home-intro-active .c-preloader--skippable:not(.is-dismissed):not(.is-hiding) {
+  cursor: pointer;
+}
+
+.c-preloader.is-hiding,
+.c-preloader.is-dismissed {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.c-preloader--transparent {
+  background: transparent;
+}
+
+.c-preloader--dim {
+  background: rgb(0 0 0 / 0.35);
+}
+
+.c-preloader--solid {
+  background: var(--color-bg);
+}
+
+.c-preloader__media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--preloader-width, 20rem);
+  max-width: min(80vw, 100%);
+  max-height: min(80vh, 100%);
+}
+
+.c-preloader__video,
+.c-preloader__poster {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(80vh, 100%);
+  object-fit: contain;
+  background: transparent;
+  pointer-events: none;
+}
+
+.c-preloader__media {
+  pointer-events: none;
+}
+
+html.is-home-intro-active {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c-preloader {
+    transition: none;
+  }
+}

@@ -1,6 +1,7 @@
 <?php snippet('header') ?>
 
 <main class="c-home" data-home-scroll>
+  <?php snippet('components/preloader') ?>
   <h1 class="u-visually-hidden"><?= $page->title()->html() ?></h1>
 
   <section class="c-home-section c-home-hero" data-home-section data-has-video<?php

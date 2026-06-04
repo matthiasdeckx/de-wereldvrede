@@ -59,6 +59,7 @@ return [
     'news.published.weeks_ago' => '{{ count }} weeks ago',
     'cookie.accept' => 'Accept',
     'cookie.deny' => 'Deny',
+    'preloader.skip' => 'Skip intro. Click anywhere or press Escape to continue.',
     'ui.opens_in_new_window' => '(opens in new window)',
   ],
 ];

@@ -23,6 +23,11 @@ import { initNewsLoadMore } from "./components/news-load-more";
 import { initCookieConsent } from "./components/cookie-consent";
 import { initBlurUp } from "./components/blur-up";
 import {
+  clearHomeIntro,
+  initPreloader,
+  prepareHomeIntro,
+} from "./components/preloader";
+import {
   syncPageBrowserChrome,
   syncPageStyle,
   syncPageThemeClasses,
@@ -84,26 +89,37 @@ const initSwup = () => {
     if (prefersReducedMotion()) {
       visit.animation.animate = false;
     }
+    clearHomeIntro();
   });
 
   // During pause: theme classes + bg pseudo only; defer meta/color-scheme until fade-in ends (Safari)
-  swup.hooks?.on("content:replace", () => syncPageThemeClasses());
+  swup.hooks?.on("content:replace", () => {
+    syncPageThemeClasses();
+    prepareHomeIntro();
+  });
 
   // Swup already waits for CSS transitions; init on the next frame
   swup.hooks?.on("animation:in:end", () => {
     syncPageBrowserChrome();
-    requestAnimationFrame(initPage);
+    requestAnimationFrame(() => {
+      initPreloader();
+      initPage();
+    });
   });
 
   swup.hooks?.on("animation:skip", () => {
     syncPageBrowserChrome();
-    requestAnimationFrame(initPage);
+    requestAnimationFrame(() => {
+      initPreloader();
+      initPage();
+    });
   });
 
   swup.hooks?.on("visit:abort", clearSwupTransitionState);
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  initPreloader();
   initMobileNav();
   if (document.querySelector("[data-cookie-banner]")) {
     initCookieConsent();

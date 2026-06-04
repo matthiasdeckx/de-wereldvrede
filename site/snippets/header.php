@@ -36,6 +36,9 @@ if ($page->isHomePage()) {
 
   <?= mix('css/main.css') ?>
   <?php snippet('head/analytics') ?>
+  <?php if ($page->isHomePage()): ?>
+    <?php snippet('head/preloader-boot') ?>
+  <?php endif ?>
 
   <script>(function(H){H.className=H.className.replace(/\bno-js\b/,'js')})(document.documentElement)</script>
 </head>
