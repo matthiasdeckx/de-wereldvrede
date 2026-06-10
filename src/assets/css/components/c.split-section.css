@@ -15,6 +15,7 @@
 
 .c-split-section__content {
   max-width: var(--max-text-width);
+  min-width: 0;
 }
 
 @media (--m) {

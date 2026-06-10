@@ -264,12 +264,19 @@
   color: var(--color-text);
   box-sizing: border-box;
   min-height: 100dvh;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
   padding-block: calc(var(--floating-ui-top) + var(--floating-ui-height) + var(--page-gutter)) 6rem;
   padding-inline: 0;
 }
 
 .c-overlay--news :is(.c-news-overlay, .c-news-overlay *) {
   color: inherit;
+}
+
+.c-overlay--news .c-news-article__layout {
+  min-width: 0;
 }
 
 body.is-overlay-open {

@@ -85,6 +85,10 @@ button.t-mono,
   font-size: var(--font-size--body);
   line-height: var(--line-height--body);
   letter-spacing: var(--letter-spacing--m);
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .t-rich-text > * + * {
@@ -147,6 +151,18 @@ button.t-mono,
   color: inherit;
   text-decoration: underline;
   text-underline-offset: 0.2em;
+  overflow-wrap: anywhere;
+}
+
+.t-rich-text :is(pre, code) {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-all;
+}
+
+.t-rich-text pre {
+  overflow-x: auto;
+  white-space: pre-wrap;
 }
 
 .t-rich-text a:hover {
