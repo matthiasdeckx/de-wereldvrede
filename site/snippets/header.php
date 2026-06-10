@@ -91,7 +91,7 @@ if ($page->isHomePage()) {
               <li>
                 <a href="<?= $item->url() ?>" <?= e($item->isOpen(), 'aria-current="page"') ?> class="c-mobile-nav__link t-mono t-uppercase">
                   <span class="c-mobile-nav__label"><?= $item->title()->html() ?></span>
-                  <span class="c-mobile-nav__arrow" aria-hidden="true">→</span>
+                  <span class="c-mobile-nav__arrow" aria-hidden="true"><?php snippet('objects/icon-arrow') ?></span>
                 </a>
               </li>
             <?php endforeach ?>

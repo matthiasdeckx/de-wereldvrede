@@ -34,6 +34,7 @@
     <div
       class="c-work-filters c-work-filters--floating"
       data-work-filters
+      data-floating-ui-dock
       data-filter-show-label="<?= esc(ui_t('work.filter.show'), 'attr') ?>"
       data-filter-hide-label="<?= esc(ui_t('work.filter.hide'), 'attr') ?>"
     >

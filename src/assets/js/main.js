@@ -18,6 +18,14 @@ import {
   destroyProjectScroll,
   initProjectScroll,
 } from "./components/project-scroll";
+import {
+  closeProjectAvailableOn,
+  initProjectAvailableOn,
+} from "./components/project-available-on";
+import {
+  destroyFloatingUiFooter,
+  initFloatingUiFooter,
+} from "./components/floating-ui-footer";
 import { initWorkFilters } from "./components/work-filters";
 import { destroyWorkProgressiveReveal, initWorkProgressiveReveal } from "./components/work-progressive-reveal";
 import { initNewsLoadMore } from "./components/news-load-more";
@@ -52,6 +60,7 @@ const initPage = () => {
   closeOverlays();
   closeContactPanel();
   closeMobileNav();
+  closeProjectAvailableOn();
   initOverlays();
   initContactPanel();
   initTrailerOverlay();
@@ -63,9 +72,12 @@ const initPage = () => {
   initHomeFeatureParallax();
   initHomeFeatureTrailerCursor();
   destroyProjectScroll();
+  destroyFloatingUiFooter();
   initProjectScroll();
   initFeaturedQuoteCarousel();
+  initProjectAvailableOn();
   initWorkFilters();
+  initFloatingUiFooter();
   initWorkProgressiveReveal();
   initNewsLoadMore();
   initBlurUp();

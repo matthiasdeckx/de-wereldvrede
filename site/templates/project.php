@@ -121,13 +121,6 @@
           <span class="u-visually-hidden"><?= ui_t('ui.opens_in_new_window') ?></span>
         </a>
       <?php endif ?>
-      <?php if ($page->available_on()->isNotEmpty()): ?>
-        <ul class="c-project-detail__available-on">
-          <?php foreach ($page->available_on()->toStructure() as $item): ?>
-            <li><a class="t-mono t-uppercase" href="<?= $item->url()->toUrl() ?>" target="_blank" rel="noopener"><?= $item->medium()->html() ?> <?php snippet('objects/icon-external') ?></a></li>
-          <?php endforeach ?>
-        </ul>
-      <?php endif ?>
       <?php if ($page->awards()->isNotEmpty()): ?>
         <section class="c-project-detail__awards">
           <div class="c-project-detail__awards-layout">
@@ -221,8 +214,8 @@
         </div>
         <?php if ($carouselCount > 1): ?>
           <div class="c-project-featured-quote__controls">
-            <button type="button" class="c-project-featured-quote__nav t-mono t-uppercase" data-featured-quote-prev aria-label="Previous quote">←</button>
-            <button type="button" class="c-project-featured-quote__nav t-mono t-uppercase" data-featured-quote-next aria-label="Next quote">→</button>
+            <button type="button" class="c-project-featured-quote__nav t-mono t-uppercase" data-featured-quote-prev aria-label="Previous quote"><?php snippet('objects/icon-arrow', ['direction' => 'left']) ?></button>
+            <button type="button" class="c-project-featured-quote__nav t-mono t-uppercase" data-featured-quote-next aria-label="Next quote"><?php snippet('objects/icon-arrow', ['direction' => 'right']) ?></button>
           </div>
         <?php endif ?>
       </section>
@@ -233,6 +226,22 @@
     'prev' => $page->hasPrevListed() ? $page->prevListed() : null,
     'next' => $page->hasNextListed() ? $page->nextListed() : null,
   ]) ?>
+
+  <?php if ($hasTrailer || $page->available_on()->isNotEmpty()): ?>
+    <div class="c-project-floating-actions" data-floating-ui-dock>
+      <?php if ($hasTrailer): ?>
+        <div class="c-project-floating-actions__trailer">
+          <button
+            type="button"
+            class="c-mobile-nav__link c-project-floating-actions__trailer-btn t-mono t-uppercase"
+            data-hero-feature-trailer-mobile
+            data-trailer-section="[data-project-hero]"
+          ><?= ui_t('home.play_trailer') ?></button>
+        </div>
+      <?php endif ?>
+      <?php snippet('components/project-available-on', ['page' => $page]) ?>
+    </div>
+  <?php endif ?>
 </main>
 
 <?php snippet('footer') ?>

@@ -3,6 +3,10 @@ import { openTrailerFromHost } from "./trailer-overlay";
 const INTERACTIVE_SELECTOR =
   "a, button, input, select, textarea, label, [role=\"button\"], [data-no-trailer]";
 
+const MOBILE_MQ = "(max-width: 768px)";
+
+const isMobileTrailer = () => window.matchMedia(MOBILE_MQ).matches;
+
 const hasTrailer = (section) => {
   const vimeo = (section.dataset.trailerVimeo || "").trim();
   const file = (section.dataset.trailerFile || "").trim();
@@ -16,13 +20,37 @@ const destroyHomeFeatureTrailerCursor = () => {
   teardown = null;
 };
 
+const bindMobileTrailerButtons = () => {
+  const cleanups = [...document.querySelectorAll("[data-hero-feature-trailer-mobile]")].map(
+    (button) => {
+      const selector = button.dataset.trailerSection || "[data-project-hero]";
+      const section = document.querySelector(selector);
+
+      const onClick = () => {
+        if (!section || !hasTrailer(section)) return;
+        openTrailerFromHost(section);
+      };
+
+      button.addEventListener("click", onClick);
+      return () => button.removeEventListener("click", onClick);
+    },
+  );
+
+  return () => cleanups.forEach((cleanup) => cleanup());
+};
+
 export const initHomeFeatureTrailerCursor = () => {
   destroyHomeFeatureTrailerCursor();
 
+  const mobileCleanup = bindMobileTrailerButtons();
+
   const sections = [...document.querySelectorAll(".c-hero-feature.has-trailer")].filter(
-    hasTrailer
+    hasTrailer,
   );
-  if (!sections.length) return;
+  if (!sections.length) {
+    teardown = mobileCleanup;
+    return;
+  }
 
   const cleanups = sections.map((section) => {
     const label = section.querySelector("[data-hero-feature-trailer-label]");
@@ -34,6 +62,7 @@ export const initHomeFeatureTrailerCursor = () => {
       content && content.contains(target) && target !== content;
 
     const showLabel = () => {
+      if (isMobileTrailer()) return;
       label.hidden = false;
       label.setAttribute("aria-hidden", "false");
       label.classList.add("is-visible");
@@ -46,6 +75,7 @@ export const initHomeFeatureTrailerCursor = () => {
     };
 
     const onMove = (event) => {
+      if (isMobileTrailer()) return;
       const rect = section.getBoundingClientRect();
       const x = event.clientX - rect.left;
       const y = event.clientY - rect.top;
@@ -60,6 +90,7 @@ export const initHomeFeatureTrailerCursor = () => {
     };
 
     const onClick = (event) => {
+      if (isMobileTrailer()) return;
       if (event.target.closest(INTERACTIVE_SELECTOR)) return;
       openTrailerFromHost(section);
     };
@@ -82,5 +113,6 @@ export const initHomeFeatureTrailerCursor = () => {
 
   teardown = () => {
     cleanups.forEach((cleanup) => cleanup());
+    mobileCleanup();
   };
 };

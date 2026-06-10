@@ -1,0 +1,20 @@
+[data-floating-ui-dock] {
+  transition:
+    opacity var(--anim-speed-fast) var(--anim-ease),
+    visibility 0s linear 0s;
+}
+
+[data-floating-ui-dock].is-hidden-by-footer {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity var(--anim-speed-fast) var(--anim-ease),
+    visibility 0s linear var(--anim-speed-fast);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-floating-ui-dock] {
+    transition: none;
+  }
+}

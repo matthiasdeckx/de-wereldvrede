@@ -122,6 +122,16 @@
   cursor: pointer;
 }
 
+@media (--s-m-max) {
+  .c-hero-feature.has-trailer {
+    cursor: default;
+  }
+
+  .c-hero-feature__trailer-cursor {
+    display: none !important;
+  }
+}
+
 .c-hero-feature__trailer-cursor {
   position: absolute;
   left: var(--trailer-cursor-x, 0);

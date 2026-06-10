@@ -1,0 +1,46 @@
+.c-icon-arrow {
+  display: block;
+  flex-shrink: 0;
+  height: 10px;
+  width: 32px;
+}
+
+.c-icon-arrow__head,
+.c-icon-arrow__line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 0.5;
+}
+
+.c-icon-arrow__line {
+  transition: x1 var(--anim-speed) var(--anim-ease);
+}
+
+.c-icon-arrow--left {
+  transform: scaleX(-1);
+}
+
+.c-icon-arrow-wrap {
+  display: inline-flex;
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.c-icon-arrow-wrap--down {
+  transform: rotate(90deg);
+}
+
+.c-icon-arrow-wrap--up {
+  transform: rotate(-90deg);
+}
+
+:is(a, button):hover .c-icon-arrow__line,
+:is(a, button):focus-visible .c-icon-arrow__line {
+  x1: 11.79;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .c-icon-arrow__line {
+    transition: none;
+  }
+}

@@ -232,7 +232,12 @@ html.is-home-intro-active .c-floating-header__slot-action {
   min-width: 0;
 }
 
-.c-mobile-nav__arrow,
+.c-mobile-nav__arrow {
+  display: inline-flex;
+  flex-shrink: 0;
+  line-height: 0;
+}
+
 .c-mobile-nav__toggle {
   flex-shrink: 0;
   font-size: calc(var(--font-size--s) * 1.5);

@@ -44,6 +44,8 @@ return [
     'project.credits' => 'Credits',
     'project.awards' => 'AWARDS & NOMINATIONS',
     'project.full_cast_crew' => 'Full cast & crew',
+    'project.available_on' => 'Available on',
+    'project.available_on_hide' => 'Close available on',
     'project.external_link' => 'External link',
     'project.nav_label' => 'Project navigation',
     'project.prev' => 'Previous project: {{ title }}',
