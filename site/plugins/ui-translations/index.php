@@ -1,6 +1,7 @@
 <?php
 
 use Kirby\Cms\App as Kirby;
+use Kirby\Content\Field;
 use Kirby\Toolkit\Str;
 
 if (function_exists('ui_translation_file_defaults') === false) {
@@ -101,6 +102,20 @@ if (function_exists('ui_tt') === false) {
     string|array|null $fallback = null
   ): string {
     return Str::template((string)ui_t($key, $fallback), $replace, ['fallback' => '-']);
+  }
+}
+
+if (function_exists('format_news_published_label') === false) {
+  /**
+   * Absolute published date for news cards and article headers.
+   */
+  function format_news_published_label(Field $field): string
+  {
+    if ($field->isEmpty()) {
+      return '';
+    }
+
+    return (string) $field->toDate('j F Y');
   }
 }
 
