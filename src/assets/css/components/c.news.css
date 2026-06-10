@@ -52,7 +52,7 @@
 }
 
 .c-news-card__read-more {
-  --read-more-dot-size: 0.66em;
+  --read-more-dot-size: 0.5em;
   --read-more-dot-gap: 0.5em;
   --read-more-indent: 1.2em;
 

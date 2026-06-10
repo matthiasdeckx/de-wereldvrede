@@ -385,13 +385,12 @@
 }
 
 .c-project-detail__cast-crew {
-  margin-bottom: calc(var(--margin-l) * 2);
+  margin-top: var(--margin-l);
 }
 
 @media (--s-max) {
   .c-project-detail__meta-row {
     grid-template-columns: 1fr;
-    padding: 1.2rem 0;
   }
 
   .c-project-detail__credits {
@@ -701,6 +700,10 @@
 }
 
 @media (--m-max) {
+  .c-project-hero__more {
+    display: none;
+  }
+
   .c-project-detail__sticky {
     position: static;
   }

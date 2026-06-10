@@ -7,6 +7,15 @@ tabs:
       creators:
         label: Creators
         type: structure
+        columns:
+          name:
+            width: 1/4
+          role:
+            width: 1/4
+          bio:
+            width: 1/4
+          portrait:
+            width: 1/4
         fields:
           name:
             label: Name

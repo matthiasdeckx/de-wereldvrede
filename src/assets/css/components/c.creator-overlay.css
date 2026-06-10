@@ -151,6 +151,23 @@
 }
 
 @media (--m-max) {
+  .c-overlay--creator .c-overlay__panel {
+    justify-content: flex-start;
+    padding-bottom: 6rem;
+  }
+
+  .c-creator-overlay__portrait-col {
+    align-items: flex-start;
+  }
+
+  .c-creator-overlay__portrait-wrap {
+    align-self: flex-start;
+  }
+
+  .c-creator-overlay__portrait-col .c-external-link {
+    align-self: flex-start;
+  }
+
   .c-creator-overlay__productions-label {
     grid-column: 1 / -1;
   }

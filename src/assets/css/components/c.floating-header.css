@@ -11,14 +11,16 @@
   outline: none;
   transition:
     opacity var(--anim-speed-slow) var(--anim-ease),
-    visibility var(--anim-speed-slow) var(--anim-ease);
+    visibility 0s linear 0s;
 }
 
 html.is-home-intro-active .c-floating-header {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: none;
+  transition:
+    opacity var(--anim-speed-slow) var(--anim-ease),
+    visibility 0s linear var(--anim-speed-slow);
 }
 
 /* Intro reveal: fade the header as one unit (no staggered nav item opacity). */
@@ -107,15 +109,15 @@ html.is-home-intro-active .c-floating-header__slot-action {
   line-height: 1;
   padding: 0 var(--btn-padding-x);
   text-decoration: none;
-  transition: background-color var(--anim-speed) var(--anim-ease);
+  transition: background-color var(--anim-speed) var(--anim-ease) 0s;
 }
 
 .c-floating-header__nav--desktop .c-floating-header__list [data-contact-open],
 .c-floating-header__slot-action {
   transition:
-    background-color var(--anim-speed) var(--anim-ease),
-    opacity var(--header-action-fade) var(--anim-ease),
-    visibility var(--header-action-fade) var(--anim-ease);
+    background-color var(--anim-speed) var(--anim-ease) 0s,
+    opacity var(--header-action-fade) var(--anim-ease) 0s,
+    visibility 0s linear 0s;
 }
 
 .c-floating-header__nav--desktop .c-floating-header__list > li:last-child .c-floating-header__slot-action {
@@ -142,14 +144,20 @@ html.is-home-intro-active .c-floating-header__slot-action {
 }
 
 .c-floating-header__slot-action--default {
-  transition-delay: var(--header-action-swap-delay);
+  transition:
+    background-color var(--anim-speed) var(--anim-ease) 0s,
+    opacity var(--header-action-fade) var(--anim-ease) var(--header-action-swap-delay),
+    visibility 0s linear var(--header-action-swap-delay);
 }
 
 .c-floating-header__slot-action--close {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition-delay: 0s;
+  transition:
+    background-color var(--anim-speed) var(--anim-ease) 0s,
+    opacity var(--header-action-fade) var(--anim-ease) 0s,
+    visibility 0s linear var(--header-action-fade);
 }
 
 .c-floating-header__slot--mobile {
@@ -162,9 +170,9 @@ html.is-home-intro-active .c-floating-header__slot-action {
   visibility: hidden;
   pointer-events: none;
   transition:
-    opacity var(--header-action-fade) var(--anim-ease),
-    visibility var(--header-action-fade) var(--anim-ease);
-  transition-delay: 0s;
+    background-color var(--anim-speed) var(--anim-ease) 0s,
+    opacity var(--header-action-fade) var(--anim-ease) 0s,
+    visibility 0s linear var(--header-action-fade);
 }
 
 .c-floating-header.is-overlay-mode .c-floating-header__slot-action--close,
@@ -172,7 +180,10 @@ html.is-home-intro-active .c-floating-header__slot-action {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  transition-delay: var(--header-action-swap-delay);
+  transition:
+    background-color var(--anim-speed) var(--anim-ease) 0s,
+    opacity var(--header-action-fade) var(--anim-ease) var(--header-action-swap-delay),
+    visibility 0s linear var(--header-action-swap-delay);
 }
 
 .c-floating-header.is-overlay-mode .c-floating-header__slot-action--default,
@@ -180,7 +191,6 @@ html.is-home-intro-active .c-floating-header__slot-action {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition-delay: 0s;
 }
 
 .c-floating-header.is-contact-open .c-floating-header__nav--desktop [data-contact-open] {
@@ -225,6 +235,7 @@ html.is-home-intro-active .c-floating-header__slot-action {
   line-height: 1;
   text-align: left;
   text-decoration: none;
+  transition: opacity var(--anim-speed-fast) var(--anim-ease) 0s;
 }
 
 .c-mobile-nav__label {

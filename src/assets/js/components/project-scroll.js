@@ -36,8 +36,9 @@ const VIEW_MORE_SCROLL_MS = 240;
  * IMAGE_EFFECT_START / IMAGE_EFFECT_END — range for hero background blur, scale,
  * and background opacity.
  *
- * CONTENT_FADE_START / CONTENT_FADE_END — range for fading hero content elements
- * (logo/title excluded via selector). Independent of image effects.
+ * CONTENT_FADE_START / CONTENT_FADE_END — range for fading hero content elements.
+ * On desktop, logo/title are excluded and fade separately near content end.
+ * On stacked/mobile, logo/title fade with the rest of the hero content.
  *
  * TITLE_FADE_BEFORE_END — px before the content column bottom reaches the
  * fixed hero title when the title/logo should fade out.
@@ -109,7 +110,7 @@ export const initProjectScroll = () => {
   const hero = document.querySelector("[data-project-hero]");
   const bg = hero?.querySelector(".c-hero-feature__bg, .c-project-hero__bg");
   const heroContent = hero?.querySelector(".c-hero-feature__content");
-  const heroFadeTargets = heroContent
+  const heroFadeTargetsDesktop = heroContent
     ? heroContent.querySelectorAll(
         ":scope > :not(.c-hero-feature__logo, .c-hero-feature__title)",
       )
@@ -253,18 +254,34 @@ export const initProjectScroll = () => {
       }
     }
 
-    heroFadeTargets?.forEach((el) => {
-      el.style.opacity = String(fadeOpacity);
-    });
+    if (desktopQuery.matches) {
+      heroFadeTargetsDesktop?.forEach((el) => {
+        el.style.opacity = String(fadeOpacity);
+      });
 
-    syncTitleFade(
-      shouldFadeHeroTitle(
-        detailContent,
-        cachedTitleBottom,
-        scrollY,
-        heroHeight,
-      ),
-    );
+      titleEls?.forEach((el) => {
+        el.style.removeProperty("opacity");
+      });
+
+      syncTitleFade(
+        shouldFadeHeroTitle(
+          detailContent,
+          cachedTitleBottom,
+          scrollY,
+          heroHeight,
+        ),
+      );
+    } else {
+      heroContent?.querySelectorAll(":scope > *").forEach((el) => {
+        if (el.matches(".c-project-hero__more, [data-project-scroll-down]")) {
+          return;
+        }
+
+        el.style.opacity = String(fadeOpacity);
+      });
+
+      syncTitleFade(false);
+    }
 
     root.classList.toggle("is-scrolled-past-hero", scrollY >= vh);
   };
@@ -323,7 +340,10 @@ export const initProjectScroll = () => {
     });
     titleFadeState = null;
     heroContent?.style.removeProperty("opacity");
-    heroFadeTargets?.forEach((el) => {
+    heroFadeTargetsDesktop?.forEach((el) => {
+      el.style.removeProperty("opacity");
+    });
+    heroContent?.querySelectorAll(":scope > *").forEach((el) => {
       el.style.removeProperty("opacity");
     });
     if (bg) {

@@ -16,11 +16,19 @@ const parseConfig = (root) => {
 const isHomePage = () =>
   Boolean(document.querySelector('#main [data-page-meta][data-page-home="true"]'));
 
+/** True only on the first full-page load when the URL is the homepage. */
+let shouldPlayHomeIntro = isHomePage();
+
 const setIntroActive = (active) => {
   document.documentElement.classList.toggle(INTRO_ACTIVE_CLASS, active);
 };
 
 export const prepareHomeIntro = () => {
+  if (!shouldPlayHomeIntro) {
+    clearHomeIntro();
+    return;
+  }
+
   if (!isHomePage()) return;
 
   const root = document.querySelector("[data-preloader]");
@@ -100,15 +108,34 @@ const waitForLottieEnd = (animation, timeoutMs) =>
     const timer = window.setTimeout(finish, timeoutMs);
   });
 
-const dismissIntro = (root, video, fadeOutMs, animation) => {
+const dismissIntro = (root, video, fadeOutMs, animation, { immediate = false } = {}) => {
   animation?.destroy();
   root.classList.add("is-hiding");
-  window.setTimeout(() => {
+  video?.pause();
+
+  const complete = () => {
     root.classList.add("is-dismissed");
     root.setAttribute("aria-hidden", "true");
+    root.dataset.introRunning = "false";
     setIntroActive(false);
-    video?.pause();
-  }, fadeOutMs);
+  };
+
+  if (immediate || fadeOutMs <= 0) {
+    complete();
+    return;
+  }
+
+  window.setTimeout(complete, fadeOutMs);
+};
+
+const skipIntro = (root) => {
+  if (!root) return;
+
+  root.dataset.introRunning = "false";
+  dismissIntro(root, root.querySelector("[data-preloader-video]"), 0, null, {
+    immediate: true,
+  });
+  document.dispatchEvent(new CustomEvent("dw:intro-complete"));
 };
 
 const playVideoIntro = (video, maxDurationMs) =>
@@ -160,7 +187,19 @@ export const initPreloader = () => {
   }
 
   const root = document.querySelector("[data-preloader]");
-  if (!root || root.dataset.introRunning === "true") return;
+  if (!root) {
+    clearHomeIntro();
+    return;
+  }
+
+  if (!shouldPlayHomeIntro) {
+    skipIntro(root);
+    return;
+  }
+
+  if (root.dataset.introRunning === "true") return;
+
+  shouldPlayHomeIntro = false;
 
   const config = parseConfig(root);
   if (!config.enabled) {

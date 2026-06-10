@@ -5,6 +5,11 @@
   width: 32px;
 }
 
+.c-icon-arrow--vertical {
+  height: 18px;
+  width: 14px;
+}
+
 .c-icon-arrow__head,
 .c-icon-arrow__line {
   fill: none;
@@ -13,30 +18,30 @@
 }
 
 .c-icon-arrow__line {
-  transition: x1 var(--anim-speed) var(--anim-ease);
+  transform-box: fill-box;
+  transform-origin: 100% 50%;
+  transition: transform var(--anim-speed-fast) var(--anim-ease) 0s;
 }
 
-.c-icon-arrow--left {
-  transform: scaleX(-1);
+.c-icon-arrow--left .c-icon-arrow__line {
+  transform-origin: 0% 50%;
+}
+
+.c-icon-arrow--vertical .c-icon-arrow__line {
+  transition: none;
+}
+
+:is(a, button):hover .c-icon-arrow:not(.c-icon-arrow--vertical) .c-icon-arrow__line,
+:is(a, button):focus-visible .c-icon-arrow:not(.c-icon-arrow--vertical) .c-icon-arrow__line {
+  transform: scaleX(0.61);
 }
 
 .c-icon-arrow-wrap {
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
   flex-shrink: 0;
   line-height: 0;
-}
-
-.c-icon-arrow-wrap--down {
-  transform: rotate(90deg);
-}
-
-.c-icon-arrow-wrap--up {
-  transform: rotate(-90deg);
-}
-
-:is(a, button):hover .c-icon-arrow__line,
-:is(a, button):focus-visible .c-icon-arrow__line {
-  x1: 11.79;
 }
 
 @media (prefers-reduced-motion: reduce) {

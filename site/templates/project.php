@@ -104,12 +104,24 @@
                     </div>
                   <?php endforeach ?>
                 </div>
+                <?php if ($page->cast_crew_url()->isNotEmpty()): ?>
+                  <a
+                    class="c-external-link c-external-link--full c-project-detail__cast-crew t-mono t-uppercase"
+                    href="<?= $page->cast_crew_url()->toUrl() ?>"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    <span><?= ui_t('project.full_cast_crew') ?></span>
+                    <?php snippet('objects/icon-external') ?>
+                    <span class="u-visually-hidden"><?= ui_t('ui.opens_in_new_window') ?></span>
+                  </a>
+                <?php endif ?>
               </dd>
             </div>
           <?php endif ?>
         </dl>
       <?php endif ?>
-      <?php if ($page->cast_crew_url()->isNotEmpty()): ?>
+      <?php if ($page->cast_crew_url()->isNotEmpty() && $page->credits()->isEmpty()): ?>
         <a
           class="c-external-link c-external-link--full c-project-detail__cast-crew t-mono t-uppercase"
           href="<?= $page->cast_crew_url()->toUrl() ?>"
