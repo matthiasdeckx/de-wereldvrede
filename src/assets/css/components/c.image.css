@@ -7,6 +7,15 @@
   border-radius: var(--image-radius);
 }
 
+[class$="-card__link"] > .c-image,
+[class$="-card__link"] > [class$="-card__image"] {
+  margin-bottom: calc(var(--margin) / 1.25);
+}
+
+[class$="-card__subtitle"] {
+  margin-top: 2px;
+}
+
 .c-image--empty {
   width: 100%;
   background-color: var(--color-border);

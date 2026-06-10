@@ -504,13 +504,13 @@
   display: inline-flex;
   flex-shrink: 0;
   font-size: calc(var(--font-size--s) * 1.5);
-  height: 32px;
+  height: var(--btn-height);
   justify-content: center;
   letter-spacing: var(--letter-spacing--s);
   line-height: 1; /* compact icon control */
   padding: 0.4rem;
   transition: background-color var(--anim-speed) var(--anim-ease);
-  width: 32px;
+  width: var(--btn-height);
 }
 
 .c-project-featured-quote__nav:hover,
@@ -566,7 +566,7 @@
 @media (--s-m-max) {
   .c-project-nav__link {
     padding-inline: 0.4rem;
-    width: 32px;
+    width: var(--btn-height);
   }
 
   .c-project-nav__label {

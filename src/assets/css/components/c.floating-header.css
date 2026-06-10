@@ -103,7 +103,7 @@ html.is-home-intro-active .c-floating-header__slot-action {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 32px;
+  height: var(--btn-height);
   line-height: 1;
   padding: 0 var(--btn-padding-x);
   text-decoration: none;

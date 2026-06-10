@@ -24,17 +24,22 @@ $perPage = 12;
         <article class="c-news-card" data-news-card<?= $index >= $perPage ? ' hidden' : '' ?>>
           <a href="<?= $article->url() ?>" class="c-news-card__link" data-news-open data-no-swup>
             <?php if ($image): ?>
-              <?php snippet('objects/image', [
+              <?php
+              $isPortrait = $image->height() > $image->width();
+              snippet('objects/image', [
                 'image' => $image,
-                'class' => 'c-news-card__image',
+                'class' => trim('c-news-card__image' . ($isPortrait ? ' c-news-card__image--portrait' : '')),
+                'wrapperClass' => $isPortrait ? 'c-image--portrait' : '',
                 'srcset' => 'small',
                 'sizes' => '(min-width: 900px) 33vw, 100vw',
-                'crop' => false,
+                'crop' => $isPortrait,
               ]) ?>
             <?php endif ?>
             <h2 class="c-news-card__title t-display t-uppercase"><?= $article->title()->html() ?></h2>
             <div class="c-news-card__meta t-mono t-uppercase">
-              <span><?= ui_t('news.read_more') ?></span>
+              <span class="c-news-card__read-more">
+                <span class="c-news-card__read-more-text"><?= ui_t('news.read_more') ?></span>
+              </span>
               <?php if ($article->published_date()->isNotEmpty()): ?>
                 <time datetime="<?= $article->published_date()->toDate('Y-m-d') ?>"><?= format_news_published_label($article->published_date()) ?></time>
               <?php endif ?>

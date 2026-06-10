@@ -51,6 +51,8 @@ return [
     'work.filter.all' => 'All',
     'work.filter.type' => 'Filter by type',
     'work.filter.status' => 'Filter by status',
+    'work.filter.show' => 'Show filters',
+    'work.filter.hide' => 'Hide filters',
     'news.read_more' => 'Read more',
     'news.loaded_more' => '{{ count }} more articles loaded',
     'news.published.today' => 'Today',

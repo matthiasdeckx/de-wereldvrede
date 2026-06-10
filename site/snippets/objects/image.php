@@ -14,6 +14,7 @@ $fetchpriority = $fetchpriority ?? null;
 $blurUp = $blurUp ?? true;
 $width = $width ?? $image->width();
 $height = $height ?? $image->height();
+$wrapperClass = $wrapperClass ?? '';
 $crop = $crop ?? false;
 $objectPosition = $objectPosition ?? null;
 
@@ -58,7 +59,7 @@ $lqipUrl = $blurUp ? $image->thumb(['width' => 42, 'quality' => 20])->url() : nu
 
 if ($blurUp && $lqipUrl):
 ?>
-<div class="c-image c-image--blur-up">
+<div class="c-image c-image--blur-up<?= $wrapperClass !== '' ? ' ' . esc($wrapperClass, 'attr') : '' ?>">
   <img class="c-image__placeholder" src="<?= $lqipUrl ?>" alt="" aria-hidden="true" width="<?= $width ?>" height="<?= $height ?>"<?= $styleAttr ?> />
   <img <?= \Kirby\Toolkit\Html::attr($attrs) ?><?= $styleAttr ?>>
 </div>

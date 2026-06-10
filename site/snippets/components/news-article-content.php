@@ -55,7 +55,14 @@ $formatNewsInfoValue = static function ($value): string {
   </header>
   <div class="c-news-article__main">
     <?php if ($image = $page->hero_image()->toFile()): ?>
-      <?php snippet('objects/image', ['image' => $image, 'sizes' => '66vw', 'crop' => false]) ?>
+      <?php
+      $isPortrait = $image->height() > $image->width();
+      snippet('objects/image', [
+        'image' => $image,
+        'wrapperClass' => $isPortrait ? 'c-image--portrait' : '',
+        'sizes' => '66vw',
+        'crop' => $isPortrait,
+      ]) ?>
     <?php endif ?>
     <?php if ($page->published_date()->isNotEmpty()): ?>
       <time

@@ -31,20 +31,41 @@
     ?>
 
     <?php if ($projects->isNotEmpty()): ?>
-    <div class="c-work-filters">
-      <div class="c-work-filters__group" role="group" aria-label="<?= esc(ui_t('work.filter.type'), 'attr') ?>">
-        <button type="button" class="c-work-filters__btn is-active t-mono t-uppercase" data-filter-type="all">All (<?= $projects->count() ?>)</button>
-        <?php foreach ($types as $type): ?>
-          <button type="button" class="c-work-filters__btn t-mono t-uppercase" data-filter-type="<?= esc($type, 'attr') ?>"><?= esc($type) ?> (<?= $projectCountForType($type) ?>)</button>
-        <?php endforeach ?>
+    <div
+      class="c-work-filters c-work-filters--floating"
+      data-work-filters
+      data-filter-show-label="<?= esc(ui_t('work.filter.show'), 'attr') ?>"
+      data-filter-hide-label="<?= esc(ui_t('work.filter.hide'), 'attr') ?>"
+    >
+      <button
+        type="button"
+        class="c-work-filters__toggle t-mono t-uppercase"
+        data-work-filters-toggle
+        aria-expanded="false"
+        aria-controls="work-filters-panel"
+        aria-label="<?= esc(ui_t('work.filter.show'), 'attr') ?>"
+      >
+        <span class="c-work-filters__toggle-label" data-work-filters-summary><?= ui_t('work.filter.all') ?> (<?= $projects->count() ?>)</span>
+        <span class="c-work-filters__toggle-icon" aria-hidden="true">
+          <span class="c-work-filters__toggle-icon-open">+</span>
+          <span class="c-work-filters__toggle-icon-close">−</span>
+        </span>
+      </button>
+      <div class="c-work-filters__panel" id="work-filters-panel" data-work-filters-panel>
+        <div class="c-work-filters__group" role="group" aria-label="<?= esc(ui_t('work.filter.type'), 'attr') ?>">
+          <button type="button" class="c-work-filters__btn is-active t-mono t-uppercase" data-filter-type="all"><?= ui_t('work.filter.all') ?> (<?= $projects->count() ?>)</button>
+          <?php foreach ($types as $type): ?>
+            <button type="button" class="c-work-filters__btn t-mono t-uppercase" data-filter-type="<?= esc($type, 'attr') ?>"><?= esc($type) ?> (<?= $projectCountForType($type) ?>)</button>
+          <?php endforeach ?>
+        </div>
+        <?php if ($statuses !== []): ?>
+        <div class="c-work-filters__group" role="group" aria-label="<?= esc(ui_t('work.filter.status'), 'attr') ?>">
+          <?php foreach ($statuses as $status): ?>
+            <button type="button" class="c-work-filters__btn t-mono t-uppercase" data-filter-status="<?= esc($status, 'attr') ?>" data-filter-label="<?= esc($status, 'attr') ?>"><?= esc($status) ?> (<?= $projectCountForStatus($status) ?>)</button>
+          <?php endforeach ?>
+        </div>
+        <?php endif ?>
       </div>
-      <?php if ($statuses !== []): ?>
-      <div class="c-work-filters__group" role="group" aria-label="<?= esc(ui_t('work.filter.status'), 'attr') ?>">
-        <?php foreach ($statuses as $status): ?>
-          <button type="button" class="c-work-filters__btn t-mono t-uppercase" data-filter-status="<?= esc($status, 'attr') ?>" data-filter-label="<?= esc($status, 'attr') ?>"><?= esc($status) ?> (<?= $projectCountForStatus($status) ?>)</button>
-        <?php endforeach ?>
-      </div>
-      <?php endif ?>
     </div>
     <?php endif ?>
 

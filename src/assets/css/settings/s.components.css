@@ -1,4 +1,11 @@
 :root {
   --btn-padding-x: 1.2rem;
   --btn-padding-y: 1.2rem;
+  --btn-height: 32px;
+
+  @media (--s-m-max) {
+    /* 44px touch height with 1.2rem mono text / line-height 1 */
+    --btn-padding-y: 1.6rem;
+    --btn-height: 44px;
+  }
 }
