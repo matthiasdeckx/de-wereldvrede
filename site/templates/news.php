@@ -36,7 +36,7 @@ $perPage = 12;
             <div class="c-news-card__meta t-mono t-uppercase">
               <span><?= ui_t('news.read_more') ?></span>
               <?php if ($article->published_date()->isNotEmpty()): ?>
-                <time datetime="<?= $article->published_date()->toDate('Y-m-d') ?>"><?= $article->published_date()->toDate('j F Y') ?></time>
+                <time datetime="<?= $article->published_date()->toDate('Y-m-d') ?>"><?= format_news_published_label($article->published_date()) ?></time>
               <?php endif ?>
             </div>
           </a>

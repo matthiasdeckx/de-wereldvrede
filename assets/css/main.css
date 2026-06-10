@@ -2188,7 +2188,7 @@ a.c-contact-panel__item:focus-visible {
 @media (min-width: 520px) {
   .site-page:not(.site-page-home):not(.site-page-project) .c-site-main {
     padding-top: var(--site-main-padding-top);
-    padding-bottom: var(--site-main-padding-top);
+    padding-bottom: calc(var(--margin-outer) * 2);
   }
 }
 

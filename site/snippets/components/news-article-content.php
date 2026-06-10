@@ -10,41 +10,6 @@ if (!$page) {
   return;
 }
 
-$formatNewsPublishedLabel = static function ($field): string {
-  if ($field->isEmpty()) {
-    return '';
-  }
-
-  $published = $field->toDate('Y-m-d');
-  $publishedTs = strtotime($published . ' 00:00:00');
-  $todayTs = strtotime('today');
-  $days = max(0, (int) floor(($todayTs - $publishedTs) / 86400));
-
-  if ($days === 0) {
-    return (string) ui_t('news.published.today');
-  }
-
-  if ($days === 1) {
-    return (string) ui_t('news.published.yesterday');
-  }
-
-  if ($days < 7) {
-    return (string) ui_tt('news.published.days_ago', ['count' => $days]);
-  }
-
-  if ($days < 14) {
-    return (string) ui_t('news.published.week_ago');
-  }
-
-  if ($days < 60) {
-    $weeks = (int) floor($days / 7);
-
-    return (string) ui_tt('news.published.weeks_ago', ['count' => $weeks]);
-  }
-
-  return strtoupper($field->toDate('j F Y'));
-};
-
 $formatNewsInfoValue = static function ($value): string {
   $value = trim((string)$value);
   if ($value === '') {
@@ -96,7 +61,7 @@ $formatNewsInfoValue = static function ($value): string {
       <time
         class="c-news-article__date t-mono t-uppercase"
         datetime="<?= $page->published_date()->toDate('Y-m-d') ?>"
-      ><?= $formatNewsPublishedLabel($page->published_date()) ?></time>
+      ><?= format_news_published_label($page->published_date()) ?></time>
     <?php endif ?>
     <div class="c-news-article__body t-body-lg t-rich-text"><?= $page->body()->kti() ?></div>
     <?php if ($page->content_blocks()->isNotEmpty()): ?>

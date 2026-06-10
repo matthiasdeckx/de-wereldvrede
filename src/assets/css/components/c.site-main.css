@@ -19,7 +19,8 @@
 
 @media (--s) {
   .site-page:not(.site-page-home):not(.site-page-project) .c-site-main {
-    padding-block: var(--site-main-padding-top);
+    padding-top: var(--site-main-padding-top);
+    padding-bottom: calc(var(--margin-outer) * 2);
   }
 }
 
