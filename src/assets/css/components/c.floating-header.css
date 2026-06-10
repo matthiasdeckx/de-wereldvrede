@@ -39,7 +39,7 @@ html.is-home-intro-active .c-floating-header__slot-action {
   align-items: center;
   justify-content: space-between;
   height: var(--floating-ui-height);
-  padding: 0 1.6rem;
+  padding: 0 var(--btn-padding-x);
   border-radius: var(--floating-ui-radius);
   background: var(--floating-ui-bg);
   backdrop-filter: var(--floating-ui-blur);
@@ -105,7 +105,7 @@ html.is-home-intro-active .c-floating-header__slot-action {
   justify-content: center;
   height: 32px;
   line-height: 1;
-  padding: 0 1.2rem;
+  padding: 0 var(--btn-padding-x);
   text-decoration: none;
   transition: background-color var(--anim-speed) var(--anim-ease);
 }
@@ -217,7 +217,7 @@ html.is-home-intro-active .c-floating-header__slot-action {
   gap: 1.6rem;
   width: 100%;
   min-height: 5.6rem;
-  padding: 1.6rem;
+  padding: var(--btn-padding-y) var(--btn-padding-x);
   background: none;
   border: 0;
   color: inherit;

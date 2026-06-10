@@ -22,7 +22,7 @@ $perPage = 12;
       <?php foreach ($articles as $index => $article): ?>
         <?php $image = $article->cover_image()->toFile() ?: $article->hero_image()->toFile(); ?>
         <article class="c-news-card" data-news-card<?= $index >= $perPage ? ' hidden' : '' ?>>
-          <a href="<?= $article->url() ?>" class="c-news-card__link">
+          <a href="<?= $article->url() ?>" class="c-news-card__link" data-news-open data-no-swup>
             <?php if ($image): ?>
               <?php snippet('objects/image', [
                 'image' => $image,

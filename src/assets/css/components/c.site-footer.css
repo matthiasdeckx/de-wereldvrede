@@ -83,11 +83,10 @@ a.c-site-footer__item:hover {
 .c-site-footer__support-logo,
 .c-site-footer__support-logo img {
   display: block;
-  max-width: 16rem;
+  max-width: 12rem;
   width: 100%;
   height: auto;
   margin-top: 0.8rem;
-  opacity: var(--opacity-text);
 }
 
 .c-site-footer__legal {

@@ -134,33 +134,142 @@
   text-decoration: none;
 }
 
+.c-overlay--trailer .c-overlay__panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  padding: 0;
+  overflow: hidden;
+  transition: none;
+  background: #000;
+}
+
 .c-trailer-overlay__content {
-  display: grid;
-  place-items: center;
-  min-height: 60vh;
+  flex: 1;
+  display: flex;
+  width: 100%;
+  min-height: 100dvh;
+  background: #000;
+}
+
+.c-trailer-overlay__stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  width: 100%;
+  min-height: 100dvh;
+  background: #000;
 }
 
 .c-trailer-overlay__embed {
-  width: min(90vw, 120rem);
-  aspect-ratio: 16 / 9;
-  border-radius: var(--image-radius);
-  overflow: hidden;
-  background: var(--color-bg);
-}
-
-.c-trailer-overlay__embed iframe,
-.c-trailer-overlay__embed video {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
-  height: 100%;
-  border: 0;
-  background: transparent;
+  max-height: 100dvh;
+  background: #000;
 }
 
 .c-trailer-overlay__embed iframe {
-  /* Crop sub-pixel letterbox seams from Vimeo’s player chrome */
-  transform: scale(1.02);
-  transform-origin: center;
+  display: block;
+  width: min(100%, 177.78dvh);
+  height: min(56.25vw, 100dvh);
+  border: 0;
+}
+
+.c-trailer-overlay__embed video {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 100dvh;
+  border: 0;
+  object-fit: contain;
+  background: #000;
+}
+
+.c-trailer-overlay__controls {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  padding: var(--page-gutter);
+  padding-bottom: calc(var(--page-gutter) + env(safe-area-inset-bottom, 0px));
+  color: #fff;
+  background: linear-gradient(transparent, rgb(0 0 0 / 0.55));
+}
+
+.c-trailer-overlay__controls-center {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  min-width: 0;
+}
+
+.c-trailer-overlay__control {
+  background: var(--floating-ui-bg);
+  backdrop-filter: var(--floating-ui-blur);
+  -webkit-backdrop-filter: var(--floating-ui-blur);
+  border: 0;
+  border-radius: var(--floating-ui-radius);
+  color: inherit;
+  cursor: pointer;
+  padding: var(--btn-padding-y) var(--btn-padding-x);
+}
+
+.c-trailer-overlay__control:hover,
+.c-trailer-overlay__control:focus-visible {
+  opacity: var(--opacity-text);
+}
+
+.c-trailer-overlay__progress {
+  flex: 1;
+  height: 2px;
+  background: rgb(255 255 255 / 0.25);
+  cursor: pointer;
+  touch-action: none;
+}
+
+.c-trailer-overlay__progress-bar {
+  width: var(--progress, 0%);
+  height: 100%;
+  background: #fff;
+  transition: width 0.1s linear;
+  pointer-events: none;
+}
+
+.c-trailer-overlay__time {
+  min-width: 3.5ch;
+}
+
+.c-overlay--news .c-overlay__backdrop {
+  background: rgb(255 255 255 / 0.72);
+}
+
+.c-overlay--news.is-open .c-overlay__backdrop {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.c-overlay--news .c-overlay__panel {
+  background: #fff;
+  color: var(--color-text);
+  box-sizing: border-box;
+  min-height: 100dvh;
+  padding-block: calc(var(--floating-ui-top) + var(--floating-ui-height) + var(--page-gutter)) 6rem;
+  padding-inline: 0;
+}
+
+.c-overlay--news :is(.c-news-overlay, .c-news-overlay *) {
+  color: inherit;
 }
 
 body.is-overlay-open {

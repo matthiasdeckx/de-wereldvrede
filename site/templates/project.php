@@ -41,6 +41,7 @@
     <div class="c-hero-feature__curtain" aria-hidden="true"></div>
     <div class="c-hero-feature__content c-hero-feature__content--left g-container">
       <?php snippet('components/hero-feature-stack', [
+        'dynamic_logo_size' => false,
         'show_intro' => true,
         'title_type' => $titleType,
         'title_logo' => $titleType === 'logo' ? $page->title_logo()->toFile() : null,
@@ -110,7 +111,7 @@
       <?php endif ?>
       <?php if ($page->cast_crew_url()->isNotEmpty()): ?>
         <a
-          class="c-project-detail__cast-crew t-mono t-uppercase"
+          class="c-external-link c-external-link--full c-project-detail__cast-crew t-mono t-uppercase"
           href="<?= $page->cast_crew_url()->toUrl() ?>"
           target="_blank"
           rel="noopener"

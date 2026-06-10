@@ -63,7 +63,7 @@
   justify-content: center;
   gap: 0.8rem;
   margin-top: 0.8rem;
-  padding: 1.2rem 2.4rem;
+  padding: var(--btn-padding-y) var(--btn-padding-x);
   border: 0;
   border-radius: var(--floating-ui-radius-sm);
   background: #191919;
@@ -261,22 +261,7 @@
 }
 
 .c-project-detail__cast-crew {
-  align-items: center;
-  background: rgba(35, 35, 35, 0.8);
-  border-radius: var(--floating-ui-radius);
-  color: inherit;
-  display: flex;
-  gap: 1.2rem;
-  justify-content: space-between;
-  margin-bottom: calc(var(--margin-l)*2);
-  padding: 1.2rem 1.6rem;
-  text-decoration: none;
-  transition: background-color var(--anim-speed) var(--anim-ease);
-}
-
-.c-project-detail__cast-crew:hover,
-.c-project-detail__cast-crew:focus-visible {
-  background: rgba(35, 35, 35, 1);
+  margin-bottom: calc(var(--margin-l) * 2);
 }
 
 @media (--s-max) {

@@ -1,0 +1,23 @@
+.c-external-link {
+  align-items: center;
+  background: rgba(35, 35, 35, 0.8);
+  border-radius: var(--floating-ui-radius);
+  color: inherit;
+  display: inline-flex;
+  gap: 1.2rem;
+  justify-content: space-between;
+  padding: var(--btn-padding-y) var(--btn-padding-x);
+  text-decoration: none;
+  transition: background-color var(--anim-speed) var(--anim-ease);
+  width: fit-content;
+}
+
+.c-external-link:hover,
+.c-external-link:focus-visible {
+  background: rgba(35, 35, 35, 1);
+}
+
+.c-external-link--full {
+  display: flex;
+  width: 100%;
+}

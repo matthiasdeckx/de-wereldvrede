@@ -12,20 +12,24 @@
  * @var string|null $credits_label
  * @var string|null $credits_names
  * @var string|null $intro
+ * @var bool $dynamic_logo_size ratio-aware inline logo caps (homepage features)
  */
 $titleHeading = in_array($title_heading ?? 'h2', ['h1', 'h2'], true) ? $title_heading : 'h2';
 $titleType = $title_type ?? 'text';
 $showCategory = $show_category ?? false;
 $showIntro = $show_intro ?? false;
+$dynamicLogoSize = $dynamic_logo_size ?? true;
 ?>
 <?php if ($showCategory && !empty($category)): ?>
   <p class="c-hero-feature__category t-mono t-uppercase"><?= esc($category) ?></p>
 <?php endif ?>
 <?php if ($titleType === 'logo' && ($title_logo ?? null)): ?>
+  <?php $logoStyle = $dynamicLogoSize ? hero_feature_logo_style($title_logo) : null; ?>
   <img
     class="c-hero-feature__logo"
     src="<?= $title_logo->url() ?>"
     alt="<?= esc($title_text ?? '') ?>"
+    <?php if ($logoStyle): ?> style="<?= esc($logoStyle, 'attr') ?>"<?php endif ?>
   >
 <?php elseif (!empty($title_text)): ?>
   <?php if ($titleHeading === 'h1'): ?>

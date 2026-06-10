@@ -1,5 +1,7 @@
 import { closeMobileNav, syncHeaderCloseButton } from "./mobile-nav";
 import { closeContactPanel } from "./contact-panel";
+import { destroyTrailerMedia } from "./trailer-overlay";
+import { clearNewsOverlay } from "./news-overlay";
 
 const OVERLAY_ATTR = "data-overlay";
 const OVERLAY_OPEN_CLASS = "is-open";
@@ -85,7 +87,9 @@ export const closeOverlays = () => {
     (overlay) => !overlay.hidden || overlay.classList.contains(OVERLAY_OPEN_CLASS)
   );
 
+  destroyTrailerMedia();
   document.querySelector("[data-trailer-container]")?.replaceChildren();
+  clearNewsOverlay();
 
   Promise.all(openOverlays.map((overlay) => closeOverlay(overlay))).then(() => {
     document.body.classList.remove("is-overlay-open");

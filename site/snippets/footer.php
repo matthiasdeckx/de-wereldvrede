@@ -6,6 +6,7 @@
   <?php /* Contact overlay backup: site/snippets/overlays/contact.backup.php */ ?>
   <?php snippet('overlays/trailer') ?>
   <?php snippet('overlays/creator') ?>
+  <?php snippet('overlays/news') ?>
   <?php if ($site->cookie_banner()->toBool(true)): ?>
     <?php snippet('components/cookie-banner') ?>
   <?php endif ?>

@@ -30,7 +30,7 @@
     <?php endforeach ?>
   </ul>
 
-  <template id="creators-data">
+  <template id="creators-data" data-productions-label="<?= esc(ui_t('creator.productions'), 'attr') ?>">
     <?= json_encode($page->creators()->toStructure()->map(function ($c) {
       return [
         'name' => $c->name()->value(),
@@ -39,11 +39,14 @@
         'portrait' => ($file = $c->portrait()->toFile()) ? [
           'src' => $file->thumb(['width' => 480, 'quality' => 85])->url(),
           'srcset' => $file->srcset('portrait'),
-          'sizes' => 'min(28rem, 42vw)',
+          'sizes' => '(min-width: 1024px) calc((100vw - 22.8rem) / 6), min(28rem, 100%)',
         ] : null,
+        'external_link' => $c->external_link()->value(),
+        'external_link_label' => $c->external_link_label()->or('IMDB')->value(),
         'productions' => $c->productions()->toPages()->map(fn($p) => [
           'title' => $p->title()->value(),
           'url' => $p->url(),
+          'year' => $p->year()->value(),
         ])->values(),
       ];
     })->values()) ?>

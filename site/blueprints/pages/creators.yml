@@ -24,6 +24,15 @@ tabs:
             multiple: false
             accept:
               mime: image/*
+          external_link:
+            label: External link
+            type: url
+            placeholder: https://www.imdb.com/name/...
+          external_link_label:
+            label: External link label
+            type: text
+            placeholder: IMDB
+            default: IMDB
           productions:
             label: Productions
             type: pages

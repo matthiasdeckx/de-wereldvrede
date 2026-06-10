@@ -1,3 +1,7 @@
+.c-overlay--creator .c-overlay__backdrop {
+  background: rgba(0, 0, 0, 0.95);
+}
+
 .c-overlay--creator .c-overlay__panel {
   display: flex;
   flex-direction: column;
@@ -5,16 +9,23 @@
   min-height: 100dvh;
   box-sizing: border-box;
   padding-block: calc(var(--floating-ui-top) + var(--floating-ui-height) + var(--page-gutter));
-  padding-inline: var(--page-gutter);
+  padding-inline: 0;
 }
 
 .c-overlay--creator :is(.c-creator-overlay, .c-creator-overlay *) {
   color: #fff;
 }
 
+.c-creator-overlay__body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--margin-l);
+  width: 100%;
+}
+
 .c-creator-overlay__inner {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr;
   gap: var(--margin-l) var(--column-gutter);
   align-items: start;
   width: 100%;
@@ -28,10 +39,6 @@
   margin: 0 0 var(--margin-m);
 }
 
-.c-creator-overlay__bio {
-  max-width: 50rem;
-}
-
 .c-creator-overlay__bio :is(p) {
   margin: 0;
 }
@@ -42,35 +49,135 @@
 
 .c-creator-overlay__portrait-col {
   display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap: var(--margin-s);
 }
 
 .c-creator-overlay__portrait-wrap {
+  align-self: stretch;
   margin: 0;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  width: min(28rem, 100%);
+  border-radius: var(--image-radius);
 }
 
 .c-creator-overlay__portrait {
   display: block;
-  width: auto;
-  height: auto;
-  max-width: min(28rem, 42vw);
-  max-height: min(36rem, 52vh);
-  border-radius: var(--image-radius);
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
-@media (--s-m-max) {
+.c-creator-overlay__portrait-col .c-external-link {
+  align-self: flex-end;
+}
+
+.c-creator-overlay__productions {
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  margin-top: calc(var(--margin-l) * 1.5);
+  padding-top: var(--margin);
+  width: 100%;
+}
+
+.c-creator-overlay__productions-layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: var(--margin-l) var(--column-gutter);
+  align-items: start;
+}
+
+.c-creator-overlay__productions-label {
+  margin: 0;
+}
+
+.c-creator-overlay__productions-list {
+  grid-column: 4 / span 9;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  column-gap: var(--column-gutter);
+  row-gap: var(--margin-l);
+}
+
+.c-creator-overlay__production {
+  grid-column: span 3;
+  display: flex;
+  flex-direction: column;
+}
+
+.c-creator-overlay__production-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.c-creator-overlay__production-title a:hover,
+.c-creator-overlay__production-title a:focus-visible {
+  opacity: var(--opacity-text);
+}
+
+.c-creator-overlay__production-year {
+  opacity: var(--opacity-text);
+}
+
+@media (--m) {
   .c-creator-overlay__inner {
-    grid-template-columns: 1fr;
-    row-gap: var(--margin-l);
+    grid-template-columns: repeat(var(--grid-columns-count), 1fr);
+  }
+
+  .c-creator-overlay__content {
+    grid-column: 1 / span 8;
   }
 
   .c-creator-overlay__portrait-col {
-    justify-content: flex-start;
+    grid-column: 11 / span 2;
+    justify-content: flex-end;
   }
 
-  .c-creator-overlay__portrait {
-    max-width: min(28rem, 100%);
-    max-height: none;
+  .c-creator-overlay__portrait-wrap {
+    width: 100%;
+  }
+
+  .c-creator-overlay__productions-layout {
+    grid-template-columns: repeat(var(--grid-columns-count), 1fr);
+    gap: var(--margin-l) var(--column-gutter);
+  }
+
+  .c-creator-overlay__productions-label {
+    grid-column: span 3;
+  }
+}
+
+@media (--m-max) {
+  .c-creator-overlay__productions-label {
+    grid-column: 1 / -1;
+  }
+
+  .c-creator-overlay__productions-list {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .c-creator-overlay__production {
+    grid-column: auto;
+  }
+}
+
+@media (--s-m-max) {
+  .c-creator-overlay__productions-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (--s-max) {
+  .c-creator-overlay__productions-layout {
+    grid-template-columns: 1fr;
+    gap: var(--margin-l);
+  }
+
+  .c-creator-overlay__productions-list {
+    grid-template-columns: 1fr;
   }
 }

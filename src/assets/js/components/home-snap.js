@@ -1,6 +1,8 @@
 let sectionObserver = null;
 let footerObserver = null;
 let heroTitleClickHandler = null;
+let footerScrollHandler = null;
+let footerWheelHandler = null;
 let scrollAnimFrame = null;
 
 /** Snappy ease-out (approx. easeOutQuart / cubic-bezier(0.22, 1, 0.36, 1)) */
@@ -123,6 +125,19 @@ const destroyHomeSnap = () => {
     document.removeEventListener("click", logoClickHandler, true);
     logoClickHandler = null;
   }
+
+  if (footerScrollHandler) {
+    const root = document.querySelector("[data-home-scroll]");
+    root?.removeEventListener("scroll", footerScrollHandler);
+    footerScrollHandler = null;
+    root?.classList.remove("is-footer-scroll");
+  }
+
+  if (footerWheelHandler) {
+    const root = document.querySelector("[data-home-scroll]");
+    root?.removeEventListener("wheel", footerWheelHandler);
+    footerWheelHandler = null;
+  }
 };
 
 export const initHomeSnap = () => {
@@ -134,11 +149,10 @@ export const initHomeSnap = () => {
   const indicator = document.querySelector("[data-scroll-indicator]");
   if (!root || !indicator) return;
 
-  const allSections = [...root.querySelectorAll("[data-home-section]")];
-  if (!allSections.length) return;
+  const sections = [...root.querySelectorAll("[data-home-section]")];
+  if (!sections.length) return;
 
   const footer = root.querySelector(".c-home-footer");
-  const sections = allSections.filter((section) => section !== footer);
 
   indicator.innerHTML = "";
   indicator.classList.remove("is-hidden");
@@ -181,6 +195,68 @@ export const initHomeSnap = () => {
   }
 
   if (!footer) return;
+
+  const lastSection = sections[sections.length - 1];
+  let footerZoneActive = false;
+  let lastKnownScrollTop = root.scrollTop;
+
+  const getLastSectionTop = () => getSectionScrollTop(root, lastSection);
+
+  const activateFooterScroll = () => {
+    if (footerZoneActive) return;
+    footerZoneActive = true;
+    root.classList.add("is-footer-scroll");
+  };
+
+  const deactivateFooterScroll = () => {
+    if (!footerZoneActive) return;
+    footerZoneActive = false;
+    root.classList.remove("is-footer-scroll");
+  };
+
+  const isAtLastSection = () =>
+    Math.abs(root.scrollTop - getLastSectionTop()) < 12;
+
+  const isPastLastSection = () => root.scrollTop > getLastSectionTop() + 8;
+
+  footerScrollHandler = () => {
+    if (!lastSection) return;
+
+    const scrollTop = root.scrollTop;
+    const scrollingDown = scrollTop > lastKnownScrollTop;
+    const scrollingUp = scrollTop < lastKnownScrollTop;
+    lastKnownScrollTop = scrollTop;
+
+    if (isPastLastSection()) {
+      activateFooterScroll();
+      return;
+    }
+
+    if (scrollingDown && isAtLastSection()) {
+      activateFooterScroll();
+      return;
+    }
+
+    if (scrollingUp && scrollTop <= getLastSectionTop() + 1) {
+      deactivateFooterScroll();
+    }
+  };
+
+  footerWheelHandler = (event) => {
+    if (!lastSection) return;
+
+    if (event.deltaY > 0 && (isAtLastSection() || footerZoneActive)) {
+      activateFooterScroll();
+    }
+
+    if (event.deltaY < 0 && root.scrollTop <= getLastSectionTop() + 1) {
+      deactivateFooterScroll();
+    }
+  };
+
+  root.addEventListener("scroll", footerScrollHandler, { passive: true });
+  root.addEventListener("wheel", footerWheelHandler, { passive: true });
+  footerScrollHandler();
 
   footerObserver = new IntersectionObserver(
     (entries) => {

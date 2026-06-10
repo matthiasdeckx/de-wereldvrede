@@ -68,9 +68,9 @@
     ]) ?>
   <?php endforeach ?>
 
-  <section class="c-home-section c-home-footer" data-home-section>
+  <div class="c-home-footer">
     <?php snippet('components/site-footer') ?>
-  </section>
+  </div>
 
   <div class="c-home-scroll-indicator" data-scroll-indicator aria-hidden="true"></div>
 </main>

@@ -44,7 +44,7 @@
   position: relative;
   z-index: 2;
   display: grid;
-  gap: 2.4rem;
+  gap: 3.6rem;
   min-height: 100dvh;
   align-content: start;
   padding-top: max(
@@ -80,8 +80,8 @@
 
 .c-hero-feature__logo {
   display: block;
-  max-width: min(80vw, 48rem);
-  max-height: 14rem;
+  max-width: min(80vw, var(--logo-max-width, 48rem));
+  max-height: var(--logo-max-height, 14rem);
   width: auto;
   height: auto;
   object-fit: contain;

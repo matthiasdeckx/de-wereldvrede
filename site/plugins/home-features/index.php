@@ -16,6 +16,43 @@ if (!function_exists('hero_curtain_opacity')) {
     }
 }
 
+if (!function_exists('hero_feature_logo_style')) {
+    /**
+     * Ratio-aware max dimensions for hero title logos (constant visual area).
+     *
+     * Derived from the legacy 48rem × 14rem box so wide logos gain width,
+     * tall logos gain height, and square logos stay balanced.
+     */
+    function hero_feature_logo_style(?File $logo): ?string
+    {
+        if (!$logo instanceof File) {
+            return null;
+        }
+
+        $width = $logo->width();
+        $height = $logo->height();
+
+        if ($width <= 0 || $height <= 0) {
+            return null;
+        }
+
+        $ratio = $width / $height;
+        $area = 48 * 14;
+
+        $maxWidth = sqrt($area * $ratio);
+        $maxHeight = sqrt($area / $ratio);
+
+        $maxWidth = max(12, min(72, $maxWidth));
+        $maxHeight = max(8, min(32, $maxHeight));
+
+        return sprintf(
+            '--logo-max-width: %.2frem; --logo-max-height: %.2frem',
+            $maxWidth,
+            $maxHeight
+        );
+    }
+}
+
 if (!function_exists('home_feature_bg')) {
     /**
      * @return array{bg_url: string|null, bg_position: string|null}

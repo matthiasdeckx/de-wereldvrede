@@ -9,6 +9,17 @@ const HERO_VISIBILITY_RATIO = 0.15;
 let teardown = null;
 let volumeFadeFrame = null;
 
+const volumeControllable = (() => {
+  try {
+    const probe = document.createElement("video");
+    const testVolume = 0.5;
+    probe.volume = testVolume;
+    return Math.abs(probe.volume - testVolume) < 0.01;
+  } catch {
+    return false;
+  }
+})();
+
 const prefersReducedMotion = () =>
   window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -42,6 +53,7 @@ export const initHeroVideo = () => {
   let scrolledAway = false;
   let wasPlaying = false;
   let wasUnmuted = false;
+  let userWantsSound = false;
 
   const resetHeroReveal = () => {
     revealed = false;
@@ -100,7 +112,9 @@ export const initHeroVideo = () => {
   };
 
   const ensurePlaying = () => {
-    video.muted = true;
+    if (!userWantsSound) {
+      video.muted = true;
+    }
     video.volume = 1;
     video.playsInline = true;
     video.play().catch(() => {});
@@ -147,8 +161,20 @@ export const initHeroVideo = () => {
 
   const setMutedInstant = (muted) => {
     cancelVolumeFade();
+    userWantsSound = !muted;
     video.muted = muted;
     video.volume = 1;
+  };
+
+  const unmuteFromUserGesture = () => {
+    userWantsSound = true;
+    cancelVolumeFade();
+    video.muted = false;
+    video.volume = 1;
+    updateSoundButton();
+    video.play().catch(() => {
+      updateSoundButton();
+    });
   };
 
   const fadeVolumeTo = (from, to, onComplete) => {
@@ -177,31 +203,24 @@ export const initHeroVideo = () => {
       updateSoundButton();
       return;
     }
-    if (!muted && !video.muted) {
+    if (!muted) {
+      return;
+    }
+
+    userWantsSound = false;
+
+    if (instant || prefersReducedMotion() || !volumeControllable) {
+      setMutedInstant(true);
       updateSoundButton();
       return;
     }
 
-    if (instant || prefersReducedMotion()) {
-      setMutedInstant(muted);
+    const from = video.volume > 0 ? video.volume : 1;
+    fadeVolumeTo(from, 0, () => {
+      video.muted = true;
+      video.volume = 1;
       updateSoundButton();
-      return;
-    }
-
-    if (muted) {
-      const from = video.volume > 0 ? video.volume : 1;
-      fadeVolumeTo(from, 0, () => {
-        video.muted = true;
-        video.volume = 1;
-        updateSoundButton();
-      });
-      return;
-    }
-
-    video.muted = false;
-    video.volume = 0;
-    updateSoundButton();
-    fadeVolumeTo(0, 1);
+    });
   };
 
   const showLabel = () => {
@@ -249,7 +268,11 @@ export const initHeroVideo = () => {
 
   const onSoundClick = (e) => {
     e.stopPropagation();
-    setMutedWithFade(!video.muted);
+    if (video.muted) {
+      unmuteFromUserGesture();
+      return;
+    }
+    setMutedWithFade(true);
   };
 
   const pauseForScrollAway = () => {
@@ -261,10 +284,16 @@ export const initHeroVideo = () => {
 
   const restoreAfterScrollBack = () => {
     if (wasPlaying) {
+      if (!userWantsSound) {
+        video.muted = true;
+      }
+      video.volume = 1;
       video.play().catch(() => {});
     }
     if (wasUnmuted) {
-      setMutedWithFade(false);
+      userWantsSound = true;
+      video.muted = true;
+      updateSoundButton();
     }
   };
 
@@ -300,8 +329,11 @@ export const initHeroVideo = () => {
   section.addEventListener("mousemove", onMove);
   section.addEventListener("mouseleave", onLeave);
   section.addEventListener("click", onSectionClick);
+  const onVolumeChange = () => updateSoundButton();
+
   video.addEventListener("play", updateLabelText);
   video.addEventListener("pause", updateLabelText);
+  video.addEventListener("volumechange", onVolumeChange);
   soundBtn?.addEventListener("click", onSoundClick);
 
   updateLabelText();
@@ -327,6 +359,7 @@ export const initHeroVideo = () => {
     section.removeEventListener("click", onSectionClick);
     video.removeEventListener("play", updateLabelText);
     video.removeEventListener("pause", updateLabelText);
+    video.removeEventListener("volumechange", onVolumeChange);
     soundBtn?.removeEventListener("click", onSoundClick);
     hideLabel();
     label?.style.removeProperty("--trailer-cursor-x");

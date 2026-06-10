@@ -7,6 +7,7 @@ import { initOverlays, closeOverlays } from "./components/overlay";
 import { closeContactPanel, initContactPanel } from "./components/contact-panel";
 import { initTrailerOverlay } from "./components/trailer-overlay";
 import { initCreatorOverlay } from "./components/creator-overlay";
+import { initNewsOverlay } from "./components/news-overlay";
 import { initCreatorsListPortrait } from "./components/creators-list-portrait";
 import { initHeroVideo } from "./components/hero-video";
 import { initHomeSnap } from "./components/home-snap";
@@ -55,6 +56,7 @@ const initPage = () => {
   initContactPanel();
   initTrailerOverlay();
   initCreatorOverlay();
+  initNewsOverlay();
   initCreatorsListPortrait();
   initHeroVideo();
   initHomeSnap();

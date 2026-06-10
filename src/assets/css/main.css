@@ -1,6 +1,7 @@
 /* Settings */
 @import 'settings/s.fonts';
 @import "settings/s.layout";
+@import "settings/s.components";
 @import "settings/s.typography";
 @import "settings/s.color";
 @import "settings/s.animation";
@@ -25,6 +26,7 @@
 @import 'components/c.floating-header';
 @import 'components/c.contact-panel';
 @import 'components/c.floating-btn';
+@import 'components/c.external-link';
 @import 'components/c.site-main';
 @import 'components/c.site-footer';
 @import 'components/c.overlay';

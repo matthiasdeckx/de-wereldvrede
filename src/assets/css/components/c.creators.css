@@ -36,10 +36,13 @@
 
 .c-creators-portrait {
   position: fixed;
+  left: 0;
+  top: 0;
   z-index: 100;
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
+  will-change: transform, opacity;
   transition:
     opacity var(--anim-speed-fast) var(--anim-ease),
     visibility 0s linear var(--anim-speed-fast);
@@ -53,7 +56,12 @@
     visibility 0s;
 }
 
-.c-creators-portrait img {
+.c-creators-portrait__frame {
+  position: relative;
+  display: inline-block;
+}
+
+.c-creators-portrait__img {
   display: block;
   width: auto;
   height: auto;
@@ -61,6 +69,19 @@
   max-height: min(36rem, 52vh);
   border-radius: var(--image-radius);
   box-shadow: 0 0.4rem 2.4rem rgb(0 0 0 / 0.12);
+  transition: opacity var(--anim-speed-fast) var(--anim-ease);
+}
+
+.c-creators-portrait__img.is-active {
+  position: relative;
+  opacity: 1;
+}
+
+.c-creators-portrait__img:not(.is-active) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
 }
 
 @media (hover: hover) {

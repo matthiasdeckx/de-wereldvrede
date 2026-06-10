@@ -2,7 +2,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 1.2rem 2.4rem;
+  padding: var(--btn-padding-y) var(--btn-padding-x);
   border: 0;
   border-radius: var(--floating-ui-radius-sm);
   background: var(--floating-ui-bg);
