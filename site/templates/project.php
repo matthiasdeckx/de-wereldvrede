@@ -181,12 +181,6 @@
           <?php endif ?>
         </section>
       <?php endif ?>
-      <?php if ($page->pull_quote()->isNotEmpty()): ?>
-        <blockquote class="c-project-detail__quote t-display t-xlarge t-uppercase"><?= $page->pull_quote()->kti() ?></blockquote>
-        <?php if ($page->pull_quote_source()->isNotEmpty()): ?>
-          <cite class="t-mono t-uppercase"><?= $page->pull_quote_source()->html() ?></cite>
-        <?php endif ?>
-      <?php endif ?>
       <div
         class="c-project-detail__content-sentinel"
         data-project-detail-sentinel

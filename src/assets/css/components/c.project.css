@@ -470,19 +470,9 @@
     grid-template-columns: repeat(var(--grid-columns-count), 1fr);
   }
 
-  .c-project-detail__gallery-item--full {
-    grid-column: 1 / -1;
-  }
-
-  .c-project-detail__gallery-item:not(.c-project-detail__gallery-item--full) {
+  .c-project-detail__gallery-item {
     grid-column: var(--gallery-col-start) / span var(--gallery-col-span);
   }
-}
-
-.c-project-detail__quote {
-  margin: 4rem 0 1rem;
-  user-select: none;
-  outline: none;
 }
 
 .c-project-slideshow {

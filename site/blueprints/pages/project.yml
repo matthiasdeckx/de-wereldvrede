@@ -166,17 +166,6 @@ tabs:
         query: site.files.filterBy("template", "laurel").sortBy("sort", "asc")
         help: Select laurel logos from the global library (Site → Laurels).
 
-      section_pull_quote:
-        label: Pull quote
-        type: headline
-      pull_quote:
-        label: Quote text
-        type: textarea
-        buttons: false
-      pull_quote_source:
-        label: Source
-        type: text
-
       section_slideshow:
         label: Slideshow
         type: headline
