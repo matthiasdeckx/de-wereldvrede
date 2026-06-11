@@ -35,6 +35,28 @@ $formatNewsInfoValue = static function ($value): string {
 
   return esc($value);
 };
+
+$externalLinks = [];
+
+foreach ($page->external_links()->toStructure() as $item) {
+  if ($item->url()->isEmpty()) {
+    continue;
+  }
+
+  $externalLinks[] = [
+    'label' => $item->label()->isNotEmpty()
+      ? $item->label()->value()
+      : ui_t('project.external_link'),
+    'url' => $item->url()->toUrl(),
+  ];
+}
+
+if ($externalLinks === [] && $page->external_url()->isNotEmpty()) {
+  $externalLinks[] = [
+    'label' => ui_t('project.external_link'),
+    'url' => $page->external_url()->toUrl(),
+  ];
+}
 ?>
 
 <article class="g-container c-news-article__layout">
@@ -76,8 +98,17 @@ $formatNewsInfoValue = static function ($value): string {
         <?php snippet('components/content-blocks', ['blocks' => $page->content_blocks()]) ?>
       </div>
     <?php endif ?>
-    <?php if ($page->external_url()->isNotEmpty()): ?>
-      <a class="c-external-link t-mono t-uppercase" href="<?= $page->external_url()->toUrl() ?>" target="_blank" rel="noopener"><?= ui_t('project.external_link') ?> <?php snippet('objects/icon-external') ?></a>
+    <?php if ($externalLinks !== []): ?>
+      <div class="c-news-article__external-links">
+        <?php foreach ($externalLinks as $link): ?>
+          <a
+            class="c-external-link t-mono t-uppercase"
+            href="<?= esc($link['url']) ?>"
+            target="_blank"
+            rel="noopener"
+          ><?= esc($link['label']) ?> <?php snippet('objects/icon-external') ?></a>
+        <?php endforeach ?>
+      </div>
     <?php endif ?>
   </div>
   <aside class="c-news-article__aside">

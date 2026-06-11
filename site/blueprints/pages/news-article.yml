@@ -48,21 +48,28 @@ tabs:
         label: Body
         type: textarea
         size: large
-        buttons: false
       content_blocks:
         label: Content blocks
         type: blocks
         help: Optional gallery and quote blocks shown below the article body.
         fieldsets:
           project-gallery:
-            label: Gallery
+            label: Images
             icon: dashboard
           featured-quote:
             label: Quote
             icon: quote
-      external_url:
-        label: External link
-        type: url
+      external_links:
+        label: External links
+        type: structure
+        fields:
+          label:
+            label: Label
+            type: text
+            placeholder: e.g. Read on Variety
+          url:
+            label: URL
+            type: url
       secondary_image:
         label: Secondary image
         type: files
@@ -72,7 +79,6 @@ tabs:
       pull_quote:
         label: Pull quote
         type: textarea
-        buttons: false
       pull_quote_caption:
         label: Pull quote caption
         type: text
