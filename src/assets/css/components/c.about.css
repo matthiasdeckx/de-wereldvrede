@@ -135,8 +135,11 @@
   }
 }
 
-.c-about__section--awards .c-about__awards {
+.c-about__section--awards .c-about__awards-panel {
   grid-column: 4 / span 9;
+}
+
+.c-about__section--awards .c-about__awards {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
   column-gap: var(--column-gutter);
@@ -170,8 +173,11 @@
     grid-column: 1 / -1;
   }
 
-  .c-about__section--awards .c-about__awards {
+  .c-about__section--awards .c-about__awards-panel {
     grid-column: 1 / -1;
+  }
+
+  .c-about__section--awards .c-about__awards {
     grid-template-columns: repeat(3, 1fr);
   }
 
@@ -194,6 +200,38 @@
 
   .c-about__section--awards .c-about__awards {
     grid-template-columns: 1fr;
+  }
+}
+
+.c-about__awards-toggle[hidden] {
+  display: none;
+}
+
+@media (--s-max) {
+  .c-about__awards-panel.is-collapsible {
+    position: relative;
+  }
+
+  .c-about__awards-panel.is-collapsible.is-collapsed .c-about__awards {
+    position: relative;
+    max-height: 800px;
+    overflow: hidden;
+  }
+
+  .c-about__awards-panel.is-collapsible.is-collapsed .c-about__awards::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 8rem;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, var(--color-background) 100%);
+    pointer-events: none;
+  }
+
+  .c-about__awards-toggle {
+    display: inline-flex;
+    margin-top: var(--margin);
   }
 }
 

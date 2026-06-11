@@ -45,6 +45,8 @@ return [
     'project.year' => 'Year',
     'project.credits' => 'Credits',
     'project.awards' => 'AWARDS & NOMINATIONS',
+    'about.awards.show_more' => 'Show more',
+    'about.awards.show_less' => 'Show less',
     'project.laurels' => 'LAURELS',
     'project.full_cast_crew' => 'Full cast & crew',
     'project.available_on' => 'Available on',

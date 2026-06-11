@@ -13,8 +13,8 @@
 }
 
 .site-page:not(.site-page-home):not(.site-page-project) .c-site-main {
-  padding-top: 16rem;
-  padding-bottom: 16rem;
+  padding-top: var(--site-main-padding-top);
+  padding-bottom: var(--margin-l);
 }
 
 @media (--s) {

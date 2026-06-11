@@ -66,31 +66,42 @@
     <?php endif ?>
 
     <?php if ($page->awards()->isNotEmpty()): ?>
-      <section class="c-about__section c-about__section--awards">
+      <section class="c-about__section c-about__section--awards" data-about-awards>
         <div class="c-about__layout">
           <p class="c-about__label t-mono t-uppercase"><?= $page->awards_label()->or('AWARDS & NOMINATIONS')->html() ?></p>
-          <div class="c-about__awards" role="list">
-            <?php foreach ($page->awards()->toStructure() as $award): ?>
-              <?php
-                $projectPage = $award->project_page()->toPage();
-                $projectName = $award->project()->or($projectPage?->title());
-              ?>
-              <div class="c-about__award t-mono t-uppercase" role="listitem">
-                <span class="c-about__award-title"><?= $award->title()->html() ?></span>
-                <?php if ($projectName->isNotEmpty()): ?>
-                  <span class="c-about__award-project">
-                    <?php if ($projectPage): ?>
-                      <a href="<?= $projectPage->url() ?>"><?= $projectName->html() ?></a>
-                    <?php else: ?>
-                      <?= $projectName->html() ?>
-                    <?php endif ?>
-                  </span>
-                <?php endif ?>
-                <?php if ($award->year()->isNotEmpty()): ?>
-                  <span class="c-about__award-year"><?= $award->year()->html() ?></span>
-                <?php endif ?>
-              </div>
-            <?php endforeach ?>
+          <div class="c-about__awards-panel" data-about-awards-panel>
+            <div class="c-about__awards" role="list" data-about-awards-content>
+              <?php foreach ($page->awards()->toStructure() as $award): ?>
+                <?php
+                  $projectPage = $award->project_page()->toPage();
+                  $projectName = $award->project()->or($projectPage?->title());
+                ?>
+                <div class="c-about__award t-mono t-uppercase" role="listitem">
+                  <span class="c-about__award-title"><?= $award->title()->html() ?></span>
+                  <?php if ($projectName->isNotEmpty()): ?>
+                    <span class="c-about__award-project">
+                      <?php if ($projectPage): ?>
+                        <a href="<?= $projectPage->url() ?>"><?= $projectName->html() ?></a>
+                      <?php else: ?>
+                        <?= $projectName->html() ?>
+                      <?php endif ?>
+                    </span>
+                  <?php endif ?>
+                  <?php if ($award->year()->isNotEmpty()): ?>
+                    <span class="c-about__award-year"><?= $award->year()->html() ?></span>
+                  <?php endif ?>
+                </div>
+              <?php endforeach ?>
+            </div>
+            <button
+              type="button"
+              class="c-floating-btn c-about__awards-toggle t-mono t-uppercase"
+              data-about-awards-toggle
+              data-label-more="<?= esc(ui_t('about.awards.show_more'), 'attr') ?>"
+              data-label-less="<?= esc(ui_t('about.awards.show_less'), 'attr') ?>"
+              aria-expanded="false"
+              hidden
+            ><?= ui_t('about.awards.show_more') ?></button>
           </div>
         </div>
       </section>

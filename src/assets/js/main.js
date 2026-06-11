@@ -30,6 +30,10 @@ import {
 import { initWorkFilters } from "./components/work-filters";
 import { destroyWorkProgressiveReveal, initWorkProgressiveReveal } from "./components/work-progressive-reveal";
 import { initNewsLoadMore } from "./components/news-load-more";
+import {
+  destroyAboutAwardsExpand,
+  initAboutAwardsExpand,
+} from "./components/about-awards-expand";
 import { initCookieConsent } from "./components/cookie-consent";
 import { initBlurUp } from "./components/blur-up";
 import {
@@ -57,6 +61,7 @@ const clearSwupTransitionState = () => {
 
 const initPage = () => {
   destroyWorkProgressiveReveal();
+  destroyAboutAwardsExpand();
   syncPageStyle();
   closeOverlays();
   closeContactPanel();
@@ -82,6 +87,7 @@ const initPage = () => {
   initFloatingUiFooter();
   initWorkProgressiveReveal();
   initNewsLoadMore();
+  initAboutAwardsExpand();
   initBlurUp();
 };
 
