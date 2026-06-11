@@ -22,6 +22,7 @@
 /* Objects */
 @import 'objects/o.icon-external';
 @import 'objects/o.icon-arrow';
+@import 'objects/o.scroll-dots';
 
 /* Components */
 @import 'components/c.floating-header';

@@ -40,8 +40,7 @@ if (!empty($slide['curtain_opacity'])) {
       'title_logo' => $slide['title_logo'] ?? null,
       'title_text' => $slide['title_text'] ?? null,
       'title_heading' => 'h2',
-      'credits_label' => $slide['credits_label'] ?? null,
-      'credits_names' => $slide['credits_names'] ?? null,
+      'hero_credits' => $slide['hero_credits'] ?? [],
     ]) ?>
     <?php $cta = $slide['cta'] ?? null; ?>
     <?php if ($cta): ?>

@@ -166,8 +166,8 @@ html.is-home-intro-active .c-home-hero .c-hero-feature__trailer-cursor {
   top: 50%;
   transform: translateY(-50%);
   z-index: 50;
-  display: grid;
-  gap: calc(1.2rem + 1px);
+  display: flex;
+  flex-direction: column;
   transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
@@ -175,17 +175,6 @@ html.is-home-intro-active .c-home-hero .c-hero-feature__trailer-cursor {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-}
-
-.c-home-scroll-indicator__dot {
-  width: 0.6rem;
-  height: 0.6rem;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.3);
-}
-
-.c-home-scroll-indicator__dot.is-active {
-  background: #fff;
 }
 
 .c-btn {

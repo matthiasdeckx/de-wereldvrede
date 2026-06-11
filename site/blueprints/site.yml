@@ -126,6 +126,20 @@ tabs:
         type: textarea
         size: small
         buttons: false
+  laurels:
+    label: Laurels
+    icon: badge
+    sections:
+      laurels_info:
+        type: info
+        text: Upload laurel logos here once, then assign them to projects from each project page.
+      laurels:
+        type: files
+        headline: Laurel logos
+        template: laurel
+        layout: cards
+        image:
+          cover: true
   seo:
     label: SEO & Analytics
     icon: search

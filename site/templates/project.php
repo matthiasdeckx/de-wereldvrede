@@ -8,9 +8,6 @@
     $titleType = $page->title_type()->or('text')->value();
     $types = $page->project_type()->split(',');
     $category = !empty($types) ? strtoupper(trim($types[0])) : null;
-    $creditsNames = $page->writers_directors()->isNotEmpty()
-      ? $page->writers_directors()->value()
-      : null;
     $bgStyle = [];
     if (!empty($bg['bg_url'])) {
       $bgStyle[] = '--feature-bg: url(' . json_encode($bg['bg_url']) . ')';
@@ -47,11 +44,10 @@
         'title_logo' => $titleType === 'logo' ? $page->title_logo()->toFile() : null,
         'title_text' => $page->title()->value(),
         'title_heading' => 'h1',
-        'credits_label' => $creditsNames ? ui_t('home.writer_director') : null,
-        'credits_names' => $creditsNames,
+        'hero_credits' => project_hero_credits($page),
         'intro' => $page->intro()->isNotEmpty() ? $page->intro()->value() : null,
       ]) ?>
-      <button type="button" class="c-project-hero__more t-mono t-uppercase" data-project-scroll-down>
+      <button type="button" class="c-floating-btn c-project-hero__more t-mono t-uppercase" data-project-scroll-down>
         <?php snippet('objects/icon-arrow-down') ?>
         <span><?= ui_t('project.view_more') ?></span>
       </button>
@@ -133,34 +129,56 @@
           <span class="u-visually-hidden"><?= ui_t('ui.opens_in_new_window') ?></span>
         </a>
       <?php endif ?>
-      <?php if ($page->awards()->isNotEmpty()): ?>
-        <section class="c-project-detail__awards">
-          <div class="c-project-detail__awards-layout">
-            <p class="c-project-detail__awards-label t-mono t-uppercase"><?= ui_t('project.awards') ?></p>
-            <div class="c-project-detail__awards-list" role="list">
-              <?php foreach ($page->awards()->toStructure() as $award): ?>
-                <?php
-                  $projectPage = $award->project_page()->toPage();
-                  $projectName = $award->project()->or($projectPage?->title());
-                ?>
-                <div class="c-project-detail__award t-mono t-uppercase" role="listitem">
-                  <span class="c-project-detail__award-title"><?= $award->title()->html() ?></span>
-                  <?php if ($projectName->isNotEmpty()): ?>
-                    <span class="c-project-detail__award-project">
-                      <?php if ($projectPage): ?>
-                        <a href="<?= $projectPage->url() ?>"><?= $projectName->html() ?></a>
-                      <?php else: ?>
-                        <?= $projectName->html() ?>
-                      <?php endif ?>
-                    </span>
-                  <?php endif ?>
-                  <?php if ($award->year()->isNotEmpty()): ?>
-                    <span class="c-project-detail__award-year"><?= $award->year()->html() ?></span>
-                  <?php endif ?>
+      <?php
+        $laurels = $page->laurels()->toFiles();
+        $hasAwards = $page->awards()->isNotEmpty();
+        $hasLaurels = $laurels->isNotEmpty();
+      ?>
+      <?php if ($hasAwards || $hasLaurels): ?>
+        <section class="c-project-detail__recognition">
+          <?php if ($hasAwards): ?>
+            <div class="c-project-detail__recognition-layout">
+              <p class="c-project-detail__recognition-label t-mono t-uppercase"><?= ui_t('project.awards') ?></p>
+              <div class="c-project-detail__awards-list" role="list">
+                <?php foreach ($page->awards()->toStructure() as $award): ?>
+                  <?php
+                    $projectPage = $award->project_page()->toPage();
+                    $projectName = $award->project()->or($projectPage?->title());
+                  ?>
+                  <div class="c-project-detail__award t-mono t-uppercase" role="listitem">
+                    <span class="c-project-detail__award-title"><?= $award->title()->html() ?></span>
+                    <?php if ($projectName->isNotEmpty()): ?>
+                      <span class="c-project-detail__award-project">
+                        <?php if ($projectPage): ?>
+                          <a href="<?= $projectPage->url() ?>"><?= $projectName->html() ?></a>
+                        <?php else: ?>
+                          <?= $projectName->html() ?>
+                        <?php endif ?>
+                      </span>
+                    <?php endif ?>
+                    <?php if ($award->year()->isNotEmpty()): ?>
+                      <span class="c-project-detail__award-year"><?= $award->year()->html() ?></span>
+                    <?php endif ?>
+                  </div>
+                <?php endforeach ?>
+              </div>
+            </div>
+          <?php endif ?>
+          <?php if ($hasLaurels): ?>
+            <div class="c-project-detail__laurels-grid" role="list">
+              <?php foreach ($laurels as $laurel): ?>
+                <div class="c-project-detail__laurel" role="listitem">
+                  <img
+                    class="c-project-detail__laurel-img"
+                    src="<?= $laurel->url() ?>"
+                    alt="<?= esc($laurel->alt()->or('Laurel')->value(), 'attr') ?>"
+                    loading="lazy"
+                    decoding="async"
+                  >
                 </div>
               <?php endforeach ?>
             </div>
-          </div>
+          <?php endif ?>
         </section>
       <?php endif ?>
       <?php if ($page->pull_quote()->isNotEmpty()): ?>
@@ -169,11 +187,6 @@
           <cite class="t-mono t-uppercase"><?= $page->pull_quote_source()->html() ?></cite>
         <?php endif ?>
       <?php endif ?>
-      <?php snippet('components/featured-quote-block', [
-        'quote' => $page->featured_quote_text(),
-        'source' => $page->featured_quote_source(),
-        'stars' => (int) $page->featured_quote_stars()->or('0')->value(),
-      ]) ?>
       <div
         class="c-project-detail__content-sentinel"
         data-project-detail-sentinel
@@ -194,6 +207,12 @@
       }
 
     ?>
+    <?php snippet('components/project-slideshow', ['page' => $page]) ?>
+    <?php snippet('components/featured-quote-block', [
+      'quote' => $page->featured_quote_text(),
+      'source' => $page->featured_quote_source(),
+      'stars' => (int) $page->featured_quote_stars()->or('0')->value(),
+    ]) ?>
     <?php snippet('components/project-gallery', ['gallery' => $page->gallery()]) ?>
     <?php if (!empty($carouselQuotes)): ?>
       <?php $carouselCount = count($carouselQuotes); ?>

@@ -14,6 +14,7 @@ import { initHomeSnap } from "./components/home-snap";
 import { initHomeFeatureParallax } from "./components/home-feature-parallax";
 import { initHomeFeatureTrailerCursor } from "./components/home-feature-trailer-cursor";
 import { initFeaturedQuoteCarousel } from "./components/featured-quote-carousel";
+import { initProjectSlideshow } from "./components/project-slideshow";
 import {
   destroyProjectScroll,
   initProjectScroll,
@@ -75,6 +76,7 @@ const initPage = () => {
   destroyFloatingUiFooter();
   initProjectScroll();
   initFeaturedQuoteCarousel();
+  initProjectSlideshow();
   initProjectAvailableOn();
   initWorkFilters();
   initFloatingUiFooter();

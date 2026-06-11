@@ -93,6 +93,11 @@
 
 .c-hero-feature__credits {
   display: grid;
+  gap: var(--margin);
+}
+
+.c-hero-feature__credit {
+  display: grid;
   gap: 0.4rem;
 }
 

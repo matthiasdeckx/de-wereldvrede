@@ -160,11 +160,12 @@ export const initHomeSnap = () => {
 
   sections.forEach((_, i) => {
     const dot = document.createElement("span");
-    dot.className = "c-home-scroll-indicator__dot" + (i === 0 ? " is-active" : "");
+    dot.className = "c-scroll-dot" + (i === 0 ? " is-active" : "");
     indicator.appendChild(dot);
   });
 
-  const dots = indicator.querySelectorAll(".c-home-scroll-indicator__dot");
+  indicator.classList.add("c-scroll-dots");
+  const dots = indicator.querySelectorAll(".c-scroll-dot");
 
   const setIndicatorHidden = (hidden) => {
     indicator.classList.toggle("is-hidden", hidden);

@@ -15,107 +15,103 @@ tabs:
   content:
     label: Content
     fields:
-      project_type:
-        label: Type
-        type: multiselect
-        options:
-          type: query
-          query: site.project_types.split
-        width: 2/5
-      project_status:
-        label: Status
-        type: multiselect
-        width: 2/5
-        options:
-          type: query
-          query: site.project_statuses.split
-      year:
-        label: Year
-        type: number
-        placeholder: YYYY
-        width: 1/5
-      subtitle:
-        label: Subtitle
-        type: text
-        placeholder: Eg. Writer, Director, Producer
-        help: Shown in the overview on the Work page, under the title.
-      cover:
-        label: Cover image
-        type: files
-        multiple: false
-        accept:
-          mime: image/*
-        help: Shown in the overview on the Work page.
+      section_hero:
+        label: Hero
+        type: headline
+        help: The large opening section at the top of the project page.
       hero_image:
-        label: Hero / feature image
+        label: Background image
         type: files
         multiple: false
         accept:
           mime: image/*
+        help: Falls back to the Work page cover image if empty.
       hero_curtain_opacity:
-        label: Hero darken
-        type: select
-        empty: Default (subtle)
+        label: Image darken
+        type: range
+        min: 0.1
+        max: 0.3
+        step: 0.05
+        default: 0.15
         width: 1/2
-        options:
-          "0.1": Soft
-          "0.2": Medium
-          "0.3": Strong
-        help: Darkens the hero image so titles stay readable. Soft is lightest, Strong is darkest. Leave on default for a subtle overlay.
+        help: Darkens the background so the title stays readable. Center is the default.
       title_type:
         label: Title display
         type: radio
         default: text
         options:
-          text: Text
+          text: Text (page title)
           logo: Logo image
       title_logo:
         label: Title logo
         type: files
         multiple: false
-        help: Shown at the top of the project page and in feature. Please use a SVG or PNG with transparent background.
+        help: SVG or PNG with transparent background.
         accept:
           mime: image/*
         when:
           title_type: logo
-      writers_directors:
-        label: Writers & directors
+      director:
+        label: Director
         type: text
+        width: 1/2
+      writer:
+        label: Writer
+        type: text
+        width: 1/2
       intro:
         label: Intro text
         type: textarea
         size: small
         buttons: false
-      length:
-        label: Length
-        type: text
-        width: 1/2
+        help: Short line shown below the title in the hero.
       trailer_source:
-        label: Trailer source
+        label: Trailer
         type: radio
         default: none
         options:
           none: None
           vimeo: Vimeo
-          file: File
+          file: Uploaded file
       trailer_vimeo:
-        label: Trailer Vimeo URL
+        label: Vimeo URL
         type: url
         when:
           trailer_source: vimeo
       trailer_file:
-        label: Trailer file
+        label: Video file
         type: files
         multiple: false
         accept:
           mime: video/*
         when:
           trailer_source: file
-      synopsis:
+
+      section_synopsis:
         label: Synopsis
+        type: headline
+      synopsis:
+        label: Synopsis text
         type: textarea
         size: medium
         buttons: false
+
+      section_details:
+        label: Project details
+        type: headline
+        help: Shown below the synopsis on the project page.
+      project_type:
+        label: Type
+        type: multiselect
+        options:
+          type: query
+          query: site.project_types.split
+        width: 1/2
+      year:
+        label: Year
+        type: number
+        placeholder: YYYY
+        width: 1/4
       credits:
         label: Credits
         type: structure
@@ -129,20 +125,15 @@ tabs:
             type: textarea
             buttons: false
             width: 2/3
+            help: One name per line. Links can be added with Kirby’s link button.
       cast_crew_url:
         label: Full cast & crew link
         type: url
-        help: Optional. Shown as a link bar below credits on the project page.
-      available_on:
-        label: Available on
-        type: structure
-        fields:
-          medium:
-            label: Medium
-            type: text
-          url:
-            label: URL
-            type: url
+        help: Optional external link shown below the credits list.
+
+      section_recognition:
+        label: Awards & laurels
+        type: headline
       awards:
         label: Awards & nominations
         type: structure
@@ -166,17 +157,42 @@ tabs:
             placeholder: YYYY
             min: 1900
             max: 2100
-      pull_quote:
+      laurels:
+        label: Laurels
+        type: files
+        multiple: true
+        layout: cards
+        uploads: false
+        query: site.files.filterBy("template", "laurel").sortBy("sort", "asc")
+        help: Select laurel logos from the global library (Site → Laurels).
+
+      section_pull_quote:
         label: Pull quote
+        type: headline
+      pull_quote:
+        label: Quote text
         type: textarea
         buttons: false
       pull_quote_source:
-        label: Quote source
+        label: Source
         type: text
-      featured_quote_heading:
+
+      section_slideshow:
+        label: Slideshow
+        type: headline
+        help: Full-width image carousel shown before the featured quote.
+      slideshow:
+        label: Images
+        type: files
+        layout: cards
+        multiple: true
+        accept:
+          mime: image/*
+
+      section_featured_quote:
         label: Featured quote
         type: headline
-        help: Single quote shown on the project page (above the gallery).
+        help: Single quote card shown before the gallery.
       featured_quote_text:
         label: Quote text
         type: textarea
@@ -186,22 +202,33 @@ tabs:
         type: text
       featured_quote_stars:
         label: Stars
-        type: select
-        default: "5"
-        options:
-          "1": "1"
-          "2": "2"
-          "3": "3"
-          "4": "4"
-          "5": "5"
-      featured_quotes_heading:
+        type: range
+        icon: star
+        min: 1
+        max: 5
+        step: 1
+        default: 5
+        tooltip:
+          after: ★
+
+      section_gallery:
+        label: Gallery
+        type: headline
+      gallery:
+        label: Images
+        type: files
+        layout: cards
+        multiple: true
+        accept:
+          mime: image/*
+
+      section_quote_carousel:
         label: Quote carousel
         type: headline
-        help: Optional. Additional quotes in a carousel below the featured quote. You can use both sections together.
+        help: Optional. Additional quotes in a carousel below the gallery.
       featured_quotes:
-        label: Carousel quotes
+        label: Quotes
         type: structure
-        help: Optional. Add one or more quotes; each row appears in the carousel when filled in.
         fields:
           quote:
             label: Quote text
@@ -212,21 +239,55 @@ tabs:
             type: text
           stars:
             label: Stars
-            type: select
-            default: "5"
-            options:
-              "1": "1"
-              "2": "2"
-              "3": "3"
-              "4": "4"
-              "5": "5"
-      gallery:
-        label: Gallery images
+            type: range
+            icon: star
+            min: 1
+            max: 5
+            step: 1
+            default: 5
+            tooltip:
+              after: ★
+
+      section_availability:
+        label: Streaming & links
+        type: headline
+        help: Shown in the floating bar at the bottom of the project page.
+      available_on:
+        label: Available on
+        type: structure
+        fields:
+          medium:
+            label: Platform
+            type: text
+          url:
+            label: URL
+            type: url
+
+      section_work_card:
+        label: Work page card
+        type: headline
+        help: Thumbnail and summary shown on the Work overview — not part of the project page layout.
+      cover:
+        label: Cover image
         type: files
-        layout: cards
-        multiple: true
+        multiple: false
         accept:
           mime: image/*
+        help: Thumbnail on the Work page. Also used as the hero background if no hero image is set.
+      subtitle:
+        label: Subtitle
+        type: text
+        placeholder: e.g. Writer, Director, Producer
+        help: Shown under the title on the Work page.
+      project_status:
+        label: Status
+        type: multiselect
+        width: 1/2
+        options:
+          type: query
+          query: site.project_statuses.split
+        help: Used for filtering on the Work page.
+
   display:
     extends: tabs/display
   files:

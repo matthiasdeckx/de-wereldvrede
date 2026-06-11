@@ -1,0 +1,14 @@
+title: Laurel
+accept:
+  mime: image/svg+xml, image/png, image/webp
+image:
+  back: "#191919"
+  color: white
+  cover: true
+columns:
+  - width: 1/2
+    fields:
+      alt:
+        label: Alternative text
+        type: text
+        placeholder: Eg. Ensors Film Festival — Winner

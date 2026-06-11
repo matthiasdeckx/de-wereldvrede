@@ -3,6 +3,7 @@
 use Kirby\Cms\File;
 use Kirby\Cms\Page;
 use Kirby\Cms\StructureObject;
+use Kirby\Toolkit\Str;
 
 if (!function_exists('hero_curtain_opacity')) {
     /**
@@ -12,7 +13,17 @@ if (!function_exists('hero_curtain_opacity')) {
     {
         $value = trim((string) $value);
 
-        return in_array($value, ['0.1', '0.2', '0.3'], true) ? $value : null;
+        if ($value === '') {
+            return null;
+        }
+
+        $opacity = (float) Str::float($value);
+
+        if ($opacity < 0.1 || $opacity > 0.3) {
+            return null;
+        }
+
+        return rtrim(rtrim(sprintf('%.2f', $opacity), '0'), '.') ?: '0';
     }
 }
 
@@ -70,6 +81,81 @@ if (!function_exists('home_feature_bg')) {
     }
 }
 
+if (!function_exists('project_hero_credits')) {
+    /**
+     * Director / writer rows for project hero and homepage feature slides.
+     *
+     * @return array<int, array{label: string|null, names: string|null}>
+     */
+    function project_hero_credits(Page $page): array
+    {
+        $credits = [];
+
+        if ($page->director()->isNotEmpty()) {
+            $credits[] = [
+                'label' => ui_t('project.director'),
+                'names' => $page->director()->value(),
+            ];
+        }
+
+        if ($page->writer()->isNotEmpty()) {
+            $credits[] = [
+                'label' => ui_t('project.writer'),
+                'names' => $page->writer()->value(),
+            ];
+        }
+
+        if ($credits === [] && $page->writers_directors()->isNotEmpty()) {
+            $credits[] = [
+                'label' => ui_t('home.writer_director'),
+                'names' => $page->writers_directors()->value(),
+            ];
+        }
+
+        return $credits;
+    }
+}
+
+if (!function_exists('home_feature_custom_credits')) {
+    /**
+     * @return array<int, array{label: string|null, names: string|null}>
+     */
+    function home_feature_custom_credits(StructureObject $feature): array
+    {
+        $credits = [];
+
+        if ($feature->director()->isNotEmpty()) {
+            $credits[] = [
+                'label' => ui_t('project.director'),
+                'names' => $feature->director()->value(),
+            ];
+        }
+
+        if ($feature->writer()->isNotEmpty()) {
+            $credits[] = [
+                'label' => ui_t('project.writer'),
+                'names' => $feature->writer()->value(),
+            ];
+        }
+
+        if ($credits !== []) {
+            return $credits;
+        }
+
+        $label = $feature->credits_label()->value();
+        $names = $feature->credits()->value();
+
+        if ($label !== '' || $names !== '') {
+            $credits[] = [
+                'label' => $label !== '' ? $label : null,
+                'names' => $names !== '' ? $names : null,
+            ];
+        }
+
+        return $credits;
+    }
+}
+
 if (!function_exists('home_feature_slide')) {
     /**
      * Resolve homepage feature slide display data from structure item.
@@ -83,8 +169,7 @@ if (!function_exists('home_feature_slide')) {
      *   title_type: string|null,
      *   title_logo: File|null,
      *   title_text: string|null,
-     *   credits_label: string|null,
-     *   credits_names: string|null,
+     *   hero_credits: array<int, array{label: string|null, names: string|null}>,
      *   has_trailer: bool,
      *   trailer_vimeo: string,
      *   trailer_file_url: string|null,
@@ -107,8 +192,7 @@ if (!function_exists('home_feature_slide')) {
             'title_type' => null,
             'title_logo' => null,
             'title_text' => null,
-            'credits_label' => null,
-            'credits_names' => null,
+            'hero_credits' => [],
             'has_trailer' => false,
             'trailer_vimeo' => '',
             'trailer_file_url' => null,
@@ -127,9 +211,6 @@ if (!function_exists('home_feature_slide')) {
             $hasTrailer = $trailerSource !== 'none' && $trailerSource !== '';
             $titleType = $project->title_type()->or('text')->value();
             $titleLogo = $titleType === 'logo' ? $project->title_logo()->toFile() : null;
-            $creditsNames = $project->writers_directors()->isNotEmpty()
-                ? $project->writers_directors()->value()
-                : null;
             $types = $project->project_type()->split(',');
             $category = !empty($types) ? strtoupper(trim($types[0])) : null;
 
@@ -140,8 +221,7 @@ if (!function_exists('home_feature_slide')) {
                 'title_type' => $titleType,
                 'title_logo' => $titleLogo,
                 'title_text' => $project->title()->value(),
-                'credits_label' => $creditsNames ? ui_t('home.writer_director') : null,
-                'credits_names' => $creditsNames,
+                'hero_credits' => project_hero_credits($project),
                 'has_trailer' => $hasTrailer,
                 'trailer_vimeo' => $hasTrailer ? $project->trailer_vimeo()->value() : '',
                 'trailer_file_url' => $hasTrailer ? $project->trailer_file()->toFile()?->url() : null,
@@ -181,10 +261,7 @@ if (!function_exists('home_feature_slide')) {
             'title_type' => 'text',
             'title_logo' => null,
             'title_text' => $feature->title()->isNotEmpty() ? $feature->title()->value() : null,
-            'credits_label' => $feature->credits_label()->isNotEmpty()
-                ? $feature->credits_label()->value()
-                : null,
-            'credits_names' => $feature->credits()->isNotEmpty() ? $feature->credits()->value() : null,
+            'hero_credits' => home_feature_custom_credits($feature),
             'has_trailer' => $hasTrailer,
             'trailer_vimeo' => $hasTrailer ? $feature->trailer_vimeo()->value() : '',
             'trailer_file_url' => $hasTrailer ? $feature->trailer_file()->toFile()?->url() : null,
