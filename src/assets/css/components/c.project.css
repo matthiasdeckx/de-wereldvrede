@@ -300,15 +300,18 @@
 }
 
 .c-project-detail__laurels-grid {
-  display: grid;
+  --laurel-columns: 3;
+  display: flex;
+  flex-wrap: wrap;
   gap: 1.25rem;
-  grid-template-columns: repeat(3, 1fr);
+  justify-content: flex-end;
   margin-top: calc(var(--margin-l) * 1.5);
 }
 
 .c-project-detail__laurel {
   align-items: center;
   display: flex;
+  flex: 0 0 calc((100% - (var(--laurel-columns) - 1) * 1.25rem) / var(--laurel-columns));
   justify-content: flex-start;
 }
 
@@ -348,13 +351,13 @@
   }
 
   .c-project-detail__laurels-grid {
-    grid-template-columns: repeat(6, 1fr);
+    --laurel-columns: 6;
   }
 }
 
 @media (--s-m) {
   .c-project-detail__laurels-grid {
-    grid-template-columns: repeat(4, 1fr);
+    --laurel-columns: 4;
   }
 }
 
@@ -364,7 +367,7 @@
   }
 
   .c-project-detail__laurels-grid {
-    grid-template-columns: repeat(2, 1fr);
+    --laurel-columns: 2;
   }
 }
 

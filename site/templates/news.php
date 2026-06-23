@@ -3,6 +3,10 @@ snippet('header');
 
 $articles = $page->children()->listed()->sortBy('published_date', 'desc');
 $perPage = 12;
+$cardImageLayout = $page->card_image_layout()->or('original')->value();
+if (!in_array($cardImageLayout, ['original', 'landscape', 'portrait'], true)) {
+  $cardImageLayout = 'original';
+}
 ?>
 
 <main class="c-site-main c-news">
@@ -14,8 +18,9 @@ $perPage = 12;
       data-news-live
     ></div>
     <div
-      class="c-news-grid"
+      class="c-news-grid c-news-grid--card-image-<?= esc($cardImageLayout, 'attr') ?>"
       data-news-grid
+      data-news-card-image-layout="<?= esc($cardImageLayout, 'attr') ?>"
       data-news-per-page="<?= $perPage ?>"
       data-news-loaded-message="<?= esc(ui_t('news.loaded_more'), 'attr') ?>"
     >
@@ -25,14 +30,15 @@ $perPage = 12;
           <a href="<?= $article->url() ?>" class="c-news-card__link" data-news-open data-no-swup>
             <?php if ($image): ?>
               <?php
-              $isPortrait = $image->height() > $image->width();
+              $isPortrait = $cardImageLayout === 'original' && $image->height() > $image->width();
+              $shouldCrop = $cardImageLayout !== 'original' || $isPortrait;
               snippet('objects/image', [
                 'image' => $image,
                 'class' => trim('c-news-card__image' . ($isPortrait ? ' c-news-card__image--portrait' : '')),
                 'wrapperClass' => $isPortrait ? 'c-image--portrait' : '',
                 'srcset' => 'small',
                 'sizes' => '(min-width: 900px) 33vw, 100vw',
-                'crop' => $isPortrait,
+                'crop' => $shouldCrop,
               ]) ?>
             <?php endif ?>
             <h2 class="c-news-card__title t-display t-uppercase"><?= $article->title()->html() ?></h2>

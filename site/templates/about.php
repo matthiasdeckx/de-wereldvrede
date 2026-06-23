@@ -8,7 +8,7 @@
       <section class="c-about__intro t-display t-xlarge t-uppercase"><?= $page->intro_text()->kti() ?></section>
     <?php endif ?>
 
-    <?php if ($page->team()->isNotEmpty()): ?>
+    <?php if ($page->show_team()->toBool(true) && $page->team()->isNotEmpty()): ?>
       <?php
         $teamGrid = [
           ['start' => 1, 'span' => 4, 'row' => 1, 'offset' => 2],
@@ -56,7 +56,7 @@
       </section>
     <?php endif ?>
 
-    <?php if ($page->about_body()->isNotEmpty()): ?>
+    <?php if ($page->show_about()->toBool(true) && $page->about_body()->isNotEmpty()): ?>
       <section class="c-about__section">
         <div class="c-split-section">
           <p class="c-split-section__label t-mono t-uppercase"><?= $page->about_label()->or('DE WERELDVREDE')->html() ?></p>
@@ -65,7 +65,7 @@
       </section>
     <?php endif ?>
 
-    <?php if ($page->awards()->isNotEmpty()): ?>
+    <?php if ($page->show_awards()->toBool(true) && $page->awards()->isNotEmpty()): ?>
       <section class="c-about__section c-about__section--awards" data-about-awards>
         <div class="c-about__layout">
           <p class="c-about__label t-mono t-uppercase"><?= $page->awards_label()->or('AWARDS & NOMINATIONS')->html() ?></p>

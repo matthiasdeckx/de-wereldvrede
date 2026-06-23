@@ -9,9 +9,18 @@ tabs:
         type: textarea
         size: small
         buttons: false
+      show_team:
+        label: Show team members section
+        type: toggle
+        default: true
+        text:
+          - Hidden
+          - Visible
       team:
         label: Team members
         type: structure
+        when:
+          show_team: true
         fields:
           name:
             label: Name
@@ -25,22 +34,44 @@ tabs:
             multiple: false
             accept:
               mime: image/*
+      show_about:
+        label: Show about section
+        type: toggle
+        default: true
+        text:
+          - Hidden
+          - Visible
       about_label:
         label: About section label
         type: text
         default: DE WERELDVREDE
+        when:
+          show_about: true
       about_body:
         label: About body
         type: textarea
         size: large
         buttons: false
+        when:
+          show_about: true
+      show_awards:
+        label: Show awards & nominations section
+        type: toggle
+        default: true
+        text:
+          - Hidden
+          - Visible
       awards_label:
         label: Awards section label
         type: text
         default: AWARDS & NOMINATIONS
+        when:
+          show_awards: true
       awards:
         label: Awards & nominations
         type: structure
+        when:
+          show_awards: true
         fields:
           title:
             label: Award title

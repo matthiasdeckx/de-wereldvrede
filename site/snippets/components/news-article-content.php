@@ -111,15 +111,4 @@ if ($externalLinks === [] && $page->external_url()->isNotEmpty()) {
       </div>
     <?php endif ?>
   </div>
-  <aside class="c-news-article__aside">
-    <?php if ($image = $page->secondary_image()->toFile()): ?>
-      <?php snippet('objects/image', ['image' => $image, 'sizes' => '50vw', 'crop' => false]) ?>
-    <?php endif ?>
-    <?php if ($page->pull_quote()->isNotEmpty()): ?>
-      <blockquote class="c-news-article__quote t-display t-xlarge t-uppercase"><?= $page->pull_quote()->kti() ?></blockquote>
-      <?php if ($page->pull_quote_caption()->isNotEmpty()): ?>
-        <cite class="t-mono t-uppercase"><?= $page->pull_quote_caption()->html() ?></cite>
-      <?php endif ?>
-    <?php endif ?>
-  </aside>
 </article>

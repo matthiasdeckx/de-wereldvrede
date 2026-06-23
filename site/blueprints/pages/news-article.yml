@@ -53,12 +53,8 @@ tabs:
         type: blocks
         help: Optional gallery and quote blocks shown below the article body.
         fieldsets:
-          project-gallery:
-            label: Images
-            icon: dashboard
-          featured-quote:
-            label: Quote
-            icon: quote
+          - project-gallery
+          - featured-quote
       external_links:
         label: External links
         type: structure
@@ -70,18 +66,6 @@ tabs:
           url:
             label: URL
             type: url
-      secondary_image:
-        label: Secondary image
-        type: files
-        multiple: false
-        accept:
-          mime: image/*
-      pull_quote:
-        label: Pull quote
-        type: textarea
-      pull_quote_caption:
-        label: Pull quote caption
-        type: text
   display:
     extends: tabs/display
     fields:
