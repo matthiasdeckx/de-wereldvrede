@@ -3,10 +3,13 @@ snippet('header');
 
 $articles = $page->children()->listed()->sortBy('published_date', 'desc');
 $perPage = 12;
-$cardImageLayout = $page->card_image_layout()->or('original')->value();
-if (!in_array($cardImageLayout, ['original', 'landscape', 'portrait'], true)) {
-  $cardImageLayout = 'original';
-}
+
+$validCardImageLayouts = ['auto', '16-9', '3-2', '4-3', '1-1', '3-4', '7-10', '2-3', '9-16'];
+$legacyCardImageLayouts = [
+  'original' => 'auto',
+  'landscape' => '16-9',
+  'portrait' => '3-4',
+];
 ?>
 
 <main class="c-site-main c-news">
@@ -18,27 +21,38 @@ if (!in_array($cardImageLayout, ['original', 'landscape', 'portrait'], true)) {
       data-news-live
     ></div>
     <div
-      class="c-news-grid c-news-grid--card-image-<?= esc($cardImageLayout, 'attr') ?>"
+      class="c-news-grid"
       data-news-grid
-      data-news-card-image-layout="<?= esc($cardImageLayout, 'attr') ?>"
       data-news-per-page="<?= $perPage ?>"
       data-news-loaded-message="<?= esc(ui_t('news.loaded_more'), 'attr') ?>"
     >
       <?php foreach ($articles as $index => $article): ?>
         <?php $image = $article->cover_image()->toFile() ?: $article->hero_image()->toFile(); ?>
-        <article class="c-news-card" data-news-card<?= $index >= $perPage ? ' hidden' : '' ?>>
+        <?php
+        $cardImageLayout = $article->card_image_layout()->or('auto')->value();
+        $cardImageLayout = $legacyCardImageLayouts[$cardImageLayout] ?? $cardImageLayout;
+        if (!in_array($cardImageLayout, $validCardImageLayouts, true)) {
+          $cardImageLayout = 'auto';
+        }
+
+        $cardImageClass = '';
+        if ($cardImageLayout === 'auto' && $image) {
+          $cardImageClass = $image->height() > $image->width()
+            ? ' c-news-card--image-7-10'
+            : ' c-news-card--image-3-2';
+        } elseif ($cardImageLayout !== 'auto') {
+          $cardImageClass = ' c-news-card--card-image-' . $cardImageLayout;
+        }
+        ?>
+        <article class="c-news-card<?= $cardImageClass ?>" data-news-card<?= $index >= $perPage ? ' hidden' : '' ?>>
           <a href="<?= $article->url() ?>" class="c-news-card__link" data-news-open data-no-swup>
             <?php if ($image): ?>
-              <?php
-              $isPortrait = $cardImageLayout === 'original' && $image->height() > $image->width();
-              $shouldCrop = $cardImageLayout !== 'original' || $isPortrait;
-              snippet('objects/image', [
+              <?php snippet('objects/image', [
                 'image' => $image,
-                'class' => trim('c-news-card__image' . ($isPortrait ? ' c-news-card__image--portrait' : '')),
-                'wrapperClass' => $isPortrait ? 'c-image--portrait' : '',
+                'class' => 'c-news-card__image',
                 'srcset' => 'small',
                 'sizes' => '(min-width: 900px) 33vw, 100vw',
-                'crop' => $shouldCrop,
+                'crop' => true,
               ]) ?>
             <?php endif ?>
             <h2 class="c-news-card__title t-display t-uppercase"><?= $article->title()->html() ?></h2>

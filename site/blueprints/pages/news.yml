@@ -14,13 +14,5 @@ tabs:
     fields:
       page_theme:
         default: light
-      card_image_layout:
-        label: Card image layout
-        type: radio
-        default: original
-        options:
-          original: Keep original image ratio
-          landscape: Crop to landscape (16:9)
-          portrait: Crop to portrait (3:4)
   seo:
     extends: tabs/seo

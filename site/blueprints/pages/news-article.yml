@@ -71,5 +71,20 @@ tabs:
     fields:
       page_theme:
         default: light
+      card_image_layout:
+        label: Card image crop
+        type: radio
+        default: auto
+        help: Auto detects orientation from the cover image — landscape crops to 3:2, portrait to 7:10.
+        options:
+          auto: Auto (landscape 3:2, portrait 7:10)
+          16-9: "16:9 (landscape)"
+          3-2: "3:2 (landscape)"
+          4-3: "4:3 (landscape)"
+          1-1: "1:1 (square)"
+          3-4: "3:4 (portrait)"
+          7-10: "7:10 (portrait)"
+          2-3: "2:3 (portrait)"
+          9-16: "9:16 (portrait)"
   seo:
     extends: tabs/seo

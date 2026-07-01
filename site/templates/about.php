@@ -11,13 +11,13 @@
     <?php if ($page->show_team()->toBool(true) && $page->team()->isNotEmpty()): ?>
       <?php
         $teamGrid = [
-          ['start' => 1, 'span' => 4, 'row' => 1, 'offset' => 2],
+          ['start' => 1, 'span' => 3, 'row' => 1, 'offset' => 2],
           ['start' => 6, 'span' => 3, 'row' => 1, 'offset' => 0],
-          ['start' => 9, 'span' => 4, 'row' => 1, 'offset' => 4.5],
-          ['start' => 3, 'span' => 4, 'row' => 2, 'offset' => 3.5],
-          ['start' => 8, 'span' => 3, 'row' => 3, 'offset' => 0.75],
-          ['start' => 1, 'span' => 3, 'row' => 4, 'offset' => 2.25],
-          ['start' => 10, 'span' => 3, 'row' => 4, 'offset' => 4],
+          ['start' => 10, 'span' => 3, 'row' => 1, 'offset' => 6],
+          ['start' => 3, 'span' => 3, 'row' => 2, 'offset' => 0],
+          ['start' => 8, 'span' => 3, 'row' => 2, 'offset' => 4],
+          ['start' => 2, 'span' => 3, 'row' => 4, 'offset' => 1],
+          ['start' => 9, 'span' => 3, 'row' => 4, 'offset' => 3],
         ];
       ?>
       <section class="c-about__section c-about__section--team">
