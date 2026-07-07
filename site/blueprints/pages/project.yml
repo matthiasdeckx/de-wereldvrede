@@ -277,8 +277,6 @@ tabs:
           query: site.project_statuses.split
         help: Used for filtering on the Work page.
 
-  display:
-    extends: tabs/display
   files:
     extends: tabs/files
   seo:

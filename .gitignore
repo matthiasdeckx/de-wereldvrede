@@ -11,6 +11,8 @@ content
 content copy/*
 content copy
 content_backup/*
+content-backup
+content-backup/*
 contentt_backup
 
 /media/*
