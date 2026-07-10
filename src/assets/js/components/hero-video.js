@@ -4,7 +4,7 @@ const INTERACTIVE_SELECTOR =
 const HERO_REVEAL_CLASSES = ["is-video-ready", "is-hero-revealed"];
 
 const FADE_MS = 350;
-const HERO_VISIBILITY_RATIO = 0.15;
+const HERO_VISIBILITY_RATIO = 0.5;
 
 let teardown = null;
 let volumeFadeFrame = null;
@@ -199,6 +199,8 @@ export const initHeroVideo = () => {
   };
 
   const setMutedWithFade = (muted, { instant = false } = {}) => {
+    cancelVolumeFade();
+
     if (muted && video.muted) {
       updateSoundButton();
       return;
@@ -259,6 +261,7 @@ export const initHeroVideo = () => {
   const onSectionClick = (e) => {
     if (e.target.closest("[data-hero-sound]")) return;
     if (e.target.closest(".c-home-hero__title")) return;
+    if (e.defaultPrevented) return;
     if (video.paused) {
       video.play();
     } else {
@@ -266,13 +269,24 @@ export const initHeroVideo = () => {
     }
   };
 
-  const onSoundClick = (e) => {
-    e.stopPropagation();
-    if (video.muted) {
+  const toggleSound = () => {
+    if (video.muted || video.volume === 0) {
       unmuteFromUserGesture();
       return;
     }
-    setMutedWithFade(true);
+    setMutedInstant(true);
+    updateSoundButton();
+  };
+
+  const onSoundPointerDown = (e) => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    e.stopPropagation();
+  };
+
+  const onSoundClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleSound();
   };
 
   const pauseForScrollAway = () => {
@@ -302,7 +316,7 @@ export const initHeroVideo = () => {
       entry.isIntersecting && entry.intersectionRatio >= HERO_VISIBILITY_RATIO;
 
     if (!inView) {
-      if (scrolledAway) return;
+      if (scrolledAway || entry.isIntersecting) return;
       scrolledAway = true;
       wasPlaying = !video.paused;
       wasUnmuted = !video.muted;
@@ -321,7 +335,7 @@ export const initHeroVideo = () => {
   if (scrollRoot) {
     heroVisibilityObserver = new IntersectionObserver(
       (entries) => entries.forEach(handleHeroVisibility),
-      { root: scrollRoot, threshold: [0, HERO_VISIBILITY_RATIO, 0.5, 1] }
+      { root: scrollRoot, threshold: [0, 0.5, 1] }
     );
     heroVisibilityObserver.observe(section);
   }
@@ -334,6 +348,7 @@ export const initHeroVideo = () => {
   video.addEventListener("play", updateLabelText);
   video.addEventListener("pause", updateLabelText);
   video.addEventListener("volumechange", onVolumeChange);
+  soundBtn?.addEventListener("pointerdown", onSoundPointerDown);
   soundBtn?.addEventListener("click", onSoundClick);
 
   updateLabelText();
@@ -360,6 +375,7 @@ export const initHeroVideo = () => {
     video.removeEventListener("play", updateLabelText);
     video.removeEventListener("pause", updateLabelText);
     video.removeEventListener("volumechange", onVolumeChange);
+    soundBtn?.removeEventListener("pointerdown", onSoundPointerDown);
     soundBtn?.removeEventListener("click", onSoundClick);
     hideLabel();
     label?.style.removeProperty("--trailer-cursor-x");

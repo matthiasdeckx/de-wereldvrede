@@ -3,7 +3,28 @@ let footerObserver = null;
 let heroTitleClickHandler = null;
 let footerScrollHandler = null;
 let footerWheelHandler = null;
+let headerScrollHandler = null;
 let scrollAnimFrame = null;
+
+const HEADER_SCROLL_HIDDEN_CLASS = "is-scroll-hidden";
+
+const getFloatingHeader = () => document.querySelector("[data-floating-header]");
+
+const shouldKeepHeaderVisible = () => {
+  const header = getFloatingHeader();
+  if (!header) return true;
+  if (document.documentElement.classList.contains("is-home-intro-active")) return true;
+  if (header.classList.contains("is-mobile-nav-open")) return true;
+  if (header.classList.contains("is-overlay-mode")) return true;
+  if (header.classList.contains("is-contact-open")) return true;
+  if (document.body.classList.contains("is-overlay-open")) return true;
+  if (document.body.classList.contains("is-mobile-nav-open")) return true;
+  return false;
+};
+
+const setHeaderScrollHidden = (hidden) => {
+  getFloatingHeader()?.classList.toggle(HEADER_SCROLL_HIDDEN_CLASS, hidden);
+};
 
 /** Snappy ease-out (approx. easeOutQuart / cubic-bezier(0.22, 1, 0.36, 1)) */
 const easeOutSnappy = (t) => 1 - (1 - t) ** 4;
@@ -138,6 +159,13 @@ const destroyHomeSnap = () => {
     root?.removeEventListener("wheel", footerWheelHandler);
     footerWheelHandler = null;
   }
+
+  if (headerScrollHandler) {
+    const root = document.querySelector("[data-home-scroll]");
+    root?.removeEventListener("scroll", headerScrollHandler);
+    headerScrollHandler = null;
+    setHeaderScrollHidden(false);
+  }
 };
 
 export const initHomeSnap = () => {
@@ -193,6 +221,52 @@ export const initHomeSnap = () => {
       scrollToSection(root, nextSection);
     };
     heroTitle.addEventListener("click", heroTitleClickHandler);
+  }
+
+  const hero = sections[0];
+  if (hero) {
+    let headerHidden = false;
+    let lastHeaderScrollTop = root.scrollTop;
+
+    const isPastHero = () => {
+      const rootTop = root.getBoundingClientRect().top;
+      return hero.getBoundingClientRect().bottom <= rootTop + 8;
+    };
+
+    headerScrollHandler = () => {
+      if (shouldKeepHeaderVisible()) {
+        if (headerHidden) {
+          headerHidden = false;
+          setHeaderScrollHidden(false);
+        }
+        lastHeaderScrollTop = root.scrollTop;
+        return;
+      }
+
+      const scrollTop = root.scrollTop;
+      const scrollingDown = scrollTop > lastHeaderScrollTop;
+      const scrollingUp = scrollTop < lastHeaderScrollTop;
+      lastHeaderScrollTop = scrollTop;
+
+      if (!isPastHero()) {
+        if (headerHidden) {
+          headerHidden = false;
+          setHeaderScrollHidden(false);
+        }
+        return;
+      }
+
+      if (scrollingDown && !headerHidden) {
+        headerHidden = true;
+        setHeaderScrollHidden(true);
+      } else if (scrollingUp && headerHidden) {
+        headerHidden = false;
+        setHeaderScrollHidden(false);
+      }
+    };
+
+    root.addEventListener("scroll", headerScrollHandler, { passive: true });
+    headerScrollHandler();
   }
 
   if (!footer) return;

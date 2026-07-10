@@ -97,6 +97,11 @@
   text-align: center;
   gap: 1.2rem;
   padding: 8rem var(--page-gutter) 4rem;
+  pointer-events: none;
+}
+
+.c-home-hero__content > * {
+  pointer-events: auto;
 }
 
 .c-home-hero__title {
@@ -116,14 +121,20 @@ html.is-home-intro-active .c-home-hero__title {
   position: absolute;
   right: var(--page-gutter);
   bottom: 4rem;
-  z-index: 3;
+  z-index: 4;
   background: var(--floating-ui-bg);
   backdrop-filter: var(--floating-ui-blur);
+  -webkit-backdrop-filter: var(--floating-ui-blur);
   border: 0;
   border-radius: var(--floating-ui-radius);
   color: inherit;
   cursor: pointer;
   padding: var(--btn-padding-y) var(--btn-padding-x);
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  pointer-events: auto;
+  touch-action: manipulation;
+  isolation: isolate;
   opacity: 1;
   transition: opacity var(--anim-speed-slow) var(--anim-ease);
 }

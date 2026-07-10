@@ -10,8 +10,21 @@
   user-select: none;
   outline: none;
   transition:
+    transform var(--anim-speed-slow) var(--anim-ease),
     opacity var(--anim-speed-slow) var(--anim-ease),
     visibility 0s linear 0s;
+}
+
+.site-page-home .c-floating-header {
+  transition:
+    transform calc(var(--anim-speed-slow) / 2) var(--anim-ease),
+    opacity var(--anim-speed-slow) var(--anim-ease),
+    visibility 0s linear 0s;
+}
+
+.site-page-home .c-floating-header.is-scroll-hidden {
+  transform: translateX(-50%) translateY(calc(-1 * (var(--floating-ui-top) + var(--floating-ui-height))));
+  pointer-events: none;
 }
 
 html.is-home-intro-active .c-floating-header {
