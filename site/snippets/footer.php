@@ -11,6 +11,6 @@
     <?php snippet('components/cookie-banner') ?>
   <?php endif ?>
 
-  <script src="<?= url('assets/js/main.js') ?>" defer></script>
+  <?= mix('js/main.js', ['defer' => true]) ?>
 </body>
 </html>
