@@ -52,7 +52,7 @@ export const initHeroVideo = () => {
   let heroVisibilityObserver = null;
   let scrolledAway = false;
   let wasPlaying = false;
-  let wasUnmuted = false;
+  // let wasUnmuted = false; // scroll-away auto-mute (disabled — may restore later)
   let userWantsSound = false;
 
   const resetHeroReveal = () => {
@@ -304,11 +304,12 @@ export const initHeroVideo = () => {
       video.volume = 1;
       video.play().catch(() => {});
     }
-    if (wasUnmuted) {
-      userWantsSound = true;
-      video.muted = true;
-      updateSoundButton();
-    }
+    // Scroll-away auto-mute restore (disabled — may restore later)
+    // if (wasUnmuted) {
+    //   userWantsSound = true;
+    //   video.muted = true;
+    //   updateSoundButton();
+    // }
   };
 
   const handleHeroVisibility = (entry) => {
@@ -319,10 +320,11 @@ export const initHeroVideo = () => {
       if (scrolledAway || entry.isIntersecting) return;
       scrolledAway = true;
       wasPlaying = !video.paused;
-      wasUnmuted = !video.muted;
+      // Scroll-away auto-mute (disabled — may restore later)
+      // wasUnmuted = !video.muted;
+      // if (wasUnmuted) setMutedWithFade(true);
 
       if (wasPlaying) pauseForScrollAway();
-      if (wasUnmuted) setMutedWithFade(true);
       return;
     }
 
