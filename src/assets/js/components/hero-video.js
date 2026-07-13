@@ -49,10 +49,11 @@ export const initHeroVideo = () => {
   let revealPlayingHandler = null;
   let revealCanPlayHandler = null;
   let revealed = false;
-  let heroVisibilityObserver = null;
-  let scrolledAway = false;
-  let wasPlaying = false;
-  // let wasUnmuted = false; // scroll-away auto-mute (disabled — may restore later)
+  // Scroll-away pause/mute (disabled — may restore later)
+  // let heroVisibilityObserver = null;
+  // let scrolledAway = false;
+  // let wasPlaying = false;
+  // let wasUnmuted = false;
   let userWantsSound = false;
 
   const resetHeroReveal = () => {
@@ -289,58 +290,57 @@ export const initHeroVideo = () => {
     toggleSound();
   };
 
-  const pauseForScrollAway = () => {
-    if (!video.paused) {
-      video.pause();
-      updateLabelText();
-    }
-  };
-
-  const restoreAfterScrollBack = () => {
-    if (wasPlaying) {
-      if (!userWantsSound) {
-        video.muted = true;
-      }
-      video.volume = 1;
-      video.play().catch(() => {});
-    }
-    // Scroll-away auto-mute restore (disabled — may restore later)
-    // if (wasUnmuted) {
-    //   userWantsSound = true;
-    //   video.muted = true;
-    //   updateSoundButton();
-    // }
-  };
-
-  const handleHeroVisibility = (entry) => {
-    const inView =
-      entry.isIntersecting && entry.intersectionRatio >= HERO_VISIBILITY_RATIO;
-
-    if (!inView) {
-      if (scrolledAway || entry.isIntersecting) return;
-      scrolledAway = true;
-      wasPlaying = !video.paused;
-      // Scroll-away auto-mute (disabled — may restore later)
-      // wasUnmuted = !video.muted;
-      // if (wasUnmuted) setMutedWithFade(true);
-
-      if (wasPlaying) pauseForScrollAway();
-      return;
-    }
-
-    if (!scrolledAway) return;
-    scrolledAway = false;
-    restoreAfterScrollBack();
-  };
-
-  const scrollRoot = document.querySelector("[data-home-scroll]");
-  if (scrollRoot) {
-    heroVisibilityObserver = new IntersectionObserver(
-      (entries) => entries.forEach(handleHeroVisibility),
-      { root: scrollRoot, threshold: [0, 0.5, 1] }
-    );
-    heroVisibilityObserver.observe(section);
-  }
+  // Scroll-away pause/mute (disabled — may restore later)
+  // const pauseForScrollAway = () => {
+  //   if (!video.paused) {
+  //     video.pause();
+  //     updateLabelText();
+  //   }
+  // };
+  //
+  // const restoreAfterScrollBack = () => {
+  //   if (wasPlaying) {
+  //     if (!userWantsSound) {
+  //       video.muted = true;
+  //     }
+  //     video.volume = 1;
+  //     video.play().catch(() => {});
+  //   }
+  //   if (wasUnmuted) {
+  //     userWantsSound = true;
+  //     video.muted = true;
+  //     updateSoundButton();
+  //   }
+  // };
+  //
+  // const handleHeroVisibility = (entry) => {
+  //   const inView =
+  //     entry.isIntersecting && entry.intersectionRatio >= HERO_VISIBILITY_RATIO;
+  //
+  //   if (!inView) {
+  //     if (scrolledAway || entry.isIntersecting) return;
+  //     scrolledAway = true;
+  //     wasPlaying = !video.paused;
+  //     wasUnmuted = !video.muted;
+  //
+  //     if (wasPlaying) pauseForScrollAway();
+  //     if (wasUnmuted) setMutedWithFade(true);
+  //     return;
+  //   }
+  //
+  //   if (!scrolledAway) return;
+  //   scrolledAway = false;
+  //   restoreAfterScrollBack();
+  // };
+  //
+  // const scrollRoot = document.querySelector("[data-home-scroll]");
+  // if (scrollRoot) {
+  //   heroVisibilityObserver = new IntersectionObserver(
+  //     (entries) => entries.forEach(handleHeroVisibility),
+  //     { root: scrollRoot, threshold: [0, 0.5, 1] }
+  //   );
+  //   heroVisibilityObserver.observe(section);
+  // }
 
   section.addEventListener("mousemove", onMove);
   section.addEventListener("mouseleave", onLeave);
@@ -359,9 +359,9 @@ export const initHeroVideo = () => {
   schedulePlayback();
 
   teardown = () => {
-    heroVisibilityObserver?.disconnect();
-    heroVisibilityObserver = null;
-    scrolledAway = false;
+    // heroVisibilityObserver?.disconnect();
+    // heroVisibilityObserver = null;
+    // scrolledAway = false;
     cancelVolumeFade();
 
     if (canPlayHandler) {
