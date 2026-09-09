@@ -10,8 +10,12 @@ mix.browserSync({
 });
 
 mix.setPublicPath("assets");
+
+if (!mix.inProduction()) {
+  mix.sourceMaps();
+}
+
 mix
-  .sourceMaps()
   .js("src/assets/js/main.js", "assets/js")
   .postCss("src/assets/css/main.css", "assets/css")
   .options({
@@ -19,5 +23,9 @@ mix
   })
   .copyDirectory("src/assets/images", "assets/images")
   .copyDirectory("src/assets/fonts", "assets/fonts")
-  .copyDirectory("src/assets/preloader", "assets/preloader")
+  // Runtime preloader assets only — keep source ProRes/full .mov files out of public/
+  .copy("src/assets/preloader/preloader.json", "assets/preloader")
+  .copy("src/assets/preloader/leader.json", "assets/preloader")
+  .copy("src/assets/preloader/preloader.webm", "assets/preloader")
+  .copy("src/assets/preloader/preloader.mov", "assets/preloader")
   .version();

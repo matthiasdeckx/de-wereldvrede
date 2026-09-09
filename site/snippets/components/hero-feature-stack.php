@@ -24,11 +24,18 @@ $heroCredits = $hero_credits ?? [];
   <p class="c-hero-feature__category t-mono t-uppercase"><?= esc($category) ?></p>
 <?php endif ?>
 <?php if ($titleType === 'logo' && ($title_logo ?? null)): ?>
-  <?php $logoStyle = $dynamicLogoSize ? hero_feature_logo_style($title_logo) : null; ?>
+  <?php
+    $logoStyle = $dynamicLogoSize ? hero_feature_logo_style($title_logo) : null;
+    $logoSrc = $title_logo->thumb(['width' => 960, 'quality' => 90])->url();
+    $logoSrcset = $title_logo->srcset('logo');
+  ?>
   <img
     class="c-hero-feature__logo"
-    src="<?= $title_logo->url() ?>"
+    src="<?= esc($logoSrc, 'attr') ?>"
+    <?php if ($logoSrcset): ?>srcset="<?= esc($logoSrcset, 'attr') ?>"<?php endif ?>
+    sizes="(min-width: 768px) min(80vw, 48rem), 80vw"
     alt="<?= esc($title_text ?? '') ?>"
+    decoding="async"
     <?php if ($logoStyle): ?> style="<?= esc($logoStyle, 'attr') ?>"<?php endif ?>
   >
 <?php elseif (!empty($title_text)): ?>

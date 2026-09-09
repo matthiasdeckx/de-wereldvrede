@@ -48,11 +48,18 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*) index.php [L]
 
+</IfModule>
+
+<IfModule mod_headers.c>
 # serve files as plain text if the actual content type is not known
 # (hardens against attacks from malicious file uploads)
 Header set Content-Type "text/plain" "expr=-z %{CONTENT_TYPE}"
 Header set X-Content-Type-Options "nosniff"
 
+# Long-cache for static assets and media files (Kirby media URLs are content-hashed; CSS/JS are versioned)
+<FilesMatch "\.(?i:css|js|mjs|woff2?|ttf|otf|eot|webp|jpe?g|png|gif|svg|avif|ico|mp4|webm|mov)$">
+  Header set Cache-Control "public, max-age=31536000, immutable"
+</FilesMatch>
 </IfModule>
 
 # compress text file responses
@@ -64,4 +71,24 @@ AddOutputFilterByType DEFLATE text/javascript
 AddOutputFilterByType DEFLATE application/json
 AddOutputFilterByType DEFLATE application/javascript
 AddOutputFilterByType DEFLATE application/x-javascript
+AddOutputFilterByType DEFLATE image/svg+xml
+AddOutputFilterByType DEFLATE application/font-woff
+AddOutputFilterByType DEFLATE font/woff
+</IfModule>
+
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType text/css "access plus 1 year"
+ExpiresByType application/javascript "access plus 1 year"
+ExpiresByType text/javascript "access plus 1 year"
+ExpiresByType image/webp "access plus 1 year"
+ExpiresByType image/jpeg "access plus 1 year"
+ExpiresByType image/png "access plus 1 year"
+ExpiresByType image/gif "access plus 1 year"
+ExpiresByType image/svg+xml "access plus 1 year"
+ExpiresByType font/woff2 "access plus 1 year"
+ExpiresByType font/woff "access plus 1 year"
+ExpiresByType video/webm "access plus 1 year"
+ExpiresByType video/mp4 "access plus 1 year"
+ExpiresByType video/quicktime "access plus 1 year"
 </IfModule>

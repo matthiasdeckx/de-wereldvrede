@@ -18,7 +18,12 @@ $wrapperClass = $wrapperClass ?? '';
 $crop = $crop ?? false;
 $objectPosition = $objectPosition ?? null;
 
-$imgSrc = $image->url();
+$srcsetSizes = option('thumbs.srcsets.' . $srcset, option('thumbs.srcsets.default', []));
+$srcOptions = $srcsetSizes['960w']
+  ?? $srcsetSizes['480w']
+  ?? (array_values($srcsetSizes)[0] ?? ['width' => 960, 'quality' => 90]);
+
+$imgSrc = $image->thumb($srcOptions)->url();
 $imgSrcset = $image->srcset($srcset);
 
 $imgClass = $class;

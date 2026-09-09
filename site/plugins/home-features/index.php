@@ -66,6 +66,8 @@ if (!function_exists('hero_feature_logo_style')) {
 
 if (!function_exists('home_feature_bg')) {
     /**
+     * Full-bleed hero/feature backgrounds: serve a capped WebP thumb, not the original.
+     *
      * @return array{bg_url: string|null, bg_position: string|null}
      */
     function home_feature_bg(?File $file): array
@@ -75,7 +77,7 @@ if (!function_exists('home_feature_bg')) {
         }
 
         return [
-            'bg_url' => $file->url(),
+            'bg_url' => $file->thumb(['width' => 2160, 'quality' => 90])->url(),
             'bg_position' => $file->focus()->isNotEmpty() ? $file->focus()->value() : null,
         ];
     }

@@ -2,6 +2,7 @@
 
 // Homepage intro animation: Lottie (leader.json) with optional video fallback.
 // Add files to src/assets/preloader/, configure preloader.json, then npm run development.
+// Video sources are injected by JS only when Lottie fails — they are not preloaded.
 
 $configPath = kirby()->root('index') . '/assets/preloader/preloader.json';
 $config = is_file($configPath) ? json_decode(file_get_contents($configPath), true) : null;
@@ -32,9 +33,9 @@ if ($height) {
 }
 
 $sources = array_filter([
-  'webm' => $assetExists($sources['webm'] ?? null) ? ($sources['webm'] ?? null) : null,
-  'mov' => $assetExists($sources['mov'] ?? null) ? ($sources['mov'] ?? null) : null,
-  'mp4' => $assetExists($sources['mp4'] ?? null) ? ($sources['mp4'] ?? null) : null,
+  'webm' => $assetExists($sources['webm'] ?? null) ? url($sources['webm']) : null,
+  'mov' => $assetExists($sources['mov'] ?? null) ? url($sources['mov']) : null,
+  'mp4' => $assetExists($sources['mp4'] ?? null) ? url($sources['mp4']) : null,
 ]);
 
 $lottiePath = $config['lottie']['path'] ?? null;
@@ -47,13 +48,17 @@ if (!$hasIntroMedia) {
 }
 
 $useLottiePrimary = $hasLottie;
-$videoHidden = $useLottiePrimary;
+// Only mount <video> immediately when video is the primary intro.
+$embedVideo = $hasVideo && !$useLottiePrimary;
 
 ?>
 <div
   class="c-preloader c-preloader--<?= esc($background, 'attr') ?><?= $allowSkip ? ' c-preloader--skippable' : '' ?>"
   data-preloader
   data-preloader-config="<?= esc(json_encode($config), 'attr') ?>"
+  <?php if ($useLottiePrimary && $hasVideo): ?>
+  data-preloader-video-sources="<?= esc(json_encode($sources), 'attr') ?>"
+  <?php endif ?>
   aria-hidden="true"
   <?= $allowSkip ? 'tabindex="0"' : '' ?>
   style="<?= esc($style, 'attr') ?>"
@@ -79,24 +84,23 @@ $videoHidden = $useLottiePrimary;
       >
     <?php endif ?>
 
-    <?php if ($hasVideo): ?>
+    <?php if ($embedVideo): ?>
       <video
         class="c-preloader__video"
         data-preloader-video
         muted
         playsinline
-        preload="auto"
-        <?= $videoHidden ? 'hidden' : '' ?>
+        preload="metadata"
         <?= !empty($poster) ? 'poster="' . url($poster) . '"' : '' ?>
       >
         <?php if (!empty($sources['webm'])): ?>
-          <source src="<?= url($sources['webm']) ?>" type="video/webm">
+          <source src="<?= esc($sources['webm'], 'attr') ?>" type="video/webm">
         <?php endif ?>
         <?php if (!empty($sources['mov'])): ?>
-          <source src="<?= url($sources['mov']) ?>" type='video/quicktime; codecs="hvc1"'>
+          <source src="<?= esc($sources['mov'], 'attr') ?>" type='video/quicktime; codecs="hvc1"'>
         <?php endif ?>
         <?php if (!empty($sources['mp4'])): ?>
-          <source src="<?= url($sources['mp4']) ?>" type='video/mp4; codecs="hvc1"'>
+          <source src="<?= esc($sources['mp4'], 'attr') ?>" type='video/mp4; codecs="hvc1"'>
         <?php endif ?>
       </video>
     <?php endif ?>

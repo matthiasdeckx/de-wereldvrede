@@ -171,12 +171,47 @@ const playLottieIntro = (container, path) => {
 };
 
 const switchToVideoFallback = (root) => {
+  let video = root.querySelector("[data-preloader-video]");
   const lottieEl = root.querySelector("[data-preloader-lottie]");
-  const video = root.querySelector("[data-preloader-video]");
+  const sourcesRaw = root.dataset.preloaderVideoSources;
 
   lottieEl?.setAttribute("hidden", "");
-  video?.removeAttribute("hidden");
 
+  if (!video && sourcesRaw) {
+    let sources = null;
+    try {
+      sources = JSON.parse(sourcesRaw);
+    } catch {
+      sources = null;
+    }
+
+    if (sources && typeof sources === "object") {
+      const media = root.querySelector(".c-preloader__media") ?? root;
+      video = document.createElement("video");
+      video.className = "c-preloader__video";
+      video.dataset.preloaderVideo = "";
+      video.muted = true;
+      video.playsInline = true;
+      video.setAttribute("playsinline", "");
+      video.preload = "auto";
+
+      const appendSource = (src, type) => {
+        if (!src) return;
+        const source = document.createElement("source");
+        source.src = src;
+        source.type = type;
+        video.appendChild(source);
+      };
+
+      appendSource(sources.webm, "video/webm");
+      appendSource(sources.mov, 'video/quicktime; codecs="hvc1"');
+      appendSource(sources.mp4, 'video/mp4; codecs="hvc1"');
+
+      media.appendChild(video);
+    }
+  }
+
+  video?.removeAttribute("hidden");
   return video;
 };
 
@@ -209,16 +244,20 @@ export const initPreloader = () => {
 
   const fadeOutMs = config.fadeOutMs ?? 500;
   const maxDurationMs = config.maxDurationMs ?? 12000;
-  const video = root.querySelector("[data-preloader-video]");
   const lottieContainer = root.querySelector("[data-preloader-lottie]");
   const poster = root.querySelector("[data-preloader-poster]");
   const skipHint = root.querySelector("[data-preloader-skip-hint]");
   const allowSkip = config.allowSkip !== false;
   const introType = config.type ?? "video";
   const lottiePath = config.lottie?.path;
+  const hasVideoFallback =
+    Boolean(root.querySelector("[data-preloader-video]")) ||
+    Boolean(root.dataset.preloaderVideoSources);
   let finished = false;
   let animation = null;
   let maxTimer = null;
+
+  const activeVideo = () => root.querySelector("[data-preloader-video]");
 
   const finish = () => {
     if (finished) return;
@@ -226,7 +265,7 @@ export const initPreloader = () => {
     root.dataset.introRunning = "false";
     if (maxTimer) window.clearTimeout(maxTimer);
 
-    dismissIntro(root, video, fadeOutMs, animation);
+    dismissIntro(root, activeVideo(), fadeOutMs, animation);
     document.dispatchEvent(new CustomEvent("dw:intro-complete"));
   };
 
@@ -262,8 +301,8 @@ export const initPreloader = () => {
   maxTimer = window.setTimeout(finish, maxDurationMs);
 
   const runVideoIntro = async () => {
-    const activeVideo = switchToVideoFallback(root) ?? video;
-    await playVideoIntro(activeVideo, maxDurationMs);
+    const video = switchToVideoFallback(root) ?? activeVideo();
+    await playVideoIntro(video, maxDurationMs);
     finish();
   };
 
@@ -271,7 +310,7 @@ export const initPreloader = () => {
     if (config.reducedMotion === "poster" && poster) {
       poster.hidden = false;
       lottieContainer?.setAttribute("hidden", "");
-      video?.setAttribute("hidden", "");
+      activeVideo()?.setAttribute("hidden", "");
       return;
     }
 
@@ -285,7 +324,7 @@ export const initPreloader = () => {
       waitForLottieEnd(animation, maxDurationMs)
         .then(finish)
         .catch(() => {
-          if (config.fallback === "video" && video) {
+          if (config.fallback === "video" && hasVideoFallback) {
             animation?.destroy();
             animation = null;
             runVideoIntro();
@@ -296,7 +335,7 @@ export const initPreloader = () => {
         });
       return;
     } catch {
-      if (config.fallback === "video" && video) {
+      if (config.fallback === "video" && hasVideoFallback) {
         runVideoIntro();
         return;
       }
@@ -306,8 +345,8 @@ export const initPreloader = () => {
     }
   }
 
-  if (video) {
-    playVideoIntro(video, maxDurationMs).then(finish);
+  if (hasVideoFallback) {
+    runVideoIntro();
     return;
   }
 
