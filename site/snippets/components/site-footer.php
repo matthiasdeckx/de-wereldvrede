@@ -52,6 +52,7 @@
             <?php snippet('objects/image', [
               'image' => $logo,
               'class' => 'c-site-footer__support-logo',
+              'srcset' => 'logo',
               'sizes' => '160px',
               'crop' => false,
               'blurUp' => false,

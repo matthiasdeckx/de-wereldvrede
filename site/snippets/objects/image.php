@@ -60,7 +60,11 @@ if (!empty($objectPosition)) {
 }
 
 $styleAttr = $style ? ' style="' . implode('; ', $style) . '"' : '';
-$lqipUrl = $blurUp ? $image->thumb(['width' => 42, 'quality' => 20])->url() : null;
+$lqipOptions = ['width' => 42, 'quality' => 20];
+if (!empty($srcOptions['format'])) {
+  $lqipOptions['format'] = $srcOptions['format'];
+}
+$lqipUrl = $blurUp ? $image->thumb($lqipOptions)->url() : null;
 
 if ($blurUp && $lqipUrl):
 ?>

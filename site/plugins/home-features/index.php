@@ -77,7 +77,7 @@ if (!function_exists('home_feature_bg')) {
         }
 
         return [
-            'bg_url' => $file->thumb(['width' => 2160, 'quality' => 90])->url(),
+            'bg_url' => $file->thumb(['width' => 2160, 'quality' => 90, 'format' => 'webp'])->url(),
             'bg_position' => $file->focus()->isNotEmpty() ? $file->focus()->value() : null,
         ];
     }

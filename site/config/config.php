@@ -15,36 +15,38 @@ return [
   ],
   'thumbs' => [
     'quality' => 90,
-    'format' => 'webp',
+    // No global format: logos/PNGs with alpha keep their source format.
+    // Photo srcsets opt into WebP explicitly below.
     'interlace' => true,
     'srcsets' => [
       'default' => [
-        '480w' => ['width' => 480, 'quality' => 90],
-        '960w' => ['width' => 960, 'quality' => 90],
-        '1440w' => ['width' => 1440, 'quality' => 90],
-        '2160w' => ['width' => 2160, 'quality' => 90],
+        '480w' => ['width' => 480, 'quality' => 90, 'format' => 'webp'],
+        '960w' => ['width' => 960, 'quality' => 90, 'format' => 'webp'],
+        '1440w' => ['width' => 1440, 'quality' => 90, 'format' => 'webp'],
+        '2160w' => ['width' => 2160, 'quality' => 90, 'format' => 'webp'],
       ],
       'small' => [
-        '480w' => ['width' => 480, 'quality' => 90],
-        '960w' => ['width' => 960, 'quality' => 90],
-        '1440w' => ['width' => 1440, 'quality' => 90],
+        '480w' => ['width' => 480, 'quality' => 90, 'format' => 'webp'],
+        '960w' => ['width' => 960, 'quality' => 90, 'format' => 'webp'],
+        '1440w' => ['width' => 1440, 'quality' => 90, 'format' => 'webp'],
       ],
+      // Keep original format (PNG alpha, SVG, etc.) — do not force WebP.
       'logo' => [
         '480w' => ['width' => 480, 'quality' => 90],
         '960w' => ['width' => 960, 'quality' => 90],
         '1440w' => ['width' => 1440, 'quality' => 90],
       ],
       'max' => [
-        '480w' => ['width' => 480, 'quality' => 90],
-        '960w' => ['width' => 960, 'quality' => 90],
-        '1440w' => ['width' => 1440, 'quality' => 90],
-        '2160w' => ['width' => 2160, 'quality' => 90],
-        '3240w' => ['width' => 3240, 'quality' => 90],
+        '480w' => ['width' => 480, 'quality' => 90, 'format' => 'webp'],
+        '960w' => ['width' => 960, 'quality' => 90, 'format' => 'webp'],
+        '1440w' => ['width' => 1440, 'quality' => 90, 'format' => 'webp'],
+        '2160w' => ['width' => 2160, 'quality' => 90, 'format' => 'webp'],
+        '3240w' => ['width' => 3240, 'quality' => 90, 'format' => 'webp'],
       ],
       'portrait' => [
-        '160w' => ['width' => 160, 'quality' => 80],
-        '240w' => ['width' => 240, 'quality' => 80],
-        '320w' => ['width' => 320, 'quality' => 80],
+        '160w' => ['width' => 160, 'quality' => 80, 'format' => 'webp'],
+        '240w' => ['width' => 240, 'quality' => 80, 'format' => 'webp'],
+        '320w' => ['width' => 320, 'quality' => 80, 'format' => 'webp'],
       ],
     ],
   ],

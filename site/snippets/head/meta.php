@@ -64,9 +64,10 @@
 <meta property="og:description" content="<?= $ogDescription; ?>" />
 <meta property="og:url" content="<?= $page->url(); ?>" />
 <?php if($ogImage): ?>
-<meta property="og:image" content="<?= $ogImage->resize(1200)->url(); ?>" />
-<meta property="og:image:width" content="<?= $ogImage->resize(1200)->width(); ?>" />
-<meta property="og:image:height" content="<?= $ogImage->resize(1200)->height(); ?>" />
+<?php $ogImageThumb = $ogImage->thumb(['width' => 1200, 'format' => 'webp']); ?>
+<meta property="og:image" content="<?= $ogImageThumb->url(); ?>" />
+<meta property="og:image:width" content="<?= $ogImageThumb->width(); ?>" />
+<meta property="og:image:height" content="<?= $ogImageThumb->height(); ?>" />
 <?php endif ?>
 
 <meta name="twitter:card" content="summary_large_image">
@@ -74,5 +75,5 @@
 <meta name="twitter:title" content="<?= $ogTitle ?>">
 <meta name="twitter:description" content="<?= $ogDescription; ?>">
 <?php if($ogImage): ?>
-<meta name="twitter:image" content="<?= $ogImage->resize(1200)->url(); ?>">
+<meta name="twitter:image" content="<?= $ogImageThumb->url(); ?>">
 <?php endif ?>

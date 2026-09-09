@@ -21,7 +21,7 @@
         <?php
         $poster = null;
         try {
-          $poster = $video->thumb(['width' => 1920, 'quality' => 65])->url();
+          $poster = $video->thumb(['width' => 1920, 'quality' => 65, 'format' => 'webp'])->url();
         } catch (Throwable) {
           // No generated thumb (e.g. missing ffmpeg) — reveal uses curtain only.
         }
