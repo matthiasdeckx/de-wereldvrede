@@ -64,7 +64,7 @@
 <meta property="og:description" content="<?= $ogDescription; ?>" />
 <meta property="og:url" content="<?= $page->url(); ?>" />
 <?php if($ogImage): ?>
-<?php $ogImageThumb = $ogImage->thumb(['width' => 1200, 'format' => 'webp']); ?>
+<?php $ogImageThumb = $ogImage->thumb(['width' => 1200]); ?>
 <meta property="og:image" content="<?= $ogImageThumb->url(); ?>" />
 <meta property="og:image:width" content="<?= $ogImageThumb->width(); ?>" />
 <meta property="og:image:height" content="<?= $ogImageThumb->height(); ?>" />

@@ -10,7 +10,7 @@
       $portraitSrcset = null;
       $portraitSizes = 'min(28rem, 42vw)';
       if ($portraitFile) {
-        $portraitSrc = $portraitFile->thumb(['width' => 240, 'quality' => 80, 'format' => 'webp'])->url();
+        $portraitSrc = $portraitFile->thumb(['width' => 240, 'quality' => 80])->url();
         $portraitSrcset = $portraitFile->srcset('portrait');
       }
       ?>
@@ -37,7 +37,7 @@
         'role' => $c->role()->value(),
         'bio' => $c->bio()->value(),
         'portrait' => ($file = $c->portrait()->toFile()) ? [
-          'src' => $file->thumb(['width' => 480, 'quality' => 85, 'format' => 'webp'])->url(),
+          'src' => $file->thumb(['width' => 480, 'quality' => 85])->url(),
           'srcset' => $file->srcset('portrait'),
           'sizes' => '(min-width: 1024px) calc((100vw - 22.8rem) / 6), min(28rem, 100%)',
         ] : null,
