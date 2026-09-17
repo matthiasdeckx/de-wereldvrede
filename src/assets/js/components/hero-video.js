@@ -115,10 +115,14 @@ export const initHeroVideo = () => {
   const ensurePlaying = () => {
     if (!userWantsSound) {
       video.muted = true;
+      video.defaultMuted = true;
     }
     video.volume = 1;
     video.playsInline = true;
-    video.play().catch(() => {});
+    const playPromise = video.play();
+    if (playPromise?.catch) {
+      playPromise.catch(() => {});
+    }
   };
 
   const schedulePlayback = () => {
@@ -137,6 +141,7 @@ export const initHeroVideo = () => {
 
     canPlayHandler = () => ensurePlaying();
     video.addEventListener("canplay", canPlayHandler, { once: true });
+    // Safari: load() ensures canplay fires so muted autoplay can start.
     video.load();
   };
 
@@ -358,11 +363,19 @@ export const initHeroVideo = () => {
   hideLabel();
   schedulePlayback();
 
+  // After preloader (especially skip click), Safari often needs another play() kick.
+  const onIntroComplete = () => {
+    ensurePlaying();
+    bindReveal();
+  };
+  document.addEventListener("dw:intro-complete", onIntroComplete);
+
   teardown = () => {
     // heroVisibilityObserver?.disconnect();
     // heroVisibilityObserver = null;
     // scrolledAway = false;
     cancelVolumeFade();
+    document.removeEventListener("dw:intro-complete", onIntroComplete);
 
     if (canPlayHandler) {
       video.removeEventListener("canplay", canPlayHandler);

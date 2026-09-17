@@ -40,7 +40,11 @@ if ($configJson === false) {
   return;
 }
 
-?>
+// Early fetch for Lottie so the intro isn't waiting on main.js.
+$lottiePath = $config['lottie']['path'] ?? null;
+if ($type === 'lottie' && $assetExists($lottiePath)): ?>
+<link rel="preload" href="<?= url(ltrim($lottiePath, '/')) ?>" as="fetch" crossorigin fetchpriority="high">
+<?php endif ?>
 <script>
 (function () {
   try {

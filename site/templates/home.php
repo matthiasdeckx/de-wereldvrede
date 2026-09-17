@@ -16,26 +16,21 @@
       <?php if ($source === 'vimeo' && $page->hero_vimeo_url()->isNotEmpty()): ?>
         <div class="c-home-hero__embed" data-vimeo-url="<?= esc($page->hero_vimeo_url()->value(), 'attr') ?>"></div>
       <?php else: ?>
-        <?php $video = $page->hero_video()->toFile() ?: $page->video()->toFile(); ?>
-        <?php if ($video): ?>
         <?php
-        $poster = null;
-        try {
-          $poster = $video->thumb(['width' => 1920, 'quality' => 65])->url();
-        } catch (Throwable) {
-          // No generated thumb (e.g. missing ffmpeg) — reveal uses curtain only.
-        }
-        snippet('objects/video', [
-          'video' => $video,
-          'class' => 'c-home-hero__video',
-          'autoplay' => true,
-          'loop' => true,
-          'muted' => true,
-          'playsinline' => true,
-          'preload' => 'auto',
-          'poster' => $poster,
-        ]);
+          $video = $page->hero_video()->toFile() ?: $page->video()->toFile();
         ?>
+        <?php if ($video): ?>
+          <?php
+          snippet('objects/video', [
+            'video' => $video,
+            'class' => 'c-home-hero__video',
+            'autoplay' => true,
+            'loop' => true,
+            'muted' => true,
+            'playsinline' => true,
+            'preload' => 'auto',
+          ]);
+          ?>
         <?php endif ?>
       <?php endif ?>
     </div>

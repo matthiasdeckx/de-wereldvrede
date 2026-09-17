@@ -14,7 +14,9 @@ return [
     ],
   ],
   'thumbs' => [
+    'driver' => 'imagick',
     'quality' => 90,
+    'format' => 'webp',
     'interlace' => true,
     'srcsets' => [
       'default' => [
@@ -27,6 +29,11 @@ return [
         '480w' => ['width' => 480, 'quality' => 90],
         '960w' => ['width' => 960, 'quality' => 90],
         '1440w' => ['width' => 1440, 'quality' => 90],
+      ],
+      // Work/news cards: max ~33vw — skip 1440w to cut thumb jobs + bytes.
+      'card' => [
+        '480w' => ['width' => 480, 'quality' => 85],
+        '960w' => ['width' => 960, 'quality' => 85],
       ],
       'logo' => [
         '480w' => ['width' => 480, 'quality' => 90],

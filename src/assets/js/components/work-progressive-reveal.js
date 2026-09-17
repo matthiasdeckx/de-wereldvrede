@@ -32,7 +32,7 @@ export const revealWorkCard = (card) => {
   card.classList.remove("is-work-card-pending");
   delete card.dataset.workPending;
 
-  const img = card.querySelector(".c-image__full");
+  const img = card.querySelector(".c-image__full, .c-work-card__image");
   if (img) activateBlurUpImage(img);
 };
 
@@ -91,7 +91,7 @@ export const initWorkProgressiveReveal = () => {
     card.classList.add("is-work-card-pending");
     card.dataset.workPending = "true";
 
-    const img = card.querySelector(".c-image__full");
+    const img = card.querySelector(".c-image__full, .c-work-card__image");
     if (img) deferBlurUpImage(img);
   });
 
