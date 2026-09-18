@@ -55,6 +55,34 @@
   transition-delay: 0s;
 }
 
+mux-background-video.c-home-hero__video {
+  display: block;
+  object-fit: cover;
+}
+
+mux-background-video.c-home-hero__video img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+mux-background-video.c-home-hero__video--mobile {
+  display: none;
+}
+
+@media (--s-m-max) {
+  mux-background-video.c-home-hero__video--desktop {
+    display: none;
+  }
+
+  mux-background-video.c-home-hero__video--mobile {
+    display: block;
+  }
+}
+
 .c-home-hero.is-video-ready .c-home-hero__video {
   opacity: 1;
 }

@@ -13,8 +13,21 @@ tabs:
         type: radio
         default: file
         options:
+          mux: Mux
           vimeo: Vimeo URL
           file: Uploaded file
+      hero_mux_playback_id:
+        label: Mux playback ID (desktop)
+        type: text
+        help: Playback ID from Mux (or a stream.mux.com URL). Asset must use Basic or Premium quality.
+        when:
+          hero_video_source: mux
+      hero_mux_playback_id_mobile:
+        label: Mux playback ID (mobile)
+        type: text
+        help: Optional. Falls back to the desktop playback ID when empty. Same Basic/Premium quality requirement.
+        when:
+          hero_video_source: mux
       hero_vimeo_url:
         label: Hero Vimeo URL
         type: url

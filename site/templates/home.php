@@ -13,7 +13,28 @@
     if ($heroStyle): ?> style="<?= esc(implode('; ', $heroStyle), 'attr') ?>"<?php endif ?>>
     <div class="c-home-hero__media" data-hero-video>
       <?php $source = $page->hero_video_source()->or('file')->value(); ?>
-      <?php if ($source === 'vimeo' && $page->hero_vimeo_url()->isNotEmpty()): ?>
+      <?php if ($source === 'mux' && ($muxId = mux_playback_id($page->hero_mux_playback_id()->value()))): ?>
+        <?php
+          $muxIdMobile = mux_playback_id($page->hero_mux_playback_id_mobile()->value());
+          if ($muxIdMobile && $muxIdMobile !== $muxId) {
+            snippet('objects/mux-background-video', [
+              'id' => $muxId,
+              'variant' => 'desktop',
+              'maxResolution' => '1080p',
+            ]);
+            snippet('objects/mux-background-video', [
+              'id' => $muxIdMobile,
+              'variant' => 'mobile',
+              'maxResolution' => '720p',
+            ]);
+          } else {
+            snippet('objects/mux-background-video', [
+              'id' => $muxId,
+              'maxResolution' => '1080p',
+            ]);
+          }
+        ?>
+      <?php elseif ($source === 'vimeo' && $page->hero_vimeo_url()->isNotEmpty()): ?>
         <div class="c-home-hero__embed" data-vimeo-url="<?= esc($page->hero_vimeo_url()->value(), 'attr') ?>"></div>
       <?php else: ?>
         <?php

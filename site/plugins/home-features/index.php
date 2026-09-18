@@ -27,6 +27,29 @@ if (!function_exists('hero_curtain_opacity')) {
     }
 }
 
+if (!function_exists('mux_playback_id')) {
+    /**
+     * Extract a Mux playback ID from a raw ID or stream/image URL.
+     */
+    function mux_playback_id(?string $value): ?string
+    {
+        $value = trim((string) $value);
+
+        if ($value === '') {
+            return null;
+        }
+
+        if (preg_match('#(?:stream|image)\.mux\.com/([A-Za-z0-9]+)#', $value, $matches)) {
+            return $matches[1];
+        }
+
+        $value = preg_replace('#\.m3u8$#i', '', $value) ?? $value;
+        $value = preg_replace('#[^A-Za-z0-9]#', '', $value) ?? '';
+
+        return $value !== '' ? $value : null;
+    }
+}
+
 if (!function_exists('hero_feature_logo_style')) {
     /**
      * Ratio-aware max dimensions for hero title logos (constant visual area).
