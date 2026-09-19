@@ -8,7 +8,7 @@
   ],
   "require": {
     "php": ">=8.0.0 <8.4",
-    "getkirby/cms": "^5.2",
+    "getkirby/cms": "5.6.0",
     "sylvainjule/kirby-multilist": "^1.1",
     "diverently/laravel-mix-kirby": "^1.4",
     "isaactopo/xmlsitemap": "^0.2.0"

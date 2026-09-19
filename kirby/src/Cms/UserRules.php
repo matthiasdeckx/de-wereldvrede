@@ -3,9 +3,12 @@
 namespace Kirby\Cms;
 
 use Kirby\Exception\DuplicateException;
+use Kirby\Exception\Exception;
 use Kirby\Exception\InvalidArgumentException;
 use Kirby\Exception\LogicException;
+use Kirby\Exception\NotFoundException;
 use Kirby\Exception\PermissionException;
+use Kirby\Filesystem\F;
 use Kirby\Toolkit\Str;
 use Kirby\Toolkit\Totp;
 use Kirby\Toolkit\V;
@@ -22,6 +25,13 @@ use SensitiveParameter;
  */
 class UserRules
 {
+	/**
+	 * Pattern of safe characters allowed in a user id.
+	 * Restricting ids this way prevents path traversal
+	 * into subfolders of the accounts root.
+	 */
+	public const ID_PATTERN = '/^[a-z0-9_-]+\z/i';
+
 	/**
 	 * Validates if the email address can be changed
 	 *
@@ -217,6 +227,30 @@ class UserRules
 	}
 
 	/**
+	 * Validates if a new avatar can be created
+	 *
+	 * @throws \Kirby\Exception\PermissionException If the user is not allowed to create a new avatar
+	 */
+	public static function createAvatar(User $user, string $source, string $extension): void
+	{
+		if ($user->permissions()->can('update') !== true) {
+			throw new PermissionException(
+				key: 'user.update.permission',
+				data: ['name' => $user->username()]
+			);
+		}
+
+		if ($user->avatar() !== null) {
+			throw new DuplicateException(
+				key: 'file.duplicate',
+				data: ['filename' => $user->avatar()->filename()]
+			);
+		}
+
+		static::validAvatar($user, $source, $extension);
+	}
+
+	/**
 	 * Validates if the user can be deleted
 	 *
 	 * @throws \Kirby\Exception\LogicException If this is the last user or last admin, which cannot be deleted
@@ -242,6 +276,52 @@ class UserRules
 				data: ['name' => $user->username()]
 			);
 		}
+	}
+
+	/**
+	 * Validates if the avatar for the user can be deleted
+	 *
+	 * @throws \Kirby\Exception\PermissionException If the user is not allowed to delete this user's avatar
+	 */
+	public static function deleteAvatar(User $user): void
+	{
+		if ($user->permissions()->can('update') !== true) {
+			throw new PermissionException(
+				key: 'user.update.permission',
+				data: ['name' => $user->username()]
+			);
+		}
+
+		if ($user->avatar() === null) {
+			throw new NotFoundException(
+				key: 'file.notFound',
+				data: ['filename' => 'avatar']
+			);
+		}
+	}
+
+	/**
+	 * Validates if the avatar can be replaced
+	 *
+	 * @throws \Kirby\Exception\PermissionException If the user is not allowed to change the avatar
+	 */
+	public static function replaceAvatar(User $user, string $source, string $extension): void
+	{
+		if ($user->permissions()->can('update') !== true) {
+			throw new PermissionException(
+				key: 'user.update.permission',
+				data: ['name' => $user->username()]
+			);
+		}
+
+		if ($user->avatar() === null) {
+			throw new NotFoundException(
+				key: 'file.notFound',
+				data: ['filename' => 'avatar']
+			);
+		}
+
+		static::validAvatar($user, $source, $extension);
 	}
 
 	/**
@@ -292,13 +372,41 @@ class UserRules
 		}
 	}
 
+	public static function validAvatar(User $user, string $source, string $extension): void
+	{
+		$type = F::extensionToType($extension);
+
+		if ($type !== 'image') {
+			throw new Exception(
+				key: 'file.type.invalid',
+				data: compact('type')
+			);
+		}
+
+		$mime = F::mime($source);
+
+		if (Str::startsWith($mime, 'image/') !== true) {
+			throw new Exception(
+				key: 'file.mime.invalid',
+				data: compact('mime')
+			);
+		}
+	}
+
 	/**
 	 * Validates a user id
 	 *
+	 * @throws \Kirby\Exception\InvalidArgumentException If the id contains unsafe characters
 	 * @throws \Kirby\Exception\DuplicateException If the user already exists
 	 */
 	public static function validId(User $user, string $id): void
 	{
+		if (V::match($id, static::ID_PATTERN) !== true) {
+			throw new InvalidArgumentException(
+				message: '"' . $id . '" is not a valid user id'
+			);
+		}
+
 		if (in_array($id, ['account', 'kirby', 'nobody'], true) === true) {
 			throw new InvalidArgumentException(
 				message: '"' . $id . '" is a reserved word and cannot be used as user id'

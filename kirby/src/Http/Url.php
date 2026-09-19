@@ -3,6 +3,7 @@
 namespace Kirby\Http;
 
 use Kirby\Toolkit\Str;
+use Whoops\Handler\PrettyPageHandler;
 
 /**
  * Static URL tools
@@ -64,6 +65,23 @@ class Url
 	}
 
 	/**
+	 * Use Whoops to create an editor URL to open
+	 * a file at the given line number
+	 * @since 5.3.0
+	 */
+	public static function editor(string|false $editor, string|null $file, int $line = 0): string|null
+	{
+		if ($editor === false || $file === null) {
+			return null;
+		}
+
+		$handler = new PrettyPageHandler();
+		$handler->setEditor($editor);
+
+		return $handler->getEditorHref($file, $line);
+	}
+
+	/**
 	 * Tries to fix a broken url without protocol
 	 * @psalm-return ($url is null ? string|null : string)
 	 */
@@ -94,17 +112,43 @@ class Url
 	}
 
 	/**
+	 * Checks if a URL starts with a dangerous URI scheme
+	 * (e.g. javascript:) that must never appear in rendered href
+	 * or src attributes.
+	 * @since 5.4.1
+	 */
+	public static function hasDangerousScheme(string|null $url = null): bool
+	{
+		if ($url === null) {
+			return false;
+		}
+
+		// strip any weird characters to prevent bypass attempts,
+		// keeping only the characters we test for below
+		// (especially removes any whitespace that the browser would ignore
+		// when the resulting URL is evaluated); this is deliberately more
+		// aggressive than `Url::normalize()` because matching more strings
+		// against this blocklist is the safe direction
+		$url = preg_replace('/[^a-z:]/i', '', $url);
+
+		// try to find a match from the blocklist case-insensitively
+		return preg_match('!^(?:javascript|vbscript|livescript|mocha|jar|data):!i', $url) === 1;
+	}
+
+	/**
 	 * Checks if an URL is absolute
 	 */
 	public static function isAbsolute(string|null $url = null): bool
 	{
+		if ($url === null || static::hasDangerousScheme($url) === true) {
+			return false;
+		}
+
 		// matches the following groups of URLs:
 		//  //example.com/uri
 		//  http://example.com/uri, https://example.com/uri, ftp://example.com/uri
 		//  mailto:example@example.com, geo:49.0158,8.3239?z=11
-		return
-			$url !== null &&
-			preg_match('!^(//|[a-z0-9+-.]+://|mailto:|tel:|geo:)!i', $url) === 1;
+		return preg_match('!^(//|[a-z0-9+-.]+://|mailto:|tel:|geo:)!i', $url) === 1;
 	}
 
 	/**
@@ -139,6 +183,29 @@ class Url
 		}
 
 		return $home . '/' . $path;
+	}
+
+	/**
+	 * Normalizes a URL the same way a browser does before it parses it:
+	 * ASCII tab and newline characters are removed from anywhere in the
+	 * string, leading and trailing C0 control characters and spaces are
+	 * trimmed and a leading run of slashes is folded to forward slashes
+	 *
+	 * @see https://url.spec.whatwg.org/#url-parsing
+	 * @since 5.6.0
+	 */
+	public static function normalize(string $url): string
+	{
+		$url = preg_replace('/[\x09\x0a\x0d]/', '', $url);
+		$url = trim($url, "\x00..\x20");
+
+		// browsers treat a backslash like a forward slash, so a leading
+		// run of two or more of either opens an authority just like `//`
+		return preg_replace_callback(
+			'!^[/\\\\]{2,}!',
+			fn ($slashes) => str_replace('\\', '/', $slashes[0]),
+			$url
+		);
 	}
 
 	/**
@@ -223,6 +290,7 @@ class Url
 
 	/**
 	 * Smart resolver for internal and external urls
+	 * @deprecated 5.3.0 Use `Kirby\Cms\Url::to()` instead
 	 */
 	public static function to(
 		string|null $path = null,
