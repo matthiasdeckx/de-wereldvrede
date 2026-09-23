@@ -47,6 +47,25 @@ tabs:
             type: pages
             query: site.find('work').children.listed
             multiple: true
+            help: Link to existing Work projects.
+          custom_productions:
+            label: Custom productions
+            type: structure
+            help: Free-form titles that are not Work pages. External link and year are optional.
+            fields:
+              title:
+                label: Title
+                type: text
+                required: true
+              year:
+                label: Year
+                type: text
+                width: 1/4
+              url:
+                label: External link
+                type: url
+                width: 3/4
+                help: Optional. Leave empty to show the title without a link.
   display:
     extends: tabs/display
     fields:

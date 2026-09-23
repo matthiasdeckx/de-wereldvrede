@@ -43,23 +43,31 @@ const buildExternalLinkHtml = (creator) => {
 
 const buildProductionsHtml = (creator, productionsLabel = "PRODUCTIONS") => {
   const productions = creator.productions?.filter(
-    (production) => production?.title && production?.url
+    (production) => production?.title
   );
   if (!productions?.length) return "";
 
   const items = productions
     .map((production) => {
       const title = escapeHtml(production.title);
-      const url = escapeHtml(production.url);
+      const url = production.url?.trim() || "";
       const year = production.year ? String(production.year).trim() : "";
       const yearHtml = year
         ? `<span class="c-creator-overlay__production-year">${escapeHtml(year)}</span>`
         : "";
 
+      const titleHtml = url
+        ? `<a href="${escapeHtml(url)}"${
+            production.external
+              ? ' target="_blank" rel="noopener noreferrer"'
+              : ""
+          }>${title}</a>`
+        : `<span>${title}</span>`;
+
       return `
         <div class="c-creator-overlay__production t-mono t-uppercase" role="listitem">
           <span class="c-creator-overlay__production-title">
-            <a href="${url}">${title}</a>
+            ${titleHtml}
           </span>
           ${yearHtml}
         </div>`;

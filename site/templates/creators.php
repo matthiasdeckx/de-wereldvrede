@@ -43,11 +43,7 @@
         ] : null,
         'external_link' => $c->external_link()->value(),
         'external_link_label' => $c->external_link_label()->or('IMDB')->value(),
-        'productions' => $c->productions()->toPages()->map(fn($p) => [
-          'title' => $p->title()->value(),
-          'url' => $p->url(),
-          'year' => $p->year()->value(),
-        ])->values(),
+        'productions' => creator_production_items($c),
       ];
     })->values()) ?>
   </template>
