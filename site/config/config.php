@@ -14,7 +14,6 @@ return [
     ],
   ],
   'thumbs' => [
-    'driver' => 'imagick',
     'quality' => 90,
     'srcsets' => [
       'default' => [
