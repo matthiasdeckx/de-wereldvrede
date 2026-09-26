@@ -16,8 +16,6 @@ return [
   'thumbs' => [
     'driver' => 'imagick',
     'quality' => 90,
-    'format' => 'webp',
-    'interlace' => true,
     'srcsets' => [
       'default' => [
         '480w' => ['width' => 480, 'quality' => 90],
